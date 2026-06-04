@@ -10,13 +10,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --bg: #f7f6f3;
     --surface: #ffffff;
     --surface2: #f0eeea;
-    --border: rgba(0,0,0,0.10);
-    --border-md: rgba(0,0,0,0.18);
+    --surface3: #e8e5df;
+    --border: rgba(0,0,0,0.09);
+    --border-md: rgba(0,0,0,0.16);
     --text: #1a1917;
     --text-2: #6b6860;
     --text-3: #9e9b95;
@@ -24,40 +24,23 @@
     --accent-fg: #ffffff;
     --green: #1a6b4a;
     --green-bg: #e8f5ee;
-    --blue: #1a4a8a;
+    --green-text: #0f4a33;
     --blue-bg: #e8eef8;
+    --blue-text: #1a3f7a;
     --radius: 8px;
     --radius-lg: 12px;
   }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.5;
-    min-height: 100vh;
-  }
-
-  /* Layout */
-  .page { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+  .page { max-width: 1600px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
   /* Header */
   header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-  .brand { }
   .brand-name { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
   .brand-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
   .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
   /* Buttons */
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-    padding: 7px 14px; border-radius: var(--radius);
-    border: 1px solid var(--border-md); background: var(--surface);
-    color: var(--text); cursor: pointer; white-space: nowrap;
-    transition: background 0.15s, border-color 0.15s;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-md); background: var(--surface); color: var(--text); cursor: pointer; white-space: nowrap; transition: background 0.15s; }
   .btn:hover { background: var(--surface2); }
   .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
   .btn.primary:hover { opacity: 0.88; }
@@ -71,16 +54,11 @@
   .stat-label { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
   .stat-val { font-size: 22px; font-weight: 500; color: var(--text); }
 
-  /* Controls bar */
+  /* Controls */
   .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
   .controls-label { font-size: 12px; color: var(--text-2); font-weight: 500; }
   .toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .toggle {
-    font-size: 12px; font-weight: 500; padding: 4px 11px;
-    border: 1px solid var(--border-md); border-radius: 20px;
-    background: var(--surface); color: var(--text-2); cursor: pointer;
-    transition: all 0.15s; font-family: 'DM Sans', sans-serif;
-  }
+  .toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
   .toggle:hover { border-color: var(--accent); color: var(--text); }
   .toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
@@ -88,63 +66,62 @@
   .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead { position: sticky; top: 0; z-index: 2; }
-  th {
-    background: var(--surface2); color: var(--text-2);
-    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 10px 12px; text-align: left; white-space: nowrap;
-    border-bottom: 1px solid var(--border);
-  }
+  th { background: var(--surface2); color: var(--text-2); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
   td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #faf9f7; }
 
-  td input, td select {
-    width: 100%; min-width: 70px; font-size: 13px;
-    background: transparent; border: none; color: var(--text);
-    font-family: 'DM Sans', sans-serif; padding: 1px 0;
-    outline: none;
-  }
-  td input:focus, td select:focus { border-bottom: 1px solid var(--border-md); }
-  td input[type=number] { min-width: 55px; font-family: 'DM Mono', monospace; }
+  /* Style summary rows */
+  tr.style-row td { background: var(--surface2); font-weight: 500; border-bottom: 1px solid var(--border-md); }
+  tr.style-row:hover td { background: var(--surface3); }
+  tr.style-row td.style-name { font-size: 13px; font-weight: 500; }
+  .style-toggle { background: none; border: none; cursor: pointer; color: var(--text-2); margin-right: 6px; display: inline-flex; align-items: center; padding: 0; font-size: 14px; vertical-align: middle; transition: transform 0.15s; }
+  .style-toggle.open { transform: rotate(90deg); }
+  .add-colorway-btn { font-size: 11px; padding: 3px 8px; margin-left: 8px; }
+
+  /* Colorway rows */
+  tr.colorway-row td { background: var(--surface); padding-left: 16px; }
+  tr.colorway-row:hover td { background: #faf9f7; }
+  tr.colorway-row td:first-child { padding-left: 36px; }
+  tr.colorway-row.hidden { display: none; }
+
+  /* Summary cells */
   td.mono { font-family: 'DM Mono', monospace; font-size: 12px; }
   td.lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
   td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
+  td.summary-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-2); }
+  td.summary-lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); }
+  td.empty-cell { color: var(--text-3); font-size: 12px; }
 
-  .empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
+  td input, td select { width: 100%; min-width: 70px; font-size: 13px; background: transparent; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; padding: 1px 0; outline: none; }
+  td input:focus, td select:focus { border-bottom: 1px solid var(--border-md); }
+  td input[type=number] { min-width: 55px; font-family: 'DM Mono', monospace; }
 
-  /* Action icon */
   .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 3px 5px; border-radius: 4px; display: inline-flex; align-items: center; }
   .icon-btn:hover { color: #a32d2d; background: #fcebeb; }
+  .empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
 
   /* Modal */
   .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal.open { display: flex; }
-  .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 400px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 420px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
   .modal-box h3 { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
   .field { margin-bottom: 12px; }
   .field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
-  .field input, .field select {
-    width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif;
-    border: 1px solid var(--border-md); border-radius: var(--radius);
-    padding: 7px 10px; background: var(--surface); color: var(--text);
-    outline: none;
-  }
+  .field input, .field select { width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 7px 10px; background: var(--surface); color: var(--text); outline: none; }
   .field input:focus, .field select:focus { border-color: var(--accent); }
   .field input:disabled { background: var(--surface2); color: var(--text-3); }
   .field .hint { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin: 16px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
   /* Tariff manager */
   .tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .tariff-item:last-child { border-bottom: none; }
-  .tariff-name-text { font-size: 13px; }
   .tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 18px; line-height: 1; padding: 0 4px; }
   .tariff-del:hover { color: #a32d2d; }
   .add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
   .add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
-  .add-tariff-row input:focus { border-color: var(--accent); }
-
-  .divider { height: 1px; background: var(--border); margin: 14px 0; }
 </style>
 </head>
 <body>
@@ -158,7 +135,7 @@
     <div class="header-actions">
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
-      <button class="btn primary" onclick="openAddModal()"><i class="ti ti-plus"></i> Add Product</button>
+      <button class="btn primary" onclick="openStyleModal()"><i class="ti ti-plus"></i> Add Style</button>
     </div>
   </header>
 
@@ -178,29 +155,46 @@
 
 </div>
 
-<!-- Add / Edit Modal -->
-<div class="modal" id="addModal">
+<!-- Add Style Modal -->
+<div class="modal" id="styleModal">
   <div class="modal-box">
-    <h3 id="modalTitle">Add product</h3>
-    <div class="field"><label>Product name</label><input id="f-name" type="text" placeholder="e.g. Alpine Pant"></div>
-    <div class="field"><label>Materials</label><input id="f-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
-    <div class="field"><label>Knit / Woven</label>
-      <select id="f-kw"><option value="">—</option><option>Knit</option><option>Woven</option></select>
+    <h3 id="styleModalTitle">Add style</h3>
+    <div class="field"><label>Style name</label><input id="s-name" type="text" placeholder="e.g. Alpine Pant"></div>
+    <div class="field"><label>Materials</label><input id="s-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
+    <div class="field"><label>HTSUS code</label><input id="s-hts" type="text" placeholder="e.g. 6104.63.2010"></div>
+    <div class="field-row">
+      <div class="field"><label>Knit / Woven</label>
+        <select id="s-kw"><option value="">—</option><option>Knit</option><option>Woven</option></select>
+      </div>
+      <div class="field"><label>Base tariff rate (%)</label><input id="s-bt" type="number" min="0" step="0.1" placeholder="0.0"></div>
     </div>
-    <div class="field"><label>Qty ordered</label><input id="f-qty" type="number" min="0" placeholder="0"></div>
-    <div class="field"><label>Supplier price (USD)</label><input id="f-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
-    <div class="field"><label>HTSUS code</label><input id="f-hts" type="text" placeholder="e.g. 6104.63.2010"></div>
-    <div class="field"><label>Base tariff rate (%)</label><input id="f-bt" type="number" min="0" step="0.1" placeholder="0.0"></div>
-    <div id="tariff-fields"></div>
+    <div id="s-tariff-fields"></div>
+    <div class="field"><label>Freight per unit (USD)</label><input id="s-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeStyleModal()">Cancel</button>
+      <button class="btn primary" id="styleModalSave" onclick="saveStyle()">Add style</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Colorway Modal -->
+<div class="modal" id="colorwayModal">
+  <div class="modal-box">
+    <h3 id="cwModalTitle">Add colorway</h3>
+    <div class="field"><label>Color name</label><input id="cw-color" type="text" placeholder="e.g. Black, Cobalt Blue"></div>
+    <div class="field"><label>Fabric type</label><input id="cw-fabric" type="text" placeholder="e.g. Ripstop, Fleece, Jersey"></div>
+    <div class="field-row">
+      <div class="field"><label>Qty ordered</label><input id="cw-qty" type="number" min="0" placeholder="0"></div>
+      <div class="field"><label>Supplier price (USD)</label><input id="cw-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    </div>
     <div class="field">
       <label>Royalty (15% of supplier price)</label>
-      <input id="f-roy" type="text" disabled placeholder="auto-calculated">
-      <div class="hint">Updates automatically as you type the supplier price.</div>
+      <input id="cw-roy" type="text" disabled placeholder="auto-calculated">
+      <div class="hint">Auto-calculated from supplier price.</div>
     </div>
-    <div class="field"><label>Freight per unit (USD)</label><input id="f-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal()">Cancel</button>
-      <button class="btn primary" id="saveBtn" onclick="saveProduct()">Add product</button>
+      <button class="btn" onclick="closeColorwayModal()">Cancel</button>
+      <button class="btn primary" id="cwSaveBtn" onclick="saveColorway()">Add colorway</button>
     </div>
   </div>
 </div>
@@ -209,7 +203,7 @@
 <div class="modal" id="tariffModal">
   <div class="modal-box">
     <h3>Manage tariff columns</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Add or remove tariff columns. Deleted columns remove the label but data is preserved until you save a product again.</p>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Add or remove tariff columns. Toggle them on/off from the main view.</p>
     <div id="tariff-list"></div>
     <div class="add-tariff-row">
       <input id="new-tariff-name" type="text" placeholder="New tariff name (e.g. Section 232)">
@@ -222,58 +216,90 @@
 </div>
 
 <script>
-const STORE_KEY = 'skhoop_v2';
-let editingId = null;
+const STORE_KEY = 'skhoop_v3';
+let editingStyleId   = null;
+let editingColorway  = null; // { styleId, colorwayIdx }
+let addingColorwayTo = null; // styleId
 
 function load() {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
+  try { const r = localStorage.getItem(STORE_KEY); if (r) return JSON.parse(r); } catch(e) {}
   return {
-    products: [],
+    styles: [],
     tariffs: [
       { id: 's301', name: 'Section 301', active: true },
       { id: 's122', name: 'Section 122', active: true }
     ]
   };
 }
-
-function save(data) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(data));
-}
-
+function save() { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
 let data = load();
 
-/* ---- Landed cost formula ---- */
-// Per unit: SupplierPrice * (1 + BaseTariff + ActiveAdditionalTariffs + 0.15) + Freight
-function landedCost(p) {
-  const sp     = parseFloat(p.supplierPrice) || 0;
-  const bt     = (parseFloat(p.baseTariff) || 0) / 100;
-  const roy    = 0.15;
-  const freight = parseFloat(p.freight) || 0;
-  let addTariffs = 0;
+// Track which styles are expanded
+const expanded = {};
+
+/* ---- Calculations ---- */
+function colorwayLC(cw, style) {
+  const sp      = parseFloat(cw.supplierPrice) || 0;
+  const bt      = (parseFloat(style.baseTariff) || 0) / 100;
+  const roy     = 0.15;
+  const freight = parseFloat(style.freight) || 0;
+  let addT = 0;
   data.tariffs.forEach(t => {
-    if (t.active) {
-      addTariffs += (parseFloat((p.tariffRates || {})[t.id]) || 0) / 100;
-    }
+    if (t.active) addT += (parseFloat((style.tariffRates || {})[t.id]) || 0) / 100;
   });
-  return sp * (1 + bt + addTariffs + roy) + freight;
+  return sp * (1 + bt + addT + roy) + freight;
 }
 
-function fmt(n) { return isNaN(n) ? '—' : '$' + n.toFixed(2); }
+function styleWeightedLC(style) {
+  const cws = style.colorways || [];
+  const totalQty = cws.reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+  if (!totalQty) return NaN;
+  const weighted = cws.reduce((a, c) => a + colorwayLC(c, style) * (parseFloat(c.qty) || 0), 0);
+  return weighted / totalQty;
+}
+
+function styleTotalUnits(style) {
+  return (style.colorways || []).reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+}
+
+function styleTotalLandedValue(style) {
+  return (style.colorways || []).reduce((a, c) => a + colorwayLC(c, style) * (parseFloat(c.qty) || 0), 0);
+}
+
+// Per-unit tariff cost for a colorway
+function colorwayTariffCost(cw, style, tariffId) {
+  const sp = parseFloat(cw.supplierPrice) || 0;
+  const rate = (parseFloat((style.tariffRates || {})[tariffId]) || 0) / 100;
+  return sp * rate;
+}
+
+function colorwayBaseTariffCost(cw, style) {
+  return (parseFloat(cw.supplierPrice) || 0) * ((parseFloat(style.baseTariff) || 0) / 100);
+}
+
+// Style-level weighted averages for tariff, royalty, freight
+function styleWeightedField(style, fn) {
+  const cws = style.colorways || [];
+  const totalQty = cws.reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+  if (!totalQty) return NaN;
+  return cws.reduce((a, c) => a + fn(c) * (parseFloat(c.qty) || 0), 0) / totalQty;
+}
+
+function fmt(n)    { return isNaN(n) || !isFinite(n) ? '—' : '$' + n.toFixed(2); }
 function fmtBig(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function esc(s)    { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
 /* ---- Stats ---- */
 function renderStats() {
-  const prods = data.products;
-  const totalQty   = prods.reduce((a,p) => a + (parseFloat(p.qty)||0), 0);
-  const avgLC      = prods.length ? prods.reduce((a,p) => a + landedCost(p), 0) / prods.length : NaN;
-  const totalValue = prods.reduce((a,p) => a + landedCost(p) * (parseFloat(p.qty)||0), 0);
+  const styles     = data.styles;
+  const totalStyles = styles.length;
+  const totalUnits  = styles.reduce((a, s) => a + styleTotalUnits(s), 0);
+  const totalValue  = styles.reduce((a, s) => a + styleTotalLandedValue(s), 0);
+  const allLCs      = styles.map(s => styleWeightedLC(s)).filter(n => !isNaN(n));
+  const avgLC       = allLCs.length ? allLCs.reduce((a,n)=>a+n,0)/allLCs.length : NaN;
   document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-label">Products</div><div class="stat-val">${prods.length}</div></div>
-    <div class="stat"><div class="stat-label">Total units ordered</div><div class="stat-val">${totalQty.toLocaleString()}</div></div>
+    <div class="stat"><div class="stat-label">Styles</div><div class="stat-val">${totalStyles}</div></div>
+    <div class="stat"><div class="stat-label">Total units ordered</div><div class="stat-val">${totalUnits.toLocaleString()}</div></div>
     <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
     <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalValue)}</div></div>`;
 }
@@ -281,203 +307,309 @@ function renderStats() {
 /* ---- Toggles ---- */
 function renderToggles() {
   document.getElementById('toggles').innerHTML = data.tariffs.map(t =>
-    `<button class="toggle ${t.active ? 'on' : ''}" onclick="toggleTariff('${t.id}')">${t.name}</button>`
+    `<button class="toggle ${t.active?'on':''}" onclick="toggleTariff('${t.id}')">${t.name}</button>`
   ).join('');
 }
 
 function toggleTariff(id) {
   const t = data.tariffs.find(x => x.id === id);
   if (t) t.active = !t.active;
-  save(data);
+  save();
   renderAll();
 }
 
 /* ---- Table ---- */
 function renderTable() {
   const active = data.tariffs.filter(t => t.active);
+  const colCount = 10 + active.length * 2; // approximate
 
-  document.getElementById('thead').innerHTML = '<tr>' +
-    '<th>Product</th><th>Materials</th><th>Knit / Woven</th><th>Qty Ordered</th>' +
-    '<th>Supplier Price</th><th>HTSUS Code</th><th>Base Tariff %</th>' +
-    active.map(t => `<th>${t.name} %</th>`).join('') +
-    '<th>Royalty</th><th>Freight</th><th>Landed Cost / Unit</th><th></th></tr>';
+  // Header
+  document.getElementById('thead').innerHTML = `<tr>
+    <th>Style / Color</th>
+    <th>Fabric type</th>
+    <th>Materials</th>
+    <th>Knit/Woven</th>
+    <th>Qty</th>
+    <th>Supplier Price</th>
+    <th>HTSUS</th>
+    <th>Base Tariff %</th>
+    <th>Base Tariff / unit</th>
+    ${active.map(t => `<th>${t.name} %</th><th>${t.name} / unit</th>`).join('')}
+    <th>Royalty / unit</th>
+    <th>Freight / unit</th>
+    <th>Landed Cost / unit</th>
+    <th></th>
+  </tr>`;
 
-  if (!data.products.length) {
+  if (!data.styles.length) {
     document.getElementById('tbody').innerHTML =
-      `<tr class="empty-row"><td colspan="${8 + active.length + 3}">No products yet — click Add Product to get started.</td></tr>`;
+      `<tr class="empty-row"><td colspan="${colCount}">No styles yet — click Add Style to get started.</td></tr>`;
     return;
   }
 
-  document.getElementById('tbody').innerHTML = data.products.map((p, i) => {
-    const sp  = parseFloat(p.supplierPrice) || 0;
-    const roy = (sp * 0.15).toFixed(2);
-    const lc  = landedCost(p);
-    return `<tr>
-      <td><input value="${esc(p.name)}" onchange="updateField(${i},'name',this.value)" placeholder="Product name" style="min-width:120px"></td>
-      <td><input value="${esc(p.materials)}" onchange="updateField(${i},'materials',this.value)" placeholder="Materials" style="min-width:140px"></td>
-      <td>
-        <select onchange="updateField(${i},'kw',this.value)" style="min-width:70px">
-          <option value="" ${!p.kw?'selected':''}>—</option>
-          <option ${p.kw==='Knit'?'selected':''}>Knit</option>
-          <option ${p.kw==='Woven'?'selected':''}>Woven</option>
-        </select>
+  let rows = '';
+  data.styles.forEach((style, si) => {
+    const isOpen   = !!expanded[si];
+    const cws      = style.colorways || [];
+    const wlc      = styleWeightedLC(style);
+    const totalU   = styleTotalUnits(style);
+    const totalLV  = styleTotalLandedValue(style);
+
+    // Weighted avg royalty, freight, base tariff
+    const wRoy     = styleWeightedField(style, c => (parseFloat(c.supplierPrice)||0) * 0.15);
+    const wFreight = parseFloat(style.freight) || 0;
+    const wBT      = styleWeightedField(style, c => colorwayBaseTariffCost(c, style));
+
+    // Style summary row
+    rows += `<tr class="style-row">
+      <td class="style-name">
+        <button class="style-toggle ${isOpen?'open':''}" onclick="toggleExpand(${si})" title="${isOpen?'Collapse':'Expand'}">
+          <i class="ti ti-chevron-right"></i>
+        </button>
+        ${esc(style.name)}
+        <button class="btn add-colorway-btn" onclick="openColorwayModal(${si})"><i class="ti ti-plus"></i> Colorway</button>
       </td>
-      <td class="mono"><input type="number" value="${p.qty||''}" onchange="updateField(${i},'qty',this.value)" min="0"></td>
-      <td class="mono"><input type="number" value="${p.supplierPrice||''}" onchange="updateField(${i},'supplierPrice',this.value)" min="0" step="0.01"></td>
-      <td class="mono"><input value="${esc(p.hts)}" onchange="updateField(${i},'hts',this.value)" style="min-width:100px"></td>
-      <td class="mono"><input type="number" value="${p.baseTariff||''}" onchange="updateField(${i},'baseTariff',this.value)" min="0" step="0.1"></td>
-      ${active.map(t => `<td class="mono"><input type="number" value="${(p.tariffRates||{})[t.id]||''}" onchange="updateTariffRate(${i},'${t.id}',this.value)" min="0" step="0.1"></td>`).join('')}
-      <td class="roy">$${parseFloat(roy).toFixed(2)}</td>
-      <td class="mono"><input type="number" value="${p.freight||''}" onchange="updateField(${i},'freight',this.value)" min="0" step="0.01"></td>
-      <td class="lc" id="lc-${i}">${fmt(lc)}</td>
-      <td><button class="icon-btn" onclick="deleteProduct(${i})" title="Delete product"><i class="ti ti-trash" style="font-size:15px"></i></button></td>
+      <td class="empty-cell">—</td>
+      <td>${esc(style.materials)}</td>
+      <td>${esc(style.kw)}</td>
+      <td class="summary-num">${totalU.toLocaleString()}</td>
+      <td class="empty-cell">—</td>
+      <td class="summary-num" style="font-size:11px">${esc(style.hts)}</td>
+      <td class="summary-num">${style.baseTariff||'—'}%</td>
+      <td class="summary-num">${fmt(wBT)}</td>
+      ${active.map(t => {
+        const rate = (style.tariffRates||{})[t.id] || '—';
+        const wT   = styleWeightedField(style, c => colorwayTariffCost(c, style, t.id));
+        return `<td class="summary-num">${rate !== '—' ? rate+'%' : '—'}</td><td class="summary-num">${fmt(wT)}</td>`;
+      }).join('')}
+      <td class="summary-num">${fmt(wRoy)}</td>
+      <td class="summary-num">${fmt(wFreight)}</td>
+      <td class="summary-lc">${fmt(wlc)}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="icon-btn" onclick="openStyleModal(${si})" title="Edit style"><i class="ti ti-edit" style="font-size:15px"></i></button>
+          <button class="icon-btn" onclick="deleteStyle(${si})" title="Delete style"><i class="ti ti-trash" style="font-size:15px"></i></button>
+        </div>
+      </td>
     </tr>`;
-  }).join('');
+
+    // Colorway rows
+    cws.forEach((cw, ci) => {
+      const lc  = colorwayLC(cw, style);
+      const sp  = parseFloat(cw.supplierPrice) || 0;
+      const roy = sp * 0.15;
+      const bt  = colorwayBaseTariffCost(cw, style);
+
+      rows += `<tr class="colorway-row ${isOpen ? '' : 'hidden'}" id="cw-${si}-${ci}">
+        <td style="padding-left:36px;color:var(--text-2)">${esc(cw.color) || '<em>Unnamed color</em>'}</td>
+        <td>${esc(cw.fabricType)}</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="mono">${(parseFloat(cw.qty)||0).toLocaleString()}</td>
+        <td class="mono">${fmt(sp)}</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="mono">${fmt(bt)}</td>
+        ${active.map(t => {
+          const tc = colorwayTariffCost(cw, style, t.id);
+          const rate = (style.tariffRates||{})[t.id];
+          return `<td class="empty-cell">—</td><td class="mono">${rate ? fmt(tc) : '—'}</td>`;
+        }).join('')}
+        <td class="roy">${fmt(roy)}</td>
+        <td class="mono">${fmt(parseFloat(style.freight)||0)}</td>
+        <td class="lc">${fmt(lc)}</td>
+        <td>
+          <div style="display:flex;gap:4px">
+            <button class="icon-btn" onclick="openColorwayModal(${si},${ci})" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>
+            <button class="icon-btn" onclick="deleteColorway(${si},${ci})" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    });
+
+    if (!cws.length && isOpen) {
+      rows += `<tr class="colorway-row" id="cw-${si}-empty">
+        <td colspan="${colCount}" style="padding-left:36px;color:var(--text-3);font-size:12px;padding-top:10px;padding-bottom:10px;">
+          No colorways yet — click "+ Colorway" to add one.
+        </td>
+      </tr>`;
+    }
+  });
+
+  document.getElementById('tbody').innerHTML = rows;
 }
 
-function updateField(i, field, val) {
-  data.products[i][field] = val;
-  save(data);
-  const lcEl = document.getElementById('lc-' + i);
-  if (lcEl) lcEl.textContent = fmt(landedCost(data.products[i]));
-  renderStats();
+function toggleExpand(si) {
+  expanded[si] = !expanded[si];
+  renderTable();
 }
 
-function updateTariffRate(i, tariffId, val) {
-  if (!data.products[i].tariffRates) data.products[i].tariffRates = {};
-  data.products[i].tariffRates[tariffId] = val;
-  save(data);
-  const lcEl = document.getElementById('lc-' + i);
-  if (lcEl) lcEl.textContent = fmt(landedCost(data.products[i]));
-  renderStats();
-}
+/* ---- Style modal ---- */
+function openStyleModal(id = null) {
+  editingStyleId = id;
+  const s = id != null ? data.styles[id] : {};
+  document.getElementById('styleModalTitle').textContent = id != null ? 'Edit style' : 'Add style';
+  document.getElementById('styleModalSave').textContent  = id != null ? 'Save changes' : 'Add style';
+  document.getElementById('s-name').value     = s.name || '';
+  document.getElementById('s-materials').value = s.materials || '';
+  document.getElementById('s-hts').value      = s.hts || '';
+  document.getElementById('s-kw').value       = s.kw || '';
+  document.getElementById('s-bt').value       = s.baseTariff || '';
+  document.getElementById('s-freight').value  = s.freight || '';
 
-function deleteProduct(i) {
-  if (!confirm('Delete "' + (data.products[i].name || 'this product') + '"?')) return;
-  data.products.splice(i, 1);
-  save(data);
+  document.getElementById('s-tariff-fields').innerHTML = data.tariffs.map(t => `
+    <div class="field">
+      <label>${t.name} rate (%)</label>
+      <input id="st-${t.id}" type="number" min="0" step="0.1" value="${(s.tariffRates||{})[t.id]||''}" placeholder="0.0">
+    </div>`).join('');
+
+  document.getElementById('styleModal').classList.add('open');
+  setTimeout(() => document.getElementById('s-name').focus(), 50);
+}
+function closeStyleModal() { document.getElementById('styleModal').classList.remove('open'); }
+
+function saveStyle() {
+  const name = document.getElementById('s-name').value.trim();
+  if (!name) { alert('Style name is required.'); return; }
+  const tariffRates = {};
+  data.tariffs.forEach(t => {
+    const el = document.getElementById('st-' + t.id);
+    if (el) tariffRates[t.id] = el.value;
+  });
+  const style = {
+    name,
+    materials:  document.getElementById('s-materials').value.trim(),
+    hts:        document.getElementById('s-hts').value.trim(),
+    kw:         document.getElementById('s-kw').value,
+    baseTariff: document.getElementById('s-bt').value,
+    tariffRates,
+    freight:    document.getElementById('s-freight').value,
+    colorways:  editingStyleId != null ? data.styles[editingStyleId].colorways : []
+  };
+  if (editingStyleId != null) { data.styles[editingStyleId] = style; }
+  else { data.styles.push(style); expanded[data.styles.length - 1] = true; }
+  save();
+  closeStyleModal();
   renderAll();
 }
 
-/* ---- Add / Edit modal ---- */
-function openAddModal(id = null) {
-  editingId = id;
-  const p = id != null ? data.products[id] : {};
-  document.getElementById('modalTitle').textContent = id != null ? 'Edit product' : 'Add product';
-  document.getElementById('saveBtn').textContent    = id != null ? 'Save changes' : 'Add product';
-  document.getElementById('f-name').value      = p.name || '';
-  document.getElementById('f-materials').value = p.materials || '';
-  document.getElementById('f-kw').value        = p.kw || '';
-  document.getElementById('f-qty').value       = p.qty || '';
-  document.getElementById('f-sp').value        = p.supplierPrice || '';
-  document.getElementById('f-hts').value       = p.hts || '';
-  document.getElementById('f-bt').value        = p.baseTariff || '';
-  document.getElementById('f-freight').value   = p.freight || '';
-
-  const sp = parseFloat(p.supplierPrice) || 0;
-  document.getElementById('f-roy').value = sp ? '$' + (sp * 0.15).toFixed(2) : '';
-
-  // Dynamic tariff rate fields
-  document.getElementById('tariff-fields').innerHTML = data.tariffs.map(t => `
-    <div class="field">
-      <label>${t.name} rate (%)</label>
-      <input id="ft-${t.id}" type="number" min="0" step="0.1" value="${(p.tariffRates||{})[t.id]||''}" placeholder="0.0">
-    </div>`).join('');
-
-  // Live royalty preview
-  document.getElementById('f-sp').oninput = function() {
-    const v = parseFloat(this.value) || 0;
-    document.getElementById('f-roy').value = v ? '$' + (v * 0.15).toFixed(2) : '';
-  };
-
-  document.getElementById('addModal').classList.add('open');
-  setTimeout(() => document.getElementById('f-name').focus(), 50);
+function deleteStyle(si) {
+  if (!confirm('Delete "' + (data.styles[si].name||'this style') + '" and all its colorways?')) return;
+  data.styles.splice(si, 1);
+  save();
+  renderAll();
 }
 
-function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+/* ---- Colorway modal ---- */
+function openColorwayModal(si, ci = null) {
+  addingColorwayTo = si;
+  editingColorway  = ci != null ? { styleId: si, colorwayIdx: ci } : null;
+  const cw = ci != null ? data.styles[si].colorways[ci] : {};
+  document.getElementById('cwModalTitle').textContent = ci != null ? 'Edit colorway' : 'Add colorway';
+  document.getElementById('cwSaveBtn').textContent    = ci != null ? 'Save changes' : 'Add colorway';
+  document.getElementById('cw-color').value  = cw.color || '';
+  document.getElementById('cw-fabric').value = cw.fabricType || '';
+  document.getElementById('cw-qty').value    = cw.qty || '';
+  document.getElementById('cw-sp').value     = cw.supplierPrice || '';
+  const sp = parseFloat(cw.supplierPrice) || 0;
+  document.getElementById('cw-roy').value = sp ? '$' + (sp * 0.15).toFixed(2) : '';
 
-function saveProduct() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { alert('Product name is required.'); return; }
-
-  const tariffRates = {};
-  data.tariffs.forEach(t => {
-    const el = document.getElementById('ft-' + t.id);
-    if (el) tariffRates[t.id] = el.value;
-  });
-
-  const prod = {
-    name,
-    materials:     document.getElementById('f-materials').value.trim(),
-    kw:            document.getElementById('f-kw').value,
-    qty:           document.getElementById('f-qty').value,
-    supplierPrice: document.getElementById('f-sp').value,
-    hts:           document.getElementById('f-hts').value.trim(),
-    baseTariff:    document.getElementById('f-bt').value,
-    tariffRates,
-    freight:       document.getElementById('f-freight').value
+  document.getElementById('cw-sp').oninput = function() {
+    const v = parseFloat(this.value) || 0;
+    document.getElementById('cw-roy').value = v ? '$' + (v * 0.15).toFixed(2) : '';
   };
 
-  if (editingId != null) { data.products[editingId] = prod; }
-  else { data.products.push(prod); }
-  save(data);
-  closeModal();
+  document.getElementById('colorwayModal').classList.add('open');
+  setTimeout(() => document.getElementById('cw-color').focus(), 50);
+}
+function closeColorwayModal() { document.getElementById('colorwayModal').classList.remove('open'); }
+
+function saveColorway() {
+  const color = document.getElementById('cw-color').value.trim();
+  if (!color) { alert('Color name is required.'); return; }
+  const cw = {
+    color,
+    fabricType:    document.getElementById('cw-fabric').value.trim(),
+    qty:           document.getElementById('cw-qty').value,
+    supplierPrice: document.getElementById('cw-sp').value
+  };
+  const si = addingColorwayTo;
+  if (!data.styles[si].colorways) data.styles[si].colorways = [];
+  if (editingColorway != null) { data.styles[si].colorways[editingColorway.colorwayIdx] = cw; }
+  else { data.styles[si].colorways.push(cw); expanded[si] = true; }
+  save();
+  closeColorwayModal();
+  renderAll();
+}
+
+function deleteColorway(si, ci) {
+  const cw = data.styles[si].colorways[ci];
+  if (!confirm('Delete colorway "' + (cw.color||'this colorway') + '"?')) return;
+  data.styles[si].colorways.splice(ci, 1);
+  save();
   renderAll();
 }
 
 /* ---- Tariff manager ---- */
-function openTariffMgr() {
-  renderTariffList();
-  document.getElementById('tariffModal').classList.add('open');
-}
-function closeTariffMgr() {
-  document.getElementById('tariffModal').classList.remove('open');
-  renderAll();
-}
+function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
+function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
 function renderTariffList() {
   document.getElementById('tariff-list').innerHTML = data.tariffs.map((t, i) => `
     <div class="tariff-item">
-      <span class="tariff-name-text">${t.name}</span>
-      <button class="tariff-del" onclick="deleteTariff(${i})" title="Remove">×</button>
-    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3);">No tariff columns yet.</p>';
+      <span>${t.name}</span>
+      <button class="tariff-del" onclick="deleteTariff(${i})">×</button>
+    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
 }
 function deleteTariff(i) {
   if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
   if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
   data.tariffs.splice(i, 1);
-  save(data);
+  save();
   renderTariffList();
 }
 function addTariff() {
-  const inp  = document.getElementById('new-tariff-name');
+  const inp = document.getElementById('new-tariff-name');
   const name = inp.value.trim();
   if (!name) return;
   data.tariffs.push({ id: 't' + Date.now(), name, active: true });
   inp.value = '';
-  save(data);
+  save();
   renderTariffList();
 }
 
-/* ---- CSV export ---- */
+/* ---- CSV Export ---- */
 function exportCSV() {
   const active = data.tariffs.filter(t => t.active);
   const headers = [
-    'Product', 'Materials', 'Knit/Woven', 'Qty Ordered', 'Supplier Price (USD)',
-    'HTSUS Code', 'Base Tariff %',
-    ...active.map(t => t.name + ' %'),
-    'Royalty (USD)', 'Freight (USD)', 'Landed Cost / Unit (USD)'
+    'Style', 'Color', 'Fabric Type', 'Materials', 'Knit/Woven', 'Qty',
+    'Supplier Price', 'HTSUS', 'Base Tariff %', 'Base Tariff / unit',
+    ...active.flatMap(t => [t.name + ' %', t.name + ' / unit']),
+    'Royalty / unit', 'Freight / unit', 'Landed Cost / unit',
+    'Total Landed Value'
   ];
-  const rows = data.products.map(p => {
-    const sp = parseFloat(p.supplierPrice) || 0;
-    return [
-      p.name, p.materials, p.kw, p.qty, p.supplierPrice,
-      p.hts, p.baseTariff,
-      ...active.map(t => ((p.tariffRates || {})[t.id] || '')),
-      (sp * 0.15).toFixed(2), p.freight, landedCost(p).toFixed(2)
-    ];
+  const rows = [];
+  data.styles.forEach(style => {
+    (style.colorways || []).forEach(cw => {
+      const sp  = parseFloat(cw.supplierPrice) || 0;
+      const lc  = colorwayLC(cw, style);
+      const qty = parseFloat(cw.qty) || 0;
+      rows.push([
+        style.name, cw.color, cw.fabricType, style.materials, style.kw, cw.qty,
+        cw.supplierPrice, style.hts, style.baseTariff,
+        colorwayBaseTariffCost(cw, style).toFixed(2),
+        ...active.flatMap(t => [
+          (style.tariffRates||{})[t.id]||'',
+          colorwayTariffCost(cw, style, t.id).toFixed(2)
+        ]),
+        (sp * 0.15).toFixed(2),
+        style.freight,
+        lc.toFixed(2),
+        (lc * qty).toFixed(2)
+      ]);
+    });
   });
   const csv = [headers, ...rows]
-    .map(r => r.map(c => `"${(c || '').toString().replace(/"/g, '""')}"`).join(','))
+    .map(r => r.map(c => `"${(c||'').toString().replace(/"/g,'""')}"`).join(','))
     .join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
@@ -485,12 +617,11 @@ function exportCSV() {
   a.click();
 }
 
-/* ---- Close modals on backdrop click ---- */
-document.getElementById('addModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('tariffModal').addEventListener('click', function(e) {
-  if (e.target === this) closeTariffMgr();
+/* ---- Backdrop close ---- */
+['styleModal','colorwayModal','tariffModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
 });
 
 /* ---- Init ---- */
