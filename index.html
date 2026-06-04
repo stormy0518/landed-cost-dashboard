@@ -133,6 +133,7 @@
       <div class="brand-sub">Landed Cost Tracker</div>
     </div>
     <div class="header-actions">
+      <button class="btn" onclick="openFreightCalc()"><i class="ti ti-calculator"></i> Freight Calculator</button>
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
       <button class="btn primary" onclick="openStyleModal()"><i class="ti ti-plus"></i> Add Style</button>
@@ -195,6 +196,24 @@
     <div class="modal-actions">
       <button class="btn" onclick="closeColorwayModal()">Cancel</button>
       <button class="btn primary" id="cwSaveBtn" onclick="saveColorway()">Add colorway</button>
+    </div>
+  </div>
+</div>
+
+<!-- Freight Calculator Modal -->
+<div class="modal" id="freightModal">
+  <div class="modal-box">
+    <h3>Freight calculator</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Enter your total shipment freight cost and total units in that shipment. Include all charges — ocean/air, destination fees, brokerage, drayage, and inland trucking.</p>
+    <div class="field"><label>Total freight cost (USD)</label><input id="fc-total" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcFreight()"></div>
+    <div class="field"><label>Total units in shipment</label><input id="fc-units" type="number" min="0" placeholder="0" oninput="calcFreight()"></div>
+    <div style="background:var(--surface2);border-radius:var(--radius);padding:14px 16px;margin-top:4px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:6px">Freight per unit</div>
+      <div id="fc-result" style="font-size:28px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text)">—</div>
+      <div style="font-size:11px;color:var(--text-3);margin-top:4px">Enter this number in the Freight field for each style in this shipment.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="closeFreightCalc()">Done</button>
     </div>
   </div>
 </div>
@@ -550,6 +569,27 @@ function deleteColorway(si, ci) {
   renderAll();
 }
 
+
+/* ---- Freight calculator ---- */
+function openFreightCalc() {
+  document.getElementById('fc-total').value = '';
+  document.getElementById('fc-units').value = '';
+  document.getElementById('fc-result').textContent = '—';
+  document.getElementById('freightModal').classList.add('open');
+  setTimeout(() => document.getElementById('fc-total').focus(), 50);
+}
+function closeFreightCalc() { document.getElementById('freightModal').classList.remove('open'); }
+function calcFreight() {
+  const total = parseFloat(document.getElementById('fc-total').value) || 0;
+  const units = parseFloat(document.getElementById('fc-units').value) || 0;
+  const el = document.getElementById('fc-result');
+  if (total > 0 && units > 0) {
+    el.textContent = '$' + (total / units).toFixed(4);
+  } else {
+    el.textContent = '—';
+  }
+}
+
 /* ---- Tariff manager ---- */
 function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
 function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
@@ -618,7 +658,7 @@ function exportCSV() {
 }
 
 /* ---- Backdrop close ---- */
-['styleModal','colorwayModal','tariffModal'].forEach(id => {
+['styleModal','colorwayModal','tariffModal','freightModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('open');
   });
