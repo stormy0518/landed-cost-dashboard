@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKHOOP USA — Landed Cost Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --surface2: #f0eeea;
+    --border: rgba(0,0,0,0.10);
+    --border-md: rgba(0,0,0,0.18);
+    --text: #1a1917;
+    --text-2: #6b6860;
+    --text-3: #9e9b95;
+    --accent: #1a1917;
+    --accent-fg: #ffffff;
+    --green: #1a6b4a;
+    --green-bg: #e8f5ee;
+    --blue: #1a4a8a;
+    --blue-bg: #e8eef8;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* Layout */
+  .page { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* Header */
+  header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .brand { }
+  .brand-name { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+  .brand-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    padding: 7px 14px; border-radius: var(--radius);
+    border: 1px solid var(--border-md); background: var(--surface);
+    color: var(--text); cursor: pointer; white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .btn.primary:hover { opacity: 0.88; }
+  .btn.danger { color: #a32d2d; border-color: #f09595; }
+  .btn.danger:hover { background: #fcebeb; }
+  .btn i { font-size: 15px; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
+  .stat-label { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .stat-val { font-size: 22px; font-weight: 500; color: var(--text); }
+
+  /* Controls bar */
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .controls-label { font-size: 12px; color: var(--text-2); font-weight: 500; }
+  .toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .toggle {
+    font-size: 12px; font-weight: 500; padding: 4px 11px;
+    border: 1px solid var(--border-md); border-radius: 20px;
+    background: var(--surface); color: var(--text-2); cursor: pointer;
+    transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  }
+  .toggle:hover { border-color: var(--accent); color: var(--text); }
+  .toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* Table */
+  .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead { position: sticky; top: 0; z-index: 2; }
+  th {
+    background: var(--surface2); color: var(--text-2);
+    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 10px 12px; text-align: left; white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf9f7; }
+
+  td input, td select {
+    width: 100%; min-width: 70px; font-size: 13px;
+    background: transparent; border: none; color: var(--text);
+    font-family: 'DM Sans', sans-serif; padding: 1px 0;
+    outline: none;
+  }
+  td input:focus, td select:focus { border-bottom: 1px solid var(--border-md); }
+  td input[type=number] { min-width: 55px; font-family: 'DM Mono', monospace; }
+  td.mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+  td.lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
+  td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
+
+  .empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
+
+  /* Action icon */
+  .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 3px 5px; border-radius: 4px; display: inline-flex; align-items: center; }
+  .icon-btn:hover { color: #a32d2d; background: #fcebeb; }
+
+  /* Modal */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .modal.open { display: flex; }
+  .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 400px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal-box h3 { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
+  .field input, .field select {
+    width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border-md); border-radius: var(--radius);
+    padding: 7px 10px; background: var(--surface); color: var(--text);
+    outline: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--accent); }
+  .field input:disabled { background: var(--surface2); color: var(--text-3); }
+  .field .hint { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+
+  /* Tariff manager */
+  .tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .tariff-item:last-child { border-bottom: none; }
+  .tariff-name-text { font-size: 13px; }
+  .tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 18px; line-height: 1; padding: 0 4px; }
+  .tariff-del:hover { color: #a32d2d; }
+  .add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
+  .add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
+  .add-tariff-row input:focus { border-color: var(--accent); }
+
+  .divider { height: 1px; background: var(--border); margin: 14px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand">
+      <div class="brand-name">SKHOOP USA</div>
+      <div class="brand-sub">Landed Cost Tracker</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
+      <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+      <button class="btn primary" onclick="openAddModal()"><i class="ti ti-plus"></i> Add Product</button>
+    </div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <span class="controls-label">Tariff columns:</span>
+    <div class="toggle-group" id="toggles"></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="modal" id="addModal">
+  <div class="modal-box">
+    <h3 id="modalTitle">Add product</h3>
+    <div class="field"><label>Product name</label><input id="f-name" type="text" placeholder="e.g. Alpine Pant"></div>
+    <div class="field"><label>Materials</label><input id="f-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
+    <div class="field"><label>Knit / Woven</label>
+      <select id="f-kw"><option value="">—</option><option>Knit</option><option>Woven</option></select>
+    </div>
+    <div class="field"><label>Qty ordered</label><input id="f-qty" type="number" min="0" placeholder="0"></div>
+    <div class="field"><label>Supplier price (USD)</label><input id="f-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    <div class="field"><label>HTSUS code</label><input id="f-hts" type="text" placeholder="e.g. 6104.63.2010"></div>
+    <div class="field"><label>Base tariff rate (%)</label><input id="f-bt" type="number" min="0" step="0.1" placeholder="0.0"></div>
+    <div id="tariff-fields"></div>
+    <div class="field">
+      <label>Royalty (15% of supplier price)</label>
+      <input id="f-roy" type="text" disabled placeholder="auto-calculated">
+      <div class="hint">Updates automatically as you type the supplier price.</div>
+    </div>
+    <div class="field"><label>Freight per unit (USD)</label><input id="f-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="saveBtn" onclick="saveProduct()">Add product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tariff Manager Modal -->
+<div class="modal" id="tariffModal">
+  <div class="modal-box">
+    <h3>Manage tariff columns</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Add or remove tariff columns. Deleted columns remove the label but data is preserved until you save a product again.</p>
+    <div id="tariff-list"></div>
+    <div class="add-tariff-row">
+      <input id="new-tariff-name" type="text" placeholder="New tariff name (e.g. Section 232)">
+      <button class="btn" onclick="addTariff()"><i class="ti ti-plus"></i> Add</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="closeTariffMgr()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORE_KEY = 'skhoop_v2';
+let editingId = null;
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return {
+    products: [],
+    tariffs: [
+      { id: 's301', name: 'Section 301', active: true },
+      { id: 's122', name: 'Section 122', active: true }
+    ]
+  };
+}
+
+function save(data) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+}
+
+let data = load();
+
+/* ---- Landed cost formula ---- */
+// Per unit: SupplierPrice * (1 + BaseTariff + ActiveAdditionalTariffs + 0.15) + Freight
+function landedCost(p) {
+  const sp     = parseFloat(p.supplierPrice) || 0;
+  const bt     = (parseFloat(p.baseTariff) || 0) / 100;
+  const roy    = 0.15;
+  const freight = parseFloat(p.freight) || 0;
+  let addTariffs = 0;
+  data.tariffs.forEach(t => {
+    if (t.active) {
+      addTariffs += (parseFloat((p.tariffRates || {})[t.id]) || 0) / 100;
+    }
+  });
+  return sp * (1 + bt + addTariffs + roy) + freight;
+}
+
+function fmt(n) { return isNaN(n) ? '—' : '$' + n.toFixed(2); }
+function fmtBig(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+/* ---- Stats ---- */
+function renderStats() {
+  const prods = data.products;
+  const totalQty   = prods.reduce((a,p) => a + (parseFloat(p.qty)||0), 0);
+  const avgLC      = prods.length ? prods.reduce((a,p) => a + landedCost(p), 0) / prods.length : NaN;
+  const totalValue = prods.reduce((a,p) => a + landedCost(p) * (parseFloat(p.qty)||0), 0);
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-label">Products</div><div class="stat-val">${prods.length}</div></div>
+    <div class="stat"><div class="stat-label">Total units ordered</div><div class="stat-val">${totalQty.toLocaleString()}</div></div>
+    <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
+    <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalValue)}</div></div>`;
+}
+
+/* ---- Toggles ---- */
+function renderToggles() {
+  document.getElementById('toggles').innerHTML = data.tariffs.map(t =>
+    `<button class="toggle ${t.active ? 'on' : ''}" onclick="toggleTariff('${t.id}')">${t.name}</button>`
+  ).join('');
+}
+
+function toggleTariff(id) {
+  const t = data.tariffs.find(x => x.id === id);
+  if (t) t.active = !t.active;
+  save(data);
+  renderAll();
+}
+
+/* ---- Table ---- */
+function renderTable() {
+  const active = data.tariffs.filter(t => t.active);
+
+  document.getElementById('thead').innerHTML = '<tr>' +
+    '<th>Product</th><th>Materials</th><th>Knit / Woven</th><th>Qty Ordered</th>' +
+    '<th>Supplier Price</th><th>HTSUS Code</th><th>Base Tariff %</th>' +
+    active.map(t => `<th>${t.name} %</th>`).join('') +
+    '<th>Royalty</th><th>Freight</th><th>Landed Cost / Unit</th><th></th></tr>';
+
+  if (!data.products.length) {
+    document.getElementById('tbody').innerHTML =
+      `<tr class="empty-row"><td colspan="${8 + active.length + 3}">No products yet — click Add Product to get started.</td></tr>`;
+    return;
+  }
+
+  document.getElementById('tbody').innerHTML = data.products.map((p, i) => {
+    const sp  = parseFloat(p.supplierPrice) || 0;
+    const roy = (sp * 0.15).toFixed(2);
+    const lc  = landedCost(p);
+    return `<tr>
+      <td><input value="${esc(p.name)}" onchange="updateField(${i},'name',this.value)" placeholder="Product name" style="min-width:120px"></td>
+      <td><input value="${esc(p.materials)}" onchange="updateField(${i},'materials',this.value)" placeholder="Materials" style="min-width:140px"></td>
+      <td>
+        <select onchange="updateField(${i},'kw',this.value)" style="min-width:70px">
+          <option value="" ${!p.kw?'selected':''}>—</option>
+          <option ${p.kw==='Knit'?'selected':''}>Knit</option>
+          <option ${p.kw==='Woven'?'selected':''}>Woven</option>
+        </select>
+      </td>
+      <td class="mono"><input type="number" value="${p.qty||''}" onchange="updateField(${i},'qty',this.value)" min="0"></td>
+      <td class="mono"><input type="number" value="${p.supplierPrice||''}" onchange="updateField(${i},'supplierPrice',this.value)" min="0" step="0.01"></td>
+      <td class="mono"><input value="${esc(p.hts)}" onchange="updateField(${i},'hts',this.value)" style="min-width:100px"></td>
+      <td class="mono"><input type="number" value="${p.baseTariff||''}" onchange="updateField(${i},'baseTariff',this.value)" min="0" step="0.1"></td>
+      ${active.map(t => `<td class="mono"><input type="number" value="${(p.tariffRates||{})[t.id]||''}" onchange="updateTariffRate(${i},'${t.id}',this.value)" min="0" step="0.1"></td>`).join('')}
+      <td class="roy">$${parseFloat(roy).toFixed(2)}</td>
+      <td class="mono"><input type="number" value="${p.freight||''}" onchange="updateField(${i},'freight',this.value)" min="0" step="0.01"></td>
+      <td class="lc" id="lc-${i}">${fmt(lc)}</td>
+      <td><button class="icon-btn" onclick="deleteProduct(${i})" title="Delete product"><i class="ti ti-trash" style="font-size:15px"></i></button></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateField(i, field, val) {
+  data.products[i][field] = val;
+  save(data);
+  const lcEl = document.getElementById('lc-' + i);
+  if (lcEl) lcEl.textContent = fmt(landedCost(data.products[i]));
+  renderStats();
+}
+
+function updateTariffRate(i, tariffId, val) {
+  if (!data.products[i].tariffRates) data.products[i].tariffRates = {};
+  data.products[i].tariffRates[tariffId] = val;
+  save(data);
+  const lcEl = document.getElementById('lc-' + i);
+  if (lcEl) lcEl.textContent = fmt(landedCost(data.products[i]));
+  renderStats();
+}
+
+function deleteProduct(i) {
+  if (!confirm('Delete "' + (data.products[i].name || 'this product') + '"?')) return;
+  data.products.splice(i, 1);
+  save(data);
+  renderAll();
+}
+
+/* ---- Add / Edit modal ---- */
+function openAddModal(id = null) {
+  editingId = id;
+  const p = id != null ? data.products[id] : {};
+  document.getElementById('modalTitle').textContent = id != null ? 'Edit product' : 'Add product';
+  document.getElementById('saveBtn').textContent    = id != null ? 'Save changes' : 'Add product';
+  document.getElementById('f-name').value      = p.name || '';
+  document.getElementById('f-materials').value = p.materials || '';
+  document.getElementById('f-kw').value        = p.kw || '';
+  document.getElementById('f-qty').value       = p.qty || '';
+  document.getElementById('f-sp').value        = p.supplierPrice || '';
+  document.getElementById('f-hts').value       = p.hts || '';
+  document.getElementById('f-bt').value        = p.baseTariff || '';
+  document.getElementById('f-freight').value   = p.freight || '';
+
+  const sp = parseFloat(p.supplierPrice) || 0;
+  document.getElementById('f-roy').value = sp ? '$' + (sp * 0.15).toFixed(2) : '';
+
+  // Dynamic tariff rate fields
+  document.getElementById('tariff-fields').innerHTML = data.tariffs.map(t => `
+    <div class="field">
+      <label>${t.name} rate (%)</label>
+      <input id="ft-${t.id}" type="number" min="0" step="0.1" value="${(p.tariffRates||{})[t.id]||''}" placeholder="0.0">
+    </div>`).join('');
+
+  // Live royalty preview
+  document.getElementById('f-sp').oninput = function() {
+    const v = parseFloat(this.value) || 0;
+    document.getElementById('f-roy').value = v ? '$' + (v * 0.15).toFixed(2) : '';
+  };
+
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(() => document.getElementById('f-name').focus(), 50);
+}
+
+function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+
+function saveProduct() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('Product name is required.'); return; }
+
+  const tariffRates = {};
+  data.tariffs.forEach(t => {
+    const el = document.getElementById('ft-' + t.id);
+    if (el) tariffRates[t.id] = el.value;
+  });
+
+  const prod = {
+    name,
+    materials:     document.getElementById('f-materials').value.trim(),
+    kw:            document.getElementById('f-kw').value,
+    qty:           document.getElementById('f-qty').value,
+    supplierPrice: document.getElementById('f-sp').value,
+    hts:           document.getElementById('f-hts').value.trim(),
+    baseTariff:    document.getElementById('f-bt').value,
+    tariffRates,
+    freight:       document.getElementById('f-freight').value
+  };
+
+  if (editingId != null) { data.products[editingId] = prod; }
+  else { data.products.push(prod); }
+  save(data);
+  closeModal();
+  renderAll();
+}
+
+/* ---- Tariff manager ---- */
+function openTariffMgr() {
+  renderTariffList();
+  document.getElementById('tariffModal').classList.add('open');
+}
+function closeTariffMgr() {
+  document.getElementById('tariffModal').classList.remove('open');
+  renderAll();
+}
+function renderTariffList() {
+  document.getElementById('tariff-list').innerHTML = data.tariffs.map((t, i) => `
+    <div class="tariff-item">
+      <span class="tariff-name-text">${t.name}</span>
+      <button class="tariff-del" onclick="deleteTariff(${i})" title="Remove">×</button>
+    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3);">No tariff columns yet.</p>';
+}
+function deleteTariff(i) {
+  if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
+  if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
+  data.tariffs.splice(i, 1);
+  save(data);
+  renderTariffList();
+}
+function addTariff() {
+  const inp  = document.getElementById('new-tariff-name');
+  const name = inp.value.trim();
+  if (!name) return;
+  data.tariffs.push({ id: 't' + Date.now(), name, active: true });
+  inp.value = '';
+  save(data);
+  renderTariffList();
+}
+
+/* ---- CSV export ---- */
+function exportCSV() {
+  const active = data.tariffs.filter(t => t.active);
+  const headers = [
+    'Product', 'Materials', 'Knit/Woven', 'Qty Ordered', 'Supplier Price (USD)',
+    'HTSUS Code', 'Base Tariff %',
+    ...active.map(t => t.name + ' %'),
+    'Royalty (USD)', 'Freight (USD)', 'Landed Cost / Unit (USD)'
+  ];
+  const rows = data.products.map(p => {
+    const sp = parseFloat(p.supplierPrice) || 0;
+    return [
+      p.name, p.materials, p.kw, p.qty, p.supplierPrice,
+      p.hts, p.baseTariff,
+      ...active.map(t => ((p.tariffRates || {})[t.id] || '')),
+      (sp * 0.15).toFixed(2), p.freight, landedCost(p).toFixed(2)
+    ];
+  });
+  const csv = [headers, ...rows]
+    .map(r => r.map(c => `"${(c || '').toString().replace(/"/g, '""')}"`).join(','))
+    .join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'skhoop-landed-cost-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+/* ---- Close modals on backdrop click ---- */
+document.getElementById('addModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('tariffModal').addEventListener('click', function(e) {
+  if (e.target === this) closeTariffMgr();
+});
+
+/* ---- Init ---- */
+function renderAll() { renderStats(); renderToggles(); renderTable(); }
+renderAll();
+</script>
+</body>
+</html>
