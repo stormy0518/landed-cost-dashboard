@@ -268,6 +268,36 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
+<!-- ===== Season Style Edit Modal ===== -->
+<div class="modal" id="seasonStyleEditModal">
+  <div class="modal-box wide">
+    <h3 id="sse-title">Edit style</h3>
+    <div class="field">
+      <label>Freight per unit (USD)</label>
+      <input id="sse-freight" type="number" min="0" step="0.01" placeholder="0.00" style="max-width:160px">
+    </div>
+    <div class="section-label">Colorway pricing & quantities</div>
+    <div style="overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:4px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--surface2)">
+            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Color</th>
+            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Fabric</th>
+            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">PO Qty</th>
+            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier price</th>
+            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Royalty</th>
+          </tr>
+        </thead>
+        <tbody id="sse-cw-body"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeSeasonStyleEdit()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveSeasonStyleEdit()"><i class="ti ti-check"></i> Save changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== Tariff Manager Modal ===== -->
 <div class="modal" id="tariffModal">
   <div class="modal-box">
@@ -658,12 +688,12 @@ function renderSeasonView(seasonCode) {
         <td class="summary-num">${fmt(wRoy)}</td>
         <td class="summary-num">${fmt(freight)}</td>
         <td class="summary-lc">${fmt(wlc)}</td>
-        <td class="summary-num" style="cursor:pointer" onclick="openWSMSRPEdit('${seasonCode}',${si})" title="Click to edit">${ss.ws ? '$'+parseFloat(ss.ws).toFixed(2) : '<span style=\'color:var(--text-3)\'>—</span>'}</td>
-        <td class="${!isNaN(wlc) && ss.ws ? 'summary-lc' : 'muted'}">${(!isNaN(wlc) && ss.ws) ? (((parseFloat(ss.ws)-wlc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '—'}</td>
-        <td class="summary-num" style="cursor:pointer" onclick="openWSMSRPEdit('${seasonCode}',${si})" title="Click to edit">${ss.msrp ? '$'+parseFloat(ss.msrp).toFixed(2) : '<span style=\'color:var(--text-3)\'>—</span>'}</td>
-        <td class="${!isNaN(wlc) && ss.msrp ? 'summary-lc' : 'muted'}">${(!isNaN(wlc) && ss.msrp) ? (((parseFloat(ss.msrp)-wlc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : '—'}</td>
+        <td class="summary-num"><input type="number" min="0" step="0.01" value="${ss.ws||''}" placeholder="—" onchange="updateStyleField('${seasonCode}',${si},'ws',this.value)" style="min-width:65px;font-family:'DM Mono',monospace;font-size:12px"></td>
+        <td class="${!isNaN(wlc) && ss.ws ? 'summary-lc' : 'muted'}" id="wsmargin-${seasonCode}-${si}">${(!isNaN(wlc) && ss.ws && parseFloat(ss.ws)) ? (((parseFloat(ss.ws)-wlc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '—'}</td>
+        <td class="summary-num"><input type="number" min="0" step="0.01" value="${ss.msrp||''}" placeholder="—" onchange="updateStyleField('${seasonCode}',${si},'msrp',this.value)" style="min-width:65px;font-family:'DM Mono',monospace;font-size:12px"></td>
+        <td class="${!isNaN(wlc) && ss.msrp ? 'summary-lc' : 'muted'}" id="msrpmargin-${seasonCode}-${si}">${(!isNaN(wlc) && ss.msrp && parseFloat(ss.msrp)) ? (((parseFloat(ss.msrp)-wlc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : '—'}</td>
         <td><div style="display:flex;gap:4px">
-          <button class="icon-btn edit" onclick="openSeasonStyleFreightEdit('${seasonCode}',${si})" title="Edit freight"><i class="ti ti-edit" style="font-size:15px"></i></button>
+          <button class="icon-btn edit" onclick="openSeasonStyleEdit('${seasonCode}',${si})" title="Edit style details"><i class="ti ti-edit" style="font-size:15px"></i></button>
           <button class="icon-btn" onclick="removeSeasonStyle('${seasonCode}',${si})" title="Remove from season"><i class="ti ti-trash" style="font-size:15px"></i></button>
         </div></td>
       </tr>`;
@@ -956,34 +986,94 @@ function saveCwEdit() {
 }
 
 // ─────────────────────────────────────────────
-// SEASON STYLE WS / MSRP EDIT
+// INLINE STYLE FIELD UPDATE
 // ─────────────────────────────────────────────
-function openWSMSRPEdit(seasonCode, si) {
+function updateStyleField(seasonCode, si, field, val) {
   const season = getSeason(seasonCode);
+  season.styles[si][field] = val;
+  saveData();
+  // Recalculate margins without full re-render
   const ss = season.styles[si];
   const ms = getMasterStyle(ss.masterStyleId);
-  const ws = prompt('Wholesale price (WS$) for ' + ms.name + ':', ss.ws || '');
-  if (ws === null) return;
-  ss.ws = ws;
-  const msrp = prompt('MSRP for ' + ms.name + ':', ss.msrp || '');
-  if (msrp === null) { saveData(); renderSeasonView(seasonCode); return; }
-  ss.msrp = msrp;
-  saveData();
-  renderSeasonView(seasonCode);
+  const wlc = styleWeightedLC(ss, ms, seasonCode);
+  const wsEl = document.getElementById('wsmargin-' + seasonCode + '-' + si);
+  const msrpEl = document.getElementById('msrpmargin-' + seasonCode + '-' + si);
+  if (wsEl) {
+    const wsV = parseFloat(ss.ws);
+    wsEl.textContent = (!isNaN(wlc) && wsV) ? (((wsV - wlc) / wsV * 100).toFixed(1) + '%') : '—';
+    wsEl.className = (!isNaN(wlc) && wsV) ? 'summary-lc' : 'muted';
+  }
+  if (msrpEl) {
+    const msrpV = parseFloat(ss.msrp);
+    msrpEl.textContent = (!isNaN(wlc) && msrpV) ? (((msrpV - wlc) / msrpV * 100).toFixed(1) + '%') : '—';
+    msrpEl.className = (!isNaN(wlc) && msrpV) ? 'summary-lc' : 'muted';
+  }
+  renderStats && renderSeasonStats(seasonCode);
 }
 
 // ─────────────────────────────────────────────
-// SEASON STYLE FREIGHT EDIT
+// SEASON STYLE EDIT MODAL
 // ─────────────────────────────────────────────
-function openSeasonStyleFreightEdit(seasonCode, si) {
+let seasonStyleEditCtx = null;
+
+function openSeasonStyleEdit(seasonCode, si) {
+  seasonStyleEditCtx = { seasonCode, si };
   const season = getSeason(seasonCode);
   const ss = season.styles[si];
   const ms = getMasterStyle(ss.masterStyleId);
-  const val = prompt('Freight per unit (USD) for ' + ms.name + ':', ss.freight || '');
-  if (val === null) return;
-  ss.freight = val;
+
+  // Build modal content dynamically
+  const modal = document.getElementById('seasonStyleEditModal');
+  document.getElementById('sse-title').textContent = 'Edit ' + ms.name + ' — ' + seasonCode;
+  document.getElementById('sse-freight').value = ss.freight || '';
+
+  // Colorway rows
+  const cwBody = document.getElementById('sse-cw-body');
+  cwBody.innerHTML = (ss.colorways || []).map((cw, ci) => {
+    const mc = (ms.colorways || []).find(x => x.id === cw.masterColorwayId) || {};
+    const sp = parseFloat(cw.supplierPrice) || 0;
+    const roy = sp ? '$' + (sp * 0.15).toFixed(2) : '—';
+    return `<tr>
+      <td style="font-size:13px;padding:8px 10px">${esc(mc.color || '—')}</td>
+      <td style="font-size:12px;color:var(--text-2);padding:8px 10px">${esc(mc.fabricType || '—')}</td>
+      <td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-${ci}" value="${cw.qty||''}" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>
+      <td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-${ci}" value="${cw.supplierPrice||''}" placeholder="0.00" oninput="updateSseRoy(${ci})" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>
+      <td style="padding:8px 10px;font-size:12px;color:var(--text-3);font-family:'DM Mono',monospace" id="sse-roy-${ci}">${roy}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="5" style="padding:12px;color:var(--text-3);font-size:13px">No colorways in this season.</td></tr>';
+
+  modal.classList.add('open');
+  setTimeout(() => document.getElementById('sse-freight').focus(), 50);
+}
+
+function updateSseRoy(ci) {
+  const sp = parseFloat(document.getElementById('sse-sp-' + ci)?.value) || 0;
+  const el = document.getElementById('sse-roy-' + ci);
+  if (el) el.textContent = sp ? '$' + (sp * 0.15).toFixed(2) : '—';
+}
+
+function closeSeasonStyleEdit() {
+  document.getElementById('seasonStyleEditModal').classList.remove('open');
+}
+
+function saveSeasonStyleEdit() {
+  const { seasonCode, si } = seasonStyleEditCtx;
+  const season = getSeason(seasonCode);
+  const ss = season.styles[si];
+  ss.freight = document.getElementById('sse-freight').value;
+  ss.colorways.forEach((cw, ci) => {
+    const qtyEl = document.getElementById('sse-qty-' + ci);
+    const spEl  = document.getElementById('sse-sp-' + ci);
+    if (qtyEl) cw.qty = qtyEl.value;
+    if (spEl)  cw.supplierPrice = spEl.value;
+  });
   saveData();
+  closeSeasonStyleEdit();
   renderSeasonView(seasonCode);
+}
+
+function openSeasonStyleFreightEdit(seasonCode, si) {
+  openSeasonStyleEdit(seasonCode, si);
 }
 
 function removeSeasonStyle(seasonCode, si) {
@@ -1129,7 +1219,7 @@ function downloadCSV(filename, headers, rows) {
 // ─────────────────────────────────────────────
 // BACKDROP CLOSE
 // ─────────────────────────────────────────────
-['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal'].forEach(id => {
+['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal','seasonStyleEditModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('open');
   });
