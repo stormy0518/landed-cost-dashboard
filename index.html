@@ -217,6 +217,10 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
     </div>
     <div id="ss-style-info" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text-2)"></div>
     <div class="field"><label>Freight per unit (USD)</label><input id="ss-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    <div class="field-row">
+      <div class="field"><label>Wholesale price / WS$ (USD)</label><input id="ss-ws" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="field"><label>MSRP (USD)</label><input id="ss-msrp" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    </div>
 
     <div class="section-label">Colorways to include</div>
     <div id="ss-cw-picker" style="color:var(--text-3);font-size:13px">Select a style above to choose colorways.</div>
@@ -579,7 +583,7 @@ function renderSeasonView(seasonCode) {
     <th>Style / Color</th><th>Fabric type</th><th>Knit/Woven</th><th>Qty</th>
     <th>Supplier price</th><th>HTSUS</th><th>Base tariff %</th>
     ${data.tariffs.map(t => `<th>${t.name}</th>`).join('')}
-    <th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th><th></th>
+    <th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th><th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>
   </tr></thead><tbody>`;
 
   if (!season.styles.length) {
@@ -654,6 +658,10 @@ function renderSeasonView(seasonCode) {
         <td class="summary-num">${fmt(wRoy)}</td>
         <td class="summary-num">${fmt(freight)}</td>
         <td class="summary-lc">${fmt(wlc)}</td>
+        <td class="summary-num" style="cursor:pointer" onclick="openWSMSRPEdit('${seasonCode}',${si})" title="Click to edit">${ss.ws ? '$'+parseFloat(ss.ws).toFixed(2) : '<span style=\'color:var(--text-3)\'>—</span>'}</td>
+        <td class="${!isNaN(wlc) && ss.ws ? 'summary-lc' : 'muted'}">${(!isNaN(wlc) && ss.ws) ? (((parseFloat(ss.ws)-wlc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '—'}</td>
+        <td class="summary-num" style="cursor:pointer" onclick="openWSMSRPEdit('${seasonCode}',${si})" title="Click to edit">${ss.msrp ? '$'+parseFloat(ss.msrp).toFixed(2) : '<span style=\'color:var(--text-3)\'>—</span>'}</td>
+        <td class="${!isNaN(wlc) && ss.msrp ? 'summary-lc' : 'muted'}">${(!isNaN(wlc) && ss.msrp) ? (((parseFloat(ss.msrp)-wlc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : '—'}</td>
         <td><div style="display:flex;gap:4px">
           <button class="icon-btn edit" onclick="openSeasonStyleFreightEdit('${seasonCode}',${si})" title="Edit freight"><i class="ti ti-edit" style="font-size:15px"></i></button>
           <button class="icon-btn" onclick="removeSeasonStyle('${seasonCode}',${si})" title="Remove from season"><i class="ti ti-trash" style="font-size:15px"></i></button>
@@ -687,6 +695,7 @@ function renderSeasonView(seasonCode) {
           <td class="roy">${fmt(roy)}</td>
           <td class="mono">${fmt(freight)}</td>
           <td class="lc">${fmt(lc)}</td>
+          <td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td>
           <td><button class="icon-btn edit" onclick="openCwEditModal('${seasonCode}',${si},${ci})" title="Edit qty & price"><i class="ti ti-edit" style="font-size:15px"></i></button></td>
         </tr>`;
       });
@@ -834,6 +843,8 @@ function openSeasonStyleModal(seasonCode) {
       `<option value="${s.id}">${esc(s.name)}</option>`
     ).join('');
   document.getElementById('ss-freight').value = '';
+  document.getElementById('ss-ws').value = '';
+  document.getElementById('ss-msrp').value = '';
   document.getElementById('ss-style-info').style.display = 'none';
   document.getElementById('ss-cw-picker').innerHTML = '<span style="color:var(--text-3);font-size:13px">Select a style above to choose colorways.</span>';
   document.getElementById('seasonStyleModal').classList.add('open');
@@ -893,6 +904,8 @@ function saveSeasonStyle() {
   season.styles.push({
     masterStyleId: styleId,
     freight: document.getElementById('ss-freight').value,
+    ws: document.getElementById('ss-ws').value,
+    msrp: document.getElementById('ss-msrp').value,
     tariffOverrides,
     colorways
   });
@@ -939,6 +952,23 @@ function saveCwEdit() {
   cw.supplierPrice = document.getElementById('cwe-sp').value;
   saveData();
   closeCwEditModal();
+  renderSeasonView(seasonCode);
+}
+
+// ─────────────────────────────────────────────
+// SEASON STYLE WS / MSRP EDIT
+// ─────────────────────────────────────────────
+function openWSMSRPEdit(seasonCode, si) {
+  const season = getSeason(seasonCode);
+  const ss = season.styles[si];
+  const ms = getMasterStyle(ss.masterStyleId);
+  const ws = prompt('Wholesale price (WS$) for ' + ms.name + ':', ss.ws || '');
+  if (ws === null) return;
+  ss.ws = ws;
+  const msrp = prompt('MSRP for ' + ms.name + ':', ss.msrp || '');
+  if (msrp === null) { saveData(); renderSeasonView(seasonCode); return; }
+  ss.msrp = msrp;
+  saveData();
   renderSeasonView(seasonCode);
 }
 
@@ -1078,7 +1108,9 @@ function exportCSV() {
           ms.hts, ms.baseTariff, (sp*((parseFloat(ms.baseTariff)||0)/100)).toFixed(2),
           ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (season.tariffRates[t.id]||'') : 'OFF'),
           ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (sp*(getSeasonTariffRate(currentTab,t.id)/100)).toFixed(2) : '0.00'),
-          (sp*0.15).toFixed(2), ss.freight, lc.toFixed(2), (lc*qty).toFixed(2)
+          (sp*0.15).toFixed(2), ss.freight, lc.toFixed(2), (lc*qty).toFixed(2),
+          ss.ws || '', ss.ws ? (((parseFloat(ss.ws)-lc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '',
+          ss.msrp || '', ss.msrp ? (((parseFloat(ss.msrp)-lc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : ''
         ]);
       });
     });
