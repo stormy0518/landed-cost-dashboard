@@ -9,119 +9,152 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #f7f6f3;
-    --surface: #ffffff;
-    --surface2: #f0eeea;
-    --surface3: #e8e5df;
-    --border: rgba(0,0,0,0.09);
-    --border-md: rgba(0,0,0,0.16);
-    --text: #1a1917;
-    --text-2: #6b6860;
-    --text-3: #9e9b95;
-    --accent: #1a1917;
-    --accent-fg: #ffffff;
-    --green: #1a6b4a;
-    --green-bg: #e8f5ee;
-    --green-text: #0f4a33;
-    --blue-bg: #e8eef8;
-    --blue-text: #1a3f7a;
-    --radius: 8px;
-    --radius-lg: 12px;
-  }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
-  .page { max-width: 1600px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f6f3; --surface: #ffffff; --surface2: #f0eeea; --surface3: #e8e5df;
+  --border: rgba(0,0,0,0.09); --border-md: rgba(0,0,0,0.16);
+  --text: #1a1917; --text-2: #6b6860; --text-3: #9e9b95;
+  --accent: #1a1917; --accent-fg: #ffffff;
+  --green: #1a6b4a; --green-bg: #e8f5ee;
+  --radius: 8px; --radius-lg: 12px;
+}
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+.page { max-width: 1600px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-  /* Header */
-  header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-  .brand-name { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
-  .brand-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
-  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+/* Header */
+header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.brand-name { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+.brand-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-  /* Buttons */
-  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-md); background: var(--surface); color: var(--text); cursor: pointer; white-space: nowrap; transition: background 0.15s; }
-  .btn:hover { background: var(--surface2); }
-  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-  .btn.primary:hover { opacity: 0.88; }
-  .btn.danger { color: #a32d2d; border-color: #f09595; }
-  .btn.danger:hover { background: #fcebeb; }
-  .btn i { font-size: 15px; }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-md); background: var(--surface); color: var(--text); cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+.btn:hover { background: var(--surface2); }
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.primary:hover { opacity: 0.88; }
+.btn.sm { font-size: 12px; padding: 4px 10px; }
+.btn i { font-size: 15px; }
 
-  /* Stats */
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
-  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
-  .stat-label { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .stat-val { font-size: 22px; font-weight: 500; color: var(--text); }
+/* Tabs */
+.tabs-bar { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--border-md); margin-bottom: 1.5rem; flex-wrap: wrap; }
+.tab { font-size: 13px; font-weight: 500; padding: 8px 18px; border: none; background: none; color: var(--text-2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s, border-color 0.15s; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.tab.master { font-style: italic; }
+.tab-add { font-size: 12px; padding: 8px 12px; border: none; background: none; color: var(--text-3); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; margin-bottom: -1px; }
+.tab-add:hover { color: var(--text); }
 
-  /* Controls */
-  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-  .controls-label { font-size: 12px; color: var(--text-2); font-weight: 500; }
-  .toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-  .toggle:hover { border-color: var(--accent); color: var(--text); }
-  .toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
+.stat-label { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+.stat-val { font-size: 22px; font-weight: 500; }
 
-  /* Table */
-  .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead { position: sticky; top: 0; z-index: 2; }
-  th { background: var(--surface2); color: var(--text-2); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
-  td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
+/* Season tariff bar */
+.season-tariff-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.season-tariff-bar-label { font-size: 12px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
+.tariff-rate-item { display: flex; align-items: center; gap: 6px; }
+.tariff-rate-item label { font-size: 12px; color: var(--text-2); white-space: nowrap; }
+.tariff-rate-item input { width: 70px; font-size: 13px; font-family: 'DM Mono', monospace; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 4px 8px; background: var(--surface); color: var(--text); outline: none; }
+.tariff-rate-item input:focus { border-color: var(--accent); }
+.tariff-rate-item span { font-size: 12px; color: var(--text-3); }
+.season-tariff-divider { width: 1px; height: 24px; background: var(--border-md); }
 
-  /* Style summary rows */
-  tr.style-row td { background: var(--surface2); font-weight: 500; border-bottom: 1px solid var(--border-md); }
-  tr.style-row:hover td { background: var(--surface3); }
-  tr.style-row td.style-name { font-size: 13px; font-weight: 500; }
-  .style-toggle { background: none; border: none; cursor: pointer; color: var(--text-2); margin-right: 6px; display: inline-flex; align-items: center; padding: 0; font-size: 14px; vertical-align: middle; transition: transform 0.15s; }
-  .style-toggle.open { transform: rotate(90deg); }
-  .add-colorway-btn { font-size: 11px; padding: 3px 8px; margin-left: 8px; }
+/* Controls */
+.controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; justify-content: space-between; }
+.controls-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.controls-label { font-size: 12px; color: var(--text-2); font-weight: 500; }
+.toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.toggle:hover { border-color: var(--accent); color: var(--text); }
+.toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  /* Colorway rows */
-  tr.colorway-row td { background: var(--surface); padding-left: 16px; }
-  tr.colorway-row:hover td { background: #faf9f7; }
-  tr.colorway-row td:first-child { padding-left: 36px; }
-  tr.colorway-row.hidden { display: none; }
+/* Table */
+.tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { position: sticky; top: 0; z-index: 2; }
+th { background: var(--surface2); color: var(--text-2); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
+td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr.style-row td { background: var(--surface2); font-weight: 500; border-bottom: 1px solid var(--border-md); }
+tr.style-row:hover td { background: var(--surface3); }
+tr.colorway-row td { background: var(--surface); }
+tr.colorway-row:hover td { background: #faf9f7; }
+tr.colorway-row.hidden { display: none; }
+tr.colorway-row td:first-child { padding-left: 36px; }
+.style-toggle { background: none; border: none; cursor: pointer; color: var(--text-2); margin-right: 4px; display: inline-flex; align-items: center; padding: 0; font-size: 14px; vertical-align: middle; transition: transform 0.15s; }
+.style-toggle.open { transform: rotate(90deg); }
+td input, td select { width: 100%; min-width: 60px; font-size: 13px; background: transparent; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; padding: 1px 0; outline: none; }
+td input:focus, td select:focus { border-bottom: 1px solid var(--border-md); }
+td input[type=number] { font-family: 'DM Mono', monospace; }
+td.mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+td.lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
+td.summary-lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); }
+td.summary-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-2); }
+td.muted { color: var(--text-3); font-size: 12px; }
+td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
+.icon-btn { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 3px 5px; border-radius: 4px; display: inline-flex; align-items: center; }
+.icon-btn:hover { color: #a32d2d; background: #fcebeb; }
+.icon-btn.edit:hover { color: var(--accent); background: var(--surface2); }
+.empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
 
-  /* Summary cells */
-  td.mono { font-family: 'DM Mono', monospace; font-size: 12px; }
-  td.lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
-  td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
-  td.summary-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-2); }
-  td.summary-lc { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); }
-  td.empty-cell { color: var(--text-3); font-size: 12px; }
+/* Tariff toggle pill per style in season */
+.tariff-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border-md); cursor: pointer; user-select: none; margin: 1px; white-space: nowrap; transition: all 0.15s; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.tariff-pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tariff-pill.off { background: var(--surface); color: var(--text-3); border-color: var(--border-md); text-decoration: line-through; }
 
-  td input, td select { width: 100%; min-width: 70px; font-size: 13px; background: transparent; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; padding: 1px 0; outline: none; }
-  td input:focus, td select:focus { border-bottom: 1px solid var(--border-md); }
-  td input[type=number] { min-width: 55px; font-family: 'DM Mono', monospace; }
+/* Master table extras */
+.cw-chip { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 8px; margin: 1px; color: var(--text-2); }
 
-  .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 3px 5px; border-radius: 4px; display: inline-flex; align-items: center; }
-  .icon-btn:hover { color: #a32d2d; background: #fcebeb; }
-  .empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
+/* Modal */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+.modal.open { display: flex; }
+.modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 460px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-box.wide { width: 560px; }
+.modal-box h3 { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
+.field input, .field select { width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 7px 10px; background: var(--surface); color: var(--text); outline: none; }
+.field input:focus, .field select:focus { border-color: var(--accent); }
+.field input:disabled { background: var(--surface2); color: var(--text-3); }
+.field .hint { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+.section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin: 16px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
-  /* Modal */
-  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
-  .modal.open { display: flex; }
-  .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 420px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
-  .modal-box h3 { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
-  .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
-  .field input, .field select { width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 7px 10px; background: var(--surface); color: var(--text); outline: none; }
-  .field input:focus, .field select:focus { border-color: var(--accent); }
-  .field input:disabled { background: var(--surface2); color: var(--text-3); }
-  .field .hint { font-size: 11px; color: var(--text-3); margin-top: 3px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
-  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin: 16px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+/* Colorway picker */
+.cw-pick-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; max-height: 200px; overflow-y: auto; }
+.cw-pick-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: background 0.1s; }
+.cw-pick-item:hover { background: var(--surface2); }
+.cw-pick-item.selected { border-color: var(--accent); background: var(--surface2); }
+.cw-pick-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
+.cw-pick-label { font-size: 13px; flex: 1; }
+.cw-pick-sub { font-size: 11px; color: var(--text-3); }
 
-  /* Tariff manager */
-  .tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .tariff-item:last-child { border-bottom: none; }
-  .tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 18px; line-height: 1; padding: 0 4px; }
-  .tariff-del:hover { color: #a32d2d; }
-  .add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
-  .add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
+/* Tariff manager */
+.tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.tariff-item:last-child { border-bottom: none; }
+.tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 15px; padding: 2px 4px; display: inline-flex; align-items: center; }
+.tariff-del:hover { color: #a32d2d; }
+.add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
+.add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
+
+/* Freight calc */
+.calc-result { background: var(--surface2); border-radius: var(--radius); padding: 14px 16px; margin: 4px 0 16px; }
+.calc-result-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
+.calc-result-val { font-size: 28px; font-weight: 500; font-family: 'DM Mono', monospace; }
+.calc-result-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+/* Season tab context menu */
+.tab-ctx { position: relative; display: inline-flex; }
+.tab-ctx-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--surface); border: 1px solid var(--border-md); border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; min-width: 140px; padding: 4px 0; }
+.tab-ctx-menu.open { display: block; }
+.tab-ctx-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer; color: var(--text); }
+.tab-ctx-item:hover { background: var(--surface2); }
+.tab-ctx-item.danger { color: #a32d2d; }
+.tab-ctx-item.danger:hover { background: #fcebeb; }
+
+.add-style-season-btn { font-size: 12px; }
 </style>
 </head>
 <body>
@@ -136,450 +169,868 @@
       <button class="btn" onclick="openFreightCalc()"><i class="ti ti-calculator"></i> Freight Calculator</button>
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
-      <button class="btn primary" onclick="openStyleModal()"><i class="ti ti-plus"></i> Add Style</button>
+      <div id="header-primary-btn"></div>
     </div>
   </header>
 
-  <div class="stats" id="stats"></div>
+  <div class="tabs-bar" id="tabs-bar"></div>
 
-  <div class="controls">
-    <span class="controls-label">Tariff columns:</span>
-    <div class="toggle-group" id="toggles"></div>
-  </div>
-
-  <div class="tbl-wrap">
-    <table>
-      <thead id="thead"></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
+  <div id="main-content"></div>
 
 </div>
 
-<!-- Add Style Modal -->
-<div class="modal" id="styleModal">
+<!-- ===== MASTER: Add/Edit Style Modal ===== -->
+<div class="modal" id="masterStyleModal">
   <div class="modal-box">
-    <h3 id="styleModalTitle">Add style</h3>
-    <div class="field"><label>Style name</label><input id="s-name" type="text" placeholder="e.g. Alpine Pant"></div>
-    <div class="field"><label>Materials</label><input id="s-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
-    <div class="field"><label>HTSUS code</label><input id="s-hts" type="text" placeholder="e.g. 6104.63.2010"></div>
+    <h3 id="msModalTitle">Add style to library</h3>
+    <div class="field"><label>Style name</label><input id="ms-name" type="text" placeholder="e.g. Alpine Pant"></div>
+    <div class="field"><label>Materials</label><input id="ms-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
     <div class="field-row">
+      <div class="field"><label>Fabric type</label><input id="ms-fabric" type="text" placeholder="e.g. Ripstop, Fleece"></div>
       <div class="field"><label>Knit / Woven</label>
-        <select id="s-kw"><option value="">—</option><option>Knit</option><option>Woven</option></select>
+        <select id="ms-kw"><option value="">—</option><option>Knit</option><option>Woven</option></select>
       </div>
-      <div class="field"><label>Base tariff rate (%)</label><input id="s-bt" type="number" min="0" step="0.1" placeholder="0.0"></div>
     </div>
-    <div id="s-tariff-fields"></div>
-    <div class="field"><label>Freight per unit (USD)</label><input id="s-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    <div class="field-row">
+      <div class="field"><label>HTSUS code</label><input id="ms-hts" type="text" placeholder="e.g. 6104.63.2010"></div>
+      <div class="field"><label>Base tariff rate (%)</label><input id="ms-bt" type="number" min="0" step="0.1" placeholder="0.0"></div>
+    </div>
+    <div class="section-label">Colorways</div>
+    <div id="ms-cw-list"></div>
+    <button class="btn sm" style="margin-top:6px" onclick="addMasterColorwayField()"><i class="ti ti-plus"></i> Add colorway</button>
     <div class="modal-actions">
-      <button class="btn" onclick="closeStyleModal()">Cancel</button>
-      <button class="btn primary" id="styleModalSave" onclick="saveStyle()">Add style</button>
+      <button class="btn" onclick="closeMasterStyleModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" id="msModalSave" onclick="saveMasterStyle()"><i class="ti ti-check"></i> Save style</button>
     </div>
   </div>
 </div>
 
-<!-- Add / Edit Colorway Modal -->
-<div class="modal" id="colorwayModal">
+<!-- ===== SEASON: Add Style Modal ===== -->
+<div class="modal" id="seasonStyleModal">
+  <div class="modal-box wide">
+    <h3 id="ssModalTitle">Add style to season</h3>
+    <div class="field">
+      <label>Style</label>
+      <select id="ss-style" onchange="populateColorwayPicker()">
+        <option value="">— select from master library —</option>
+      </select>
+    </div>
+    <div id="ss-style-info" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text-2)"></div>
+    <div class="field"><label>Freight per unit (USD)</label><input id="ss-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+
+    <div class="section-label">Colorways to include</div>
+    <div id="ss-cw-picker" style="color:var(--text-3);font-size:13px">Select a style above to choose colorways.</div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeSeasonStyleModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveSeasonStyle()"><i class="ti ti-check"></i> Add to season</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEASON: Edit Colorway Modal ===== -->
+<div class="modal" id="cwEditModal">
   <div class="modal-box">
-    <h3 id="cwModalTitle">Add colorway</h3>
-    <div class="field"><label>Color name</label><input id="cw-color" type="text" placeholder="e.g. Black, Cobalt Blue"></div>
-    <div class="field"><label>Fabric type</label><input id="cw-fabric" type="text" placeholder="e.g. Ripstop, Fleece, Jersey"></div>
+    <h3 id="cwEditTitle">Edit colorway</h3>
+    <div style="background:var(--surface2);border-radius:var(--radius);padding:8px 12px;margin-bottom:14px;font-size:12px;color:var(--text-2)" id="cw-edit-info"></div>
     <div class="field-row">
-      <div class="field"><label>Qty ordered</label><input id="cw-qty" type="number" min="0" placeholder="0"></div>
-      <div class="field"><label>Supplier price (USD)</label><input id="cw-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="field"><label>PO Qty</label><input id="cwe-qty" type="number" min="0" placeholder="0"></div>
+      <div class="field"><label>Supplier price (USD)</label><input id="cwe-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
     </div>
     <div class="field">
       <label>Royalty (15% of supplier price)</label>
-      <input id="cw-roy" type="text" disabled placeholder="auto-calculated">
-      <div class="hint">Auto-calculated from supplier price.</div>
+      <input id="cwe-roy" type="text" disabled placeholder="auto-calculated">
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeColorwayModal()">Cancel</button>
-      <button class="btn primary" id="cwSaveBtn" onclick="saveColorway()">Add colorway</button>
+      <button class="btn" onclick="closeCwEditModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveCwEdit()"><i class="ti ti-check"></i> Save</button>
     </div>
   </div>
 </div>
 
-<!-- Freight Calculator Modal -->
-<div class="modal" id="freightModal">
+<!-- ===== Add Season Modal ===== -->
+<div class="modal" id="addSeasonModal">
   <div class="modal-box">
-    <h3>Freight calculator</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Enter your total shipment freight cost and total units in that shipment. Include all charges — ocean/air, destination fees, brokerage, drayage, and inland trucking.</p>
-    <div class="field"><label>Total freight cost (USD)</label><input id="fc-total" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcFreight()"></div>
-    <div class="field"><label>Total units in shipment</label><input id="fc-units" type="number" min="0" placeholder="0" oninput="calcFreight()"></div>
-    <div style="background:var(--surface2);border-radius:var(--radius);padding:14px 16px;margin-top:4px;margin-bottom:16px">
-      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:6px">Freight per unit</div>
-      <div id="fc-result" style="font-size:28px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text)">—</div>
-      <div style="font-size:11px;color:var(--text-3);margin-top:4px">Enter this number in the Freight field for each style in this shipment.</div>
+    <h3>Add season</h3>
+    <div class="field">
+      <label>Season code</label>
+      <input id="as-code" type="text" placeholder="e.g. FW26, SS27" maxlength="6">
+      <div class="hint">Format: FW or SS followed by 2-digit year.</div>
     </div>
     <div class="modal-actions">
-      <button class="btn primary" onclick="closeFreightCalc()">Done</button>
+      <button class="btn" onclick="closeAddSeasonModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveNewSeason()"><i class="ti ti-check"></i> Add season</button>
     </div>
   </div>
 </div>
 
-<!-- Tariff Manager Modal -->
+<!-- ===== Tariff Manager Modal ===== -->
 <div class="modal" id="tariffModal">
   <div class="modal-box">
     <h3>Manage tariff columns</h3>
-
-    <div class="section-label">Global rates</div>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Set a rate and apply it to all styles at once. This overwrites any individual rates already entered.</p>
-    <div id="tariff-rate-fields"></div>
-    <div style="margin-top:4px;margin-bottom:20px">
-      <button class="btn primary" onclick="applyGlobalRates()"><i class="ti ti-check"></i> Apply rates to all styles</button>
-    </div>
-
-    <div class="section-label">Add / remove columns</div>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">These are the additional tariff columns available across all seasons. Rates are set per season in the season view.</p>
     <div id="tariff-list"></div>
     <div class="add-tariff-row">
       <input id="new-tariff-name" type="text" placeholder="New tariff name (e.g. Section 232)">
       <button class="btn" onclick="addTariff()"><i class="ti ti-plus"></i> Add</button>
     </div>
-
     <div class="modal-actions">
-      <button class="btn primary" onclick="closeTariffMgr()">Done</button>
+      <button class="btn primary" onclick="closeTariffMgr()"><i class="ti ti-check"></i> Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Freight Calculator Modal ===== -->
+<div class="modal" id="freightModal">
+  <div class="modal-box">
+    <h3>Freight calculator</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Include all charges — ocean/air freight, destination fees, brokerage, drayage, and inland trucking.</p>
+    <div class="field"><label>Total freight cost (USD)</label><input id="fc-total" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcFreight()"></div>
+    <div class="field"><label>Total units in shipment</label><input id="fc-units" type="number" min="0" placeholder="0" oninput="calcFreight()"></div>
+    <div class="calc-result">
+      <div class="calc-result-label">Freight per unit</div>
+      <div class="calc-result-val" id="fc-result">—</div>
+      <div class="calc-result-hint">Enter this in the Freight field for each style in this shipment.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="closeFreightCalc()"><i class="ti ti-check"></i> Done</button>
     </div>
   </div>
 </div>
 
 <script>
-const STORE_KEY = 'skhoop_v3';
-let editingStyleId   = null;
-let editingColorway  = null; // { styleId, colorwayIdx }
-let addingColorwayTo = null; // styleId
+// ─────────────────────────────────────────────
+// DATA & PERSISTENCE
+// ─────────────────────────────────────────────
+const STORE_KEY = 'skhoop_v4';
 
-function load() {
-  try { const r = localStorage.getItem(STORE_KEY); if (r) return JSON.parse(r); } catch(e) {}
+function defaultData() {
   return {
-    styles: [],
+    master: [],   // array of style objects
+    seasons: [
+      { code: 'FW26', tariffRates: {}, styles: [] },
+      { code: 'SS27', tariffRates: {}, styles: [] }
+    ],
     tariffs: [
-      { id: 's301', name: 'Section 301', active: true },
-      { id: 's122', name: 'Section 122', active: true }
+      { id: 's301', name: 'Section 301' },
+      { id: 's122', name: 'Section 122' }
     ]
   };
 }
-function save() { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
-let data = load();
 
-// Track which styles are expanded
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) return JSON.parse(raw);
+    // Migrate from v3
+    const v3raw = localStorage.getItem('skhoop_v3');
+    if (v3raw) return migrateV3(JSON.parse(v3raw));
+  } catch(e) {}
+  return defaultData();
+}
+
+function migrateV3(v3) {
+  const d = defaultData();
+  // Build master library from v3 styles
+  (v3.styles || []).forEach(s => {
+    const masterStyle = {
+      id: uid(),
+      name: s.name || '',
+      materials: s.materials || '',
+      fabricType: '',
+      kw: s.kw || '',
+      hts: s.hts || '',
+      baseTariff: s.baseTariff || '',
+      colorways: (s.colorways || []).map(c => ({
+        id: uid(),
+        color: c.color || '',
+        fabricType: c.fabricType || ''
+      }))
+    };
+    d.master.push(masterStyle);
+
+    // Add to FW26 season
+    const seasonStyle = {
+      masterStyleId: masterStyle.id,
+      freight: s.freight || '',
+      tariffOverrides: {},  // all on by default
+      colorways: masterStyle.colorways.map((mc, i) => {
+        const orig = (s.colorways || [])[i] || {};
+        return {
+          masterColorwayId: mc.id,
+          qty: orig.qty || '',
+          supplierPrice: orig.supplierPrice || ''
+        };
+      })
+    };
+    // Set tariff overrides from v3 tariff rates
+    d.tariffs.forEach(t => { seasonStyle.tariffOverrides[t.id] = true; });
+    d.seasons[0].styles.push(seasonStyle);
+  });
+
+  // Migrate tariff rates to FW26
+  (v3.tariffs || []).forEach(vt => {
+    const match = d.tariffs.find(t => t.id === vt.id);
+    if (match && vt.globalRate) {
+      d.seasons[0].tariffRates[match.id] = vt.globalRate;
+    }
+  });
+
+  return d;
+}
+
+function uid() { return 't' + Math.random().toString(36).slice(2, 10); }
+function saveData() { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+
+let data = loadData();
+let currentTab = 'master';
 const expanded = {};
+let editingMasterStyleId = null;
+let editingSeasonStyle = null;  // { seasonCode, styleIdx }
+let cwEditContext = null;       // { seasonCode, styleIdx, cwIdx }
+let masterCwFieldCount = 0;
 
-/* ---- Calculations ---- */
-function colorwayLC(cw, style) {
+// ─────────────────────────────────────────────
+// LOOKUPS
+// ─────────────────────────────────────────────
+function getMasterStyle(id) { return data.master.find(s => s.id === id); }
+function getSeason(code) { return data.seasons.find(s => s.code === code); }
+
+function getSeasonTariffRate(seasonCode, tariffId) {
+  const s = getSeason(seasonCode);
+  return s ? (parseFloat(s.tariffRates[tariffId]) || 0) : 0;
+}
+
+function isTariffActive(seasonStyle, tariffId) {
+  // Default on; only off if explicitly set to false
+  if (!seasonStyle.tariffOverrides) return true;
+  if (seasonStyle.tariffOverrides[tariffId] === false) return false;
+  return true;
+}
+
+// ─────────────────────────────────────────────
+// CALCULATIONS
+// ─────────────────────────────────────────────
+function colorwayLC(cw, seasonStyle, masterStyle, seasonCode) {
   const sp      = parseFloat(cw.supplierPrice) || 0;
-  const bt      = (parseFloat(style.baseTariff) || 0) / 100;
+  const bt      = (parseFloat(masterStyle.baseTariff) || 0) / 100;
   const roy     = 0.15;
-  const freight = parseFloat(style.freight) || 0;
+  const freight = parseFloat(seasonStyle.freight) || 0;
   let addT = 0;
   data.tariffs.forEach(t => {
-    if (t.active) addT += (parseFloat((style.tariffRates || {})[t.id]) || 0) / 100;
+    if (isTariffActive(seasonStyle, t.id)) {
+      addT += getSeasonTariffRate(seasonCode, t.id) / 100;
+    }
   });
   return sp * (1 + bt + addT + roy) + freight;
 }
 
-function styleWeightedLC(style) {
-  const cws = style.colorways || [];
+function styleWeightedLC(seasonStyle, masterStyle, seasonCode) {
+  const cws = seasonStyle.colorways || [];
   const totalQty = cws.reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
   if (!totalQty) return NaN;
-  const weighted = cws.reduce((a, c) => a + colorwayLC(c, style) * (parseFloat(c.qty) || 0), 0);
-  return weighted / totalQty;
+  return cws.reduce((a, c) => a + colorwayLC(c, seasonStyle, masterStyle, seasonCode) * (parseFloat(c.qty) || 0), 0) / totalQty;
 }
 
-function styleTotalUnits(style) {
-  return (style.colorways || []).reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+function styleTotalUnits(seasonStyle) {
+  return (seasonStyle.colorways || []).reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
 }
 
-function styleTotalLandedValue(style) {
-  return (style.colorways || []).reduce((a, c) => a + colorwayLC(c, style) * (parseFloat(c.qty) || 0), 0);
-}
-
-// Per-unit tariff cost for a colorway
-function colorwayTariffCost(cw, style, tariffId) {
-  const sp = parseFloat(cw.supplierPrice) || 0;
-  const rate = (parseFloat((style.tariffRates || {})[tariffId]) || 0) / 100;
-  return sp * rate;
-}
-
-function colorwayBaseTariffCost(cw, style) {
-  return (parseFloat(cw.supplierPrice) || 0) * ((parseFloat(style.baseTariff) || 0) / 100);
-}
-
-// Style-level weighted averages for tariff, royalty, freight
-function styleWeightedField(style, fn) {
-  const cws = style.colorways || [];
-  const totalQty = cws.reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
-  if (!totalQty) return NaN;
-  return cws.reduce((a, c) => a + fn(c) * (parseFloat(c.qty) || 0), 0) / totalQty;
+function styleTotalLV(seasonStyle, masterStyle, seasonCode) {
+  return (seasonStyle.colorways || []).reduce((a, c) =>
+    a + colorwayLC(c, seasonStyle, masterStyle, seasonCode) * (parseFloat(c.qty) || 0), 0);
 }
 
 function fmt(n)    { return isNaN(n) || !isFinite(n) ? '—' : '$' + n.toFixed(2); }
 function fmtBig(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function esc(s)    { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
-/* ---- Stats ---- */
-function renderStats() {
-  const styles     = data.styles;
-  const totalStyles = styles.length;
-  const totalUnits  = styles.reduce((a, s) => a + styleTotalUnits(s), 0);
-  const totalValue  = styles.reduce((a, s) => a + styleTotalLandedValue(s), 0);
-  const allLCs      = styles.map(s => styleWeightedLC(s)).filter(n => !isNaN(n));
-  const avgLC       = allLCs.length ? allLCs.reduce((a,n)=>a+n,0)/allLCs.length : NaN;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-label">Styles</div><div class="stat-val">${totalStyles}</div></div>
-    <div class="stat"><div class="stat-label">Total units ordered</div><div class="stat-val">${totalUnits.toLocaleString()}</div></div>
-    <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
-    <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalValue)}</div></div>`;
+// ─────────────────────────────────────────────
+// TABS
+// ─────────────────────────────────────────────
+function renderTabs() {
+  const bar = document.getElementById('tabs-bar');
+  let html = `<button class="tab master ${currentTab==='master'?'active':''}" onclick="switchTab('master')">
+    <i class="ti ti-books" style="font-size:13px;margin-right:4px"></i>Master Library
+  </button>`;
+  data.seasons.forEach(s => {
+    html += `<div class="tab-ctx" id="tab-ctx-${s.code}">
+      <button class="tab ${currentTab===s.code?'active':''}" onclick="switchTab('${s.code}')" oncontextmenu="openTabCtx('${s.code}',event)">${s.code}</button>
+    </div>`;
+  });
+  html += `<button class="tab-add" onclick="openAddSeasonModal()"><i class="ti ti-plus"></i> Season</button>`;
+  bar.innerHTML = html;
 }
 
-/* ---- Toggles ---- */
-function renderToggles() {
-  document.getElementById('toggles').innerHTML = data.tariffs.map(t =>
-    `<button class="toggle ${t.active?'on':''}" onclick="toggleTariff('${t.id}')">${t.name}</button>`
-  ).join('');
-}
-
-function toggleTariff(id) {
-  const t = data.tariffs.find(x => x.id === id);
-  if (t) t.active = !t.active;
-  save();
+function switchTab(tab) {
+  currentTab = tab;
   renderAll();
 }
 
-/* ---- Table ---- */
-function renderTable() {
-  const active = data.tariffs.filter(t => t.active);
-  const colCount = 10 + active.length * 2; // approximate
-
-  // Header
-  document.getElementById('thead').innerHTML = `<tr>
-    <th>Style / Color</th>
-    <th>Fabric type</th>
-    <th>Materials</th>
-    <th>Knit/Woven</th>
-    <th>Qty</th>
-    <th>Supplier Price</th>
-    <th>HTSUS</th>
-    <th>Base Tariff %</th>
-    <th>Base Tariff / unit</th>
-    ${active.map(t => `<th>${t.name} %</th><th>${t.name} / unit</th>`).join('')}
-    <th>Royalty / unit</th>
-    <th>Freight / unit</th>
-    <th>Landed Cost / unit</th>
-    <th></th>
-  </tr>`;
-
-  if (!data.styles.length) {
-    document.getElementById('tbody').innerHTML =
-      `<tr class="empty-row"><td colspan="${colCount}">No styles yet — click Add Style to get started.</td></tr>`;
-    return;
+function openTabCtx(code, e) {
+  e.preventDefault();
+  // simple confirm delete
+  if (confirm('Delete season ' + code + '? This removes all season data but keeps master library styles.')) {
+    data.seasons = data.seasons.filter(s => s.code !== code);
+    if (currentTab === code) currentTab = 'master';
+    saveData();
+    renderAll();
   }
+}
 
-  let rows = '';
-  data.styles.forEach((style, si) => {
-    const isOpen   = !!expanded[si];
-    const cws      = style.colorways || [];
-    const wlc      = styleWeightedLC(style);
-    const totalU   = styleTotalUnits(style);
-    const totalLV  = styleTotalLandedValue(style);
+// ─────────────────────────────────────────────
+// HEADER PRIMARY BUTTON
+// ─────────────────────────────────────────────
+function renderHeaderBtn() {
+  const el = document.getElementById('header-primary-btn');
+  if (currentTab === 'master') {
+    el.innerHTML = `<button class="btn primary" onclick="openMasterStyleModal()"><i class="ti ti-plus"></i> Add Style</button>`;
+  } else {
+    el.innerHTML = `<button class="btn primary add-style-season-btn" onclick="openSeasonStyleModal('${currentTab}')"><i class="ti ti-plus"></i> Add Style to ${currentTab}</button>`;
+  }
+}
 
-    // Weighted avg royalty, freight, base tariff
-    const wRoy     = styleWeightedField(style, c => (parseFloat(c.supplierPrice)||0) * 0.15);
-    const wFreight = parseFloat(style.freight) || 0;
-    const wBT      = styleWeightedField(style, c => colorwayBaseTariffCost(c, style));
+// ─────────────────────────────────────────────
+// MASTER LIBRARY VIEW
+// ─────────────────────────────────────────────
+function renderMasterView() {
+  const content = document.getElementById('main-content');
+  const styles = data.master;
 
-    // Style summary row
-    rows += `<tr class="style-row">
-      <td class="style-name">
-        <button class="style-toggle ${isOpen?'open':''}" onclick="toggleExpand(${si})" title="${isOpen?'Collapse':'Expand'}">
-          <i class="ti ti-chevron-right"></i>
-        </button>
-        ${esc(style.name)}
-        <button class="btn add-colorway-btn" onclick="openColorwayModal(${si})"><i class="ti ti-plus"></i> Colorway</button>
-      </td>
-      <td class="empty-cell">—</td>
-      <td>${esc(style.materials)}</td>
-      <td>${esc(style.kw)}</td>
-      <td class="summary-num">${totalU.toLocaleString()}</td>
-      <td class="empty-cell">—</td>
-      <td class="summary-num" style="font-size:11px">${esc(style.hts)}</td>
-      <td class="summary-num">${style.baseTariff||'—'}%</td>
-      <td class="summary-num">${fmt(wBT)}</td>
-      ${active.map(t => {
-        const rate = (style.tariffRates||{})[t.id] || '—';
-        const wT   = styleWeightedField(style, c => colorwayTariffCost(c, style, t.id));
-        return `<td class="summary-num">${rate !== '—' ? rate+'%' : '—'}</td><td class="summary-num">${fmt(wT)}</td>`;
-      }).join('')}
-      <td class="summary-num">${fmt(wRoy)}</td>
-      <td class="summary-num">${fmt(wFreight)}</td>
-      <td class="summary-lc">${fmt(wlc)}</td>
-      <td>
-        <div style="display:flex;gap:4px">
-          <button class="icon-btn" onclick="openStyleModal(${si})" title="Edit style"><i class="ti ti-edit" style="font-size:15px"></i></button>
-          <button class="icon-btn" onclick="deleteStyle(${si})" title="Delete style"><i class="ti ti-trash" style="font-size:15px"></i></button>
-        </div>
-      </td>
-    </tr>`;
+  let html = `<div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>Style name</th><th>Materials</th><th>Fabric type</th><th>Knit/Woven</th>
+      <th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th>
+    </tr></thead><tbody>`;
 
-    // Colorway rows
-    cws.forEach((cw, ci) => {
-      const lc  = colorwayLC(cw, style);
-      const sp  = parseFloat(cw.supplierPrice) || 0;
-      const roy = sp * 0.15;
-      const bt  = colorwayBaseTariffCost(cw, style);
-
-      rows += `<tr class="colorway-row ${isOpen ? '' : 'hidden'}" id="cw-${si}-${ci}">
-        <td style="padding-left:36px;color:var(--text-2)">${esc(cw.color) || '<em>Unnamed color</em>'}</td>
-        <td>${esc(cw.fabricType)}</td>
-        <td class="empty-cell">—</td>
-        <td class="empty-cell">—</td>
-        <td class="mono">${(parseFloat(cw.qty)||0).toLocaleString()}</td>
-        <td class="mono">${fmt(sp)}</td>
-        <td class="empty-cell">—</td>
-        <td class="empty-cell">—</td>
-        <td class="mono">${fmt(bt)}</td>
-        ${active.map(t => {
-          const tc = colorwayTariffCost(cw, style, t.id);
-          const rate = (style.tariffRates||{})[t.id];
-          return `<td class="empty-cell">—</td><td class="mono">${rate ? fmt(tc) : '—'}</td>`;
-        }).join('')}
-        <td class="roy">${fmt(roy)}</td>
-        <td class="mono">${fmt(parseFloat(style.freight)||0)}</td>
-        <td class="lc">${fmt(lc)}</td>
-        <td>
-          <div style="display:flex;gap:4px">
-            <button class="icon-btn" onclick="openColorwayModal(${si},${ci})" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>
-            <button class="icon-btn" onclick="deleteColorway(${si},${ci})" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button>
-          </div>
-        </td>
+  if (!styles.length) {
+    html += `<tr class="empty-row"><td colspan="8">No styles in master library yet — click Add Style to get started.</td></tr>`;
+  } else {
+    styles.forEach((s, i) => {
+      const cwChips = (s.colorways || []).map(c =>
+        `<span class="cw-chip">${esc(c.color)}${c.fabricType ? ' · '+esc(c.fabricType) : ''}</span>`
+      ).join('');
+      html += `<tr>
+        <td style="font-weight:500">${esc(s.name)}</td>
+        <td style="font-size:12px;color:var(--text-2)">${esc(s.materials)}</td>
+        <td style="font-size:12px">${esc(s.fabricType)}</td>
+        <td style="font-size:12px">${esc(s.kw)}</td>
+        <td class="mono">${esc(s.hts)}</td>
+        <td class="mono">${s.baseTariff||'—'}%</td>
+        <td style="max-width:280px">${cwChips || '<span style="color:var(--text-3);font-size:12px">None</span>'}</td>
+        <td><div style="display:flex;gap:4px">
+          <button class="icon-btn edit" onclick="openMasterStyleModal('${s.id}')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>
+          <button class="icon-btn" onclick="deleteMasterStyle('${s.id}')" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button>
+        </div></td>
       </tr>`;
     });
+  }
 
-    if (!cws.length && isOpen) {
-      rows += `<tr class="colorway-row" id="cw-${si}-empty">
-        <td colspan="${colCount}" style="padding-left:36px;color:var(--text-3);font-size:12px;padding-top:10px;padding-bottom:10px;">
-          No colorways yet — click "+ Colorway" to add one.
+  html += `</tbody></table></div>`;
+  content.innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
+// SEASON VIEW
+// ─────────────────────────────────────────────
+function renderSeasonView(seasonCode) {
+  const season = getSeason(seasonCode);
+  if (!season) return;
+  const content = document.getElementById('main-content');
+
+  // Stats
+  let totalUnits = 0, totalLV = 0, allWLC = [];
+  season.styles.forEach(ss => {
+    const ms = getMasterStyle(ss.masterStyleId);
+    if (!ms) return;
+    totalUnits += styleTotalUnits(ss);
+    totalLV    += styleTotalLV(ss, ms, seasonCode);
+    const wlc = styleWeightedLC(ss, ms, seasonCode);
+    if (!isNaN(wlc)) allWLC.push(wlc);
+  });
+  const avgLC = allWLC.length ? allWLC.reduce((a,n)=>a+n,0)/allWLC.length : NaN;
+
+  let html = `<div class="stats">
+    <div class="stat"><div class="stat-label">Styles</div><div class="stat-val">${season.styles.length}</div></div>
+    <div class="stat"><div class="stat-label">Total units</div><div class="stat-val">${totalUnits.toLocaleString()}</div></div>
+    <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
+    <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalLV)}</div></div>
+  </div>`;
+
+  // Season tariff rates bar
+  html += `<div class="season-tariff-bar">
+    <span class="season-tariff-bar-label">${seasonCode} tariff rates:</span>`;
+  data.tariffs.forEach((t, i) => {
+    const val = season.tariffRates[t.id] || '';
+    html += `<div class="tariff-rate-item">
+      <label>${t.name}</label>
+      <input type="number" min="0" step="0.1" value="${esc(val)}" placeholder="0.0"
+        onchange="updateSeasonTariffRate('${seasonCode}','${t.id}',this.value)"
+        title="Set ${t.name} rate for ${seasonCode}">
+      <span>%</span>
+    </div>`;
+    if (i < data.tariffs.length - 1) html += `<div class="season-tariff-divider"></div>`;
+  });
+  html += `<div style="margin-left:auto"><button class="btn sm" onclick="pushSeasonRatesToStyles('${seasonCode}')"><i class="ti ti-refresh"></i> Apply to all styles</button></div>`;
+  html += `</div>`;
+
+  // Table
+  html += `<div class="tbl-wrap"><table><thead><tr>
+    <th>Style / Color</th><th>Fabric type</th><th>Knit/Woven</th><th>Qty</th>
+    <th>Supplier price</th><th>HTSUS</th><th>Base tariff %</th>
+    ${data.tariffs.map(t => `<th>${t.name}</th>`).join('')}
+    <th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th><th></th>
+  </tr></thead><tbody>`;
+
+  if (!season.styles.length) {
+    html += `<tr class="empty-row"><td colspan="${10 + data.tariffs.length}">No styles in ${seasonCode} yet — click "Add Style to ${seasonCode}".</td></tr>`;
+  } else {
+    season.styles.forEach((ss, si) => {
+      const ms = getMasterStyle(ss.masterStyleId);
+      if (!ms) return;
+      const isOpen  = !!expanded[seasonCode + '_' + si];
+      const wlc     = styleWeightedLC(ss, ms, seasonCode);
+      const totalU  = styleTotalUnits(ss);
+      const totalLV = styleTotalLV(ss, ms, seasonCode);
+      const freight = parseFloat(ss.freight) || 0;
+
+      // Tariff pills for style row
+      const tariffPills = data.tariffs.map(t => {
+        const on = isTariffActive(ss, t.id);
+        const rate = getSeasonTariffRate(seasonCode, t.id);
+        return `<span class="tariff-pill ${on?'on':'off'}" onclick="toggleStyleTariff('${seasonCode}',${si},'${t.id}')" title="${on?'Click to disable':'Click to enable'} ${t.name} for this style">
+          ${t.name}${rate ? ' '+rate+'%' : ''}
+        </span>`;
+      }).join('');
+
+      // Weighted tariff / royalty cols for summary
+      const tariffSumCols = data.tariffs.map(t => {
+        const on = isTariffActive(ss, t.id);
+        const rate = getSeasonTariffRate(seasonCode, t.id);
+        const avgSP = (() => {
+          const cws = ss.colorways || [];
+          const totalQ = cws.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
+          if (!totalQ) return 0;
+          return cws.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ;
+        })();
+        const cost = on ? avgSP * (rate/100) : 0;
+        return `<td class="summary-num">${tariffPills}</td>`;
+      });
+
+      // We actually want one tariff cell for pills, then separate cost cells
+      // Let's do: tariff pills in one spanning approach - actually put pills in col, cost shown per colorway
+      const tariffColsHeader = data.tariffs.map(t => {
+        const on = isTariffActive(ss, t.id);
+        const rate = getSeasonTariffRate(seasonCode, t.id);
+        const pill = `<span class="tariff-pill ${on?'on':'off'}" onclick="toggleStyleTariff('${seasonCode}',${si},'${t.id}')" title="${on?'Disable':'Enable'} ${t.name}">
+          ${t.name}${rate ? ' · '+rate+'%' : ''}
+        </span>`;
+        // weighted avg cost
+        const cws = ss.colorways || [];
+        const totalQ = cws.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
+        const avgSP = totalQ ? cws.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ : 0;
+        const cost = on ? fmt(avgSP * (rate/100)) : '—';
+        return `<td class="summary-num">${pill}<br><span style="font-size:11px;color:var(--text-3)">${cost} avg</span></td>`;
+      }).join('');
+
+      // Weighted avg royalty
+      const cws2 = ss.colorways || [];
+      const totalQ2 = cws2.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
+      const avgSP2 = totalQ2 ? cws2.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ2 : 0;
+      const wRoy = avgSP2 * 0.15;
+
+      html += `<tr class="style-row">
+        <td style="font-size:13px">
+          <button class="style-toggle ${isOpen?'open':''}" onclick="toggleExpand('${seasonCode}',${si})"><i class="ti ti-chevron-right"></i></button>
+          ${esc(ms.name)}
         </td>
+        <td class="muted">${esc(ms.fabricType)}</td>
+        <td class="muted">${esc(ms.kw)}</td>
+        <td class="summary-num">${totalU.toLocaleString()}</td>
+        <td class="muted">—</td>
+        <td class="summary-num" style="font-size:11px">${esc(ms.hts)}</td>
+        <td class="summary-num">${ms.baseTariff||'—'}%</td>
+        ${tariffColsHeader}
+        <td class="summary-num">${fmt(wRoy)}</td>
+        <td class="summary-num">${fmt(freight)}</td>
+        <td class="summary-lc">${fmt(wlc)}</td>
+        <td><div style="display:flex;gap:4px">
+          <button class="icon-btn edit" onclick="openSeasonStyleFreightEdit('${seasonCode}',${si})" title="Edit freight"><i class="ti ti-edit" style="font-size:15px"></i></button>
+          <button class="icon-btn" onclick="removeSeasonStyle('${seasonCode}',${si})" title="Remove from season"><i class="ti ti-trash" style="font-size:15px"></i></button>
+        </div></td>
       </tr>`;
+
+      // Colorway rows
+      (ss.colorways || []).forEach((cw, ci) => {
+        const mc = (ms.colorways || []).find(x => x.id === cw.masterColorwayId) || {};
+        const sp = parseFloat(cw.supplierPrice) || 0;
+        const lc = colorwayLC(cw, ss, ms, seasonCode);
+        const roy = sp * 0.15;
+        const bt  = sp * ((parseFloat(ms.baseTariff)||0)/100);
+
+        const tariffCwCols = data.tariffs.map(t => {
+          const on = isTariffActive(ss, t.id);
+          const rate = getSeasonTariffRate(seasonCode, t.id);
+          const cost = on ? fmt(sp * (rate/100)) : '<span style="color:var(--text-3)">off</span>';
+          return `<td class="mono">${cost}</td>`;
+        }).join('');
+
+        html += `<tr class="colorway-row ${isOpen?'':'hidden'}">
+          <td style="color:var(--text-2);padding-left:36px">${esc(mc.color || cw.masterColorwayId)}</td>
+          <td class="muted">${esc(mc.fabricType)}</td>
+          <td class="muted">—</td>
+          <td class="mono">${(parseFloat(cw.qty)||0).toLocaleString()}</td>
+          <td class="mono">${fmt(sp)}</td>
+          <td class="muted">—</td>
+          <td class="mono">${fmt(bt)}</td>
+          ${tariffCwCols}
+          <td class="roy">${fmt(roy)}</td>
+          <td class="mono">${fmt(freight)}</td>
+          <td class="lc">${fmt(lc)}</td>
+          <td><button class="icon-btn edit" onclick="openCwEditModal('${seasonCode}',${si},${ci})" title="Edit qty & price"><i class="ti ti-edit" style="font-size:15px"></i></button></td>
+        </tr>`;
+      });
+    });
+  }
+
+  html += `</tbody></table></div>`;
+  content.innerHTML = html;
+}
+
+function toggleExpand(seasonCode, si) {
+  const key = seasonCode + '_' + si;
+  expanded[key] = !expanded[key];
+  renderSeasonView(seasonCode);
+}
+
+function updateSeasonTariffRate(seasonCode, tariffId, val) {
+  const season = getSeason(seasonCode);
+  if (!season) return;
+  season.tariffRates[tariffId] = val;
+  saveData();
+  renderSeasonView(seasonCode);
+}
+
+function pushSeasonRatesToStyles(seasonCode) {
+  // Just re-renders — rates are already at season level, this is for visual confirmation
+  saveData();
+  renderSeasonView(seasonCode);
+}
+
+function toggleStyleTariff(seasonCode, si, tariffId) {
+  const season = getSeason(seasonCode);
+  if (!season) return;
+  const ss = season.styles[si];
+  if (!ss.tariffOverrides) ss.tariffOverrides = {};
+  ss.tariffOverrides[tariffId] = !isTariffActive(ss, tariffId);
+  saveData();
+  renderSeasonView(seasonCode);
+}
+
+// ─────────────────────────────────────────────
+// MASTER STYLE MODAL
+// ─────────────────────────────────────────────
+function openMasterStyleModal(id = null) {
+  editingMasterStyleId = id;
+  const s = id ? getMasterStyle(id) : {};
+  document.getElementById('msModalTitle').textContent = id ? 'Edit style' : 'Add style to library';
+  document.getElementById('msModalSave').textContent  = id ? 'Save changes' : 'Save style';
+  document.getElementById('ms-name').value      = s.name || '';
+  document.getElementById('ms-materials').value = s.materials || '';
+  document.getElementById('ms-fabric').value    = s.fabricType || '';
+  document.getElementById('ms-kw').value        = s.kw || '';
+  document.getElementById('ms-hts').value       = s.hts || '';
+  document.getElementById('ms-bt').value        = s.baseTariff || '';
+  masterCwFieldCount = 0;
+  const cwList = document.getElementById('ms-cw-list');
+  cwList.innerHTML = '';
+  (s.colorways || []).forEach(c => addMasterColorwayField(c.color, c.fabricType, c.id));
+  document.getElementById('masterStyleModal').classList.add('open');
+  setTimeout(() => document.getElementById('ms-name').focus(), 50);
+}
+
+function addMasterColorwayField(color='', fabricType='', existingId='') {
+  masterCwFieldCount++;
+  const idx = masterCwFieldCount;
+  const div = document.createElement('div');
+  div.id = 'ms-cw-' + idx;
+  div.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px';
+  div.innerHTML = `
+    <input type="hidden" id="ms-cwid-${idx}" value="${esc(existingId)}">
+    <input type="text" id="ms-cwcolor-${idx}" placeholder="Color name" value="${esc(color)}"
+      style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:'DM Sans',sans-serif;outline:none">
+    <input type="text" id="ms-cwfabric-${idx}" placeholder="Fabric type" value="${esc(fabricType)}"
+      style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:'DM Sans',sans-serif;outline:none">
+    <button class="icon-btn" onclick="document.getElementById('ms-cw-${idx}').remove()" title="Remove"><i class="ti ti-x"></i></button>`;
+  document.getElementById('ms-cw-list').appendChild(div);
+}
+
+function closeMasterStyleModal() { document.getElementById('masterStyleModal').classList.remove('open'); }
+
+function saveMasterStyle() {
+  const name = document.getElementById('ms-name').value.trim();
+  if (!name) { alert('Style name is required.'); return; }
+
+  // Collect colorways
+  const colorways = [];
+  document.querySelectorAll('[id^="ms-cw-"]').forEach(div => {
+    const idx = div.id.replace('ms-cw-','');
+    if (isNaN(idx)) return;
+    const color = document.getElementById('ms-cwcolor-'+idx)?.value.trim();
+    if (!color) return;
+    colorways.push({
+      id: document.getElementById('ms-cwid-'+idx)?.value || uid(),
+      color,
+      fabricType: document.getElementById('ms-cwfabric-'+idx)?.value.trim() || ''
+    });
+  });
+
+  if (editingMasterStyleId) {
+    const s = getMasterStyle(editingMasterStyleId);
+    Object.assign(s, { name, materials: document.getElementById('ms-materials').value.trim(),
+      fabricType: document.getElementById('ms-fabric').value.trim(),
+      kw: document.getElementById('ms-kw').value,
+      hts: document.getElementById('ms-hts').value.trim(),
+      baseTariff: document.getElementById('ms-bt').value,
+      colorways });
+  } else {
+    data.master.push({ id: uid(), name,
+      materials: document.getElementById('ms-materials').value.trim(),
+      fabricType: document.getElementById('ms-fabric').value.trim(),
+      kw: document.getElementById('ms-kw').value,
+      hts: document.getElementById('ms-hts').value.trim(),
+      baseTariff: document.getElementById('ms-bt').value,
+      colorways });
+  }
+  saveData();
+  closeMasterStyleModal();
+  renderAll();
+}
+
+function deleteMasterStyle(id) {
+  const s = getMasterStyle(id);
+  if (!confirm('Delete "' + (s?.name||'this style') + '" from the master library? It will also be removed from any seasons.')) return;
+  data.master = data.master.filter(x => x.id !== id);
+  data.seasons.forEach(season => {
+    season.styles = season.styles.filter(ss => ss.masterStyleId !== id);
+  });
+  saveData();
+  renderAll();
+}
+
+// ─────────────────────────────────────────────
+// SEASON STYLE MODAL
+// ─────────────────────────────────────────────
+let addingToSeasonCode = null;
+
+function openSeasonStyleModal(seasonCode) {
+  addingToSeasonCode = seasonCode;
+  document.getElementById('ssModalTitle').textContent = 'Add style to ' + seasonCode;
+  const sel = document.getElementById('ss-style');
+  const season = getSeason(seasonCode);
+  const existingIds = new Set((season?.styles||[]).map(ss => ss.masterStyleId));
+  sel.innerHTML = '<option value="">— select from master library —</option>' +
+    data.master.filter(s => !existingIds.has(s.id)).map(s =>
+      `<option value="${s.id}">${esc(s.name)}</option>`
+    ).join('');
+  document.getElementById('ss-freight').value = '';
+  document.getElementById('ss-style-info').style.display = 'none';
+  document.getElementById('ss-cw-picker').innerHTML = '<span style="color:var(--text-3);font-size:13px">Select a style above to choose colorways.</span>';
+  document.getElementById('seasonStyleModal').classList.add('open');
+}
+
+function populateColorwayPicker() {
+  const id = document.getElementById('ss-style').value;
+  const infoEl = document.getElementById('ss-style-info');
+  const pickerEl = document.getElementById('ss-cw-picker');
+  if (!id) { infoEl.style.display='none'; pickerEl.innerHTML='<span style="color:var(--text-3);font-size:13px">Select a style above.</span>'; return; }
+  const s = getMasterStyle(id);
+  if (!s) return;
+  infoEl.style.display = 'block';
+  infoEl.innerHTML = `<strong>${esc(s.name)}</strong> &nbsp;·&nbsp; ${esc(s.hts)} &nbsp;·&nbsp; Base tariff: ${s.baseTariff||0}% &nbsp;·&nbsp; ${esc(s.kw)} &nbsp;·&nbsp; ${esc(s.materials)}`;
+  if (!s.colorways || !s.colorways.length) {
+    pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">No colorways in master library for this style. Add them in the Master Library first.</span>';
+    return;
+  }
+  pickerEl.innerHTML = `<div class="cw-pick-list">` +
+    s.colorways.map(c => `
+      <label class="cw-pick-item selected" id="cwpick-${c.id}">
+        <input type="checkbox" id="cwcheck-${c.id}" checked value="${c.id}">
+        <div><div class="cw-pick-label">${esc(c.color)}</div>${c.fabricType?`<div class="cw-pick-sub">${esc(c.fabricType)}</div>`:''}</div>
+      </label>`).join('') +
+    `</div>
+    <div style="font-size:11px;color:var(--text-3);margin-top:4px">Check the colorways you want in this season. You can add more later.</div>`;
+
+  // Toggle selected class
+  s.colorways.forEach(c => {
+    const cb = document.getElementById('cwcheck-'+c.id);
+    const lbl = document.getElementById('cwpick-'+c.id);
+    if (cb && lbl) cb.onchange = () => lbl.classList.toggle('selected', cb.checked);
+  });
+}
+
+function closeSeasonStyleModal() { document.getElementById('seasonStyleModal').classList.remove('open'); }
+
+function saveSeasonStyle() {
+  const styleId = document.getElementById('ss-style').value;
+  if (!styleId) { alert('Please select a style.'); return; }
+  const ms = getMasterStyle(styleId);
+  if (!ms) return;
+  const season = getSeason(addingToSeasonCode);
+
+  // Collect checked colorways
+  const colorways = [];
+  (ms.colorways || []).forEach(c => {
+    const cb = document.getElementById('cwcheck-'+c.id);
+    if (cb && cb.checked) {
+      colorways.push({ masterColorwayId: c.id, qty: '', supplierPrice: '' });
     }
   });
 
-  document.getElementById('tbody').innerHTML = rows;
-}
+  const tariffOverrides = {};
+  data.tariffs.forEach(t => { tariffOverrides[t.id] = true; });
 
-function toggleExpand(si) {
-  expanded[si] = !expanded[si];
-  renderTable();
-}
-
-/* ---- Style modal ---- */
-function openStyleModal(id = null) {
-  editingStyleId = id;
-  const s = id != null ? data.styles[id] : {};
-  document.getElementById('styleModalTitle').textContent = id != null ? 'Edit style' : 'Add style';
-  document.getElementById('styleModalSave').textContent  = id != null ? 'Save changes' : 'Add style';
-  document.getElementById('s-name').value     = s.name || '';
-  document.getElementById('s-materials').value = s.materials || '';
-  document.getElementById('s-hts').value      = s.hts || '';
-  document.getElementById('s-kw').value       = s.kw || '';
-  document.getElementById('s-bt').value       = s.baseTariff || '';
-  document.getElementById('s-freight').value  = s.freight || '';
-
-  document.getElementById('s-tariff-fields').innerHTML = data.tariffs.map(t => `
-    <div class="field">
-      <label>${t.name} rate (%)</label>
-      <input id="st-${t.id}" type="number" min="0" step="0.1" value="${(s.tariffRates||{})[t.id]||''}" placeholder="0.0">
-    </div>`).join('');
-
-  document.getElementById('styleModal').classList.add('open');
-  setTimeout(() => document.getElementById('s-name').focus(), 50);
-}
-function closeStyleModal() { document.getElementById('styleModal').classList.remove('open'); }
-
-function saveStyle() {
-  const name = document.getElementById('s-name').value.trim();
-  if (!name) { alert('Style name is required.'); return; }
-  const tariffRates = {};
-  data.tariffs.forEach(t => {
-    const el = document.getElementById('st-' + t.id);
-    if (el) tariffRates[t.id] = el.value;
+  season.styles.push({
+    masterStyleId: styleId,
+    freight: document.getElementById('ss-freight').value,
+    tariffOverrides,
+    colorways
   });
-  const style = {
-    name,
-    materials:  document.getElementById('s-materials').value.trim(),
-    hts:        document.getElementById('s-hts').value.trim(),
-    kw:         document.getElementById('s-kw').value,
-    baseTariff: document.getElementById('s-bt').value,
-    tariffRates,
-    freight:    document.getElementById('s-freight').value,
-    colorways:  editingStyleId != null ? data.styles[editingStyleId].colorways : []
-  };
-  if (editingStyleId != null) { data.styles[editingStyleId] = style; }
-  else { data.styles.push(style); expanded[data.styles.length - 1] = true; }
-  save();
-  closeStyleModal();
+
+  saveData();
+  closeSeasonStyleModal();
+  expanded[addingToSeasonCode + '_' + (season.styles.length - 1)] = true;
   renderAll();
 }
 
-function deleteStyle(si) {
-  if (!confirm('Delete "' + (data.styles[si].name||'this style') + '" and all its colorways?')) return;
-  data.styles.splice(si, 1);
-  save();
-  renderAll();
-}
+// ─────────────────────────────────────────────
+// COLORWAY EDIT MODAL (season)
+// ─────────────────────────────────────────────
+function openCwEditModal(seasonCode, si, ci) {
+  cwEditContext = { seasonCode, si, ci };
+  const season = getSeason(seasonCode);
+  const ss = season.styles[si];
+  const ms = getMasterStyle(ss.masterStyleId);
+  const cw = ss.colorways[ci];
+  const mc = (ms.colorways||[]).find(x => x.id === cw.masterColorwayId) || {};
 
-/* ---- Colorway modal ---- */
-function openColorwayModal(si, ci = null) {
-  addingColorwayTo = si;
-  editingColorway  = ci != null ? { styleId: si, colorwayIdx: ci } : null;
-  const cw = ci != null ? data.styles[si].colorways[ci] : {};
-  document.getElementById('cwModalTitle').textContent = ci != null ? 'Edit colorway' : 'Add colorway';
-  document.getElementById('cwSaveBtn').textContent    = ci != null ? 'Save changes' : 'Add colorway';
-  document.getElementById('cw-color').value  = cw.color || '';
-  document.getElementById('cw-fabric').value = cw.fabricType || '';
-  document.getElementById('cw-qty').value    = cw.qty || '';
-  document.getElementById('cw-sp').value     = cw.supplierPrice || '';
+  document.getElementById('cwEditTitle').textContent = 'Edit ' + (mc.color || 'colorway');
+  document.getElementById('cw-edit-info').textContent = ms.name + (mc.fabricType ? ' · ' + mc.fabricType : '');
+  document.getElementById('cwe-qty').value = cw.qty || '';
+  document.getElementById('cwe-sp').value  = cw.supplierPrice || '';
   const sp = parseFloat(cw.supplierPrice) || 0;
-  document.getElementById('cw-roy').value = sp ? '$' + (sp * 0.15).toFixed(2) : '';
+  document.getElementById('cwe-roy').value = sp ? '$' + (sp*0.15).toFixed(2) : '';
 
-  document.getElementById('cw-sp').oninput = function() {
+  document.getElementById('cwe-sp').oninput = function() {
     const v = parseFloat(this.value) || 0;
-    document.getElementById('cw-roy').value = v ? '$' + (v * 0.15).toFixed(2) : '';
+    document.getElementById('cwe-roy').value = v ? '$' + (v*0.15).toFixed(2) : '';
   };
-
-  document.getElementById('colorwayModal').classList.add('open');
-  setTimeout(() => document.getElementById('cw-color').focus(), 50);
+  document.getElementById('cwEditModal').classList.add('open');
+  setTimeout(() => document.getElementById('cwe-qty').focus(), 50);
 }
-function closeColorwayModal() { document.getElementById('colorwayModal').classList.remove('open'); }
 
-function saveColorway() {
-  const color = document.getElementById('cw-color').value.trim();
-  if (!color) { alert('Color name is required.'); return; }
-  const cw = {
-    color,
-    fabricType:    document.getElementById('cw-fabric').value.trim(),
-    qty:           document.getElementById('cw-qty').value,
-    supplierPrice: document.getElementById('cw-sp').value
-  };
-  const si = addingColorwayTo;
-  if (!data.styles[si].colorways) data.styles[si].colorways = [];
-  if (editingColorway != null) { data.styles[si].colorways[editingColorway.colorwayIdx] = cw; }
-  else { data.styles[si].colorways.push(cw); expanded[si] = true; }
-  save();
-  closeColorwayModal();
+function closeCwEditModal() { document.getElementById('cwEditModal').classList.remove('open'); }
+
+function saveCwEdit() {
+  const { seasonCode, si, ci } = cwEditContext;
+  const season = getSeason(seasonCode);
+  const cw = season.styles[si].colorways[ci];
+  cw.qty           = document.getElementById('cwe-qty').value;
+  cw.supplierPrice = document.getElementById('cwe-sp').value;
+  saveData();
+  closeCwEditModal();
+  renderSeasonView(seasonCode);
+}
+
+// ─────────────────────────────────────────────
+// SEASON STYLE FREIGHT EDIT
+// ─────────────────────────────────────────────
+function openSeasonStyleFreightEdit(seasonCode, si) {
+  const season = getSeason(seasonCode);
+  const ss = season.styles[si];
+  const ms = getMasterStyle(ss.masterStyleId);
+  const val = prompt('Freight per unit (USD) for ' + ms.name + ':', ss.freight || '');
+  if (val === null) return;
+  ss.freight = val;
+  saveData();
+  renderSeasonView(seasonCode);
+}
+
+function removeSeasonStyle(seasonCode, si) {
+  const season = getSeason(seasonCode);
+  const ms = getMasterStyle(season.styles[si].masterStyleId);
+  if (!confirm('Remove "' + (ms?.name||'this style') + '" from ' + seasonCode + '? Master library is unaffected.')) return;
+  season.styles.splice(si, 1);
+  saveData();
   renderAll();
 }
 
-function deleteColorway(si, ci) {
-  const cw = data.styles[si].colorways[ci];
-  if (!confirm('Delete colorway "' + (cw.color||'this colorway') + '"?')) return;
-  data.styles[si].colorways.splice(ci, 1);
-  save();
+// ─────────────────────────────────────────────
+// ADD SEASON MODAL
+// ─────────────────────────────────────────────
+function openAddSeasonModal() {
+  document.getElementById('as-code').value = '';
+  document.getElementById('addSeasonModal').classList.add('open');
+  setTimeout(() => document.getElementById('as-code').focus(), 50);
+}
+function closeAddSeasonModal() { document.getElementById('addSeasonModal').classList.remove('open'); }
+function saveNewSeason() {
+  const code = document.getElementById('as-code').value.trim().toUpperCase();
+  if (!code) { alert('Season code is required.'); return; }
+  if (data.seasons.find(s => s.code === code)) { alert('Season ' + code + ' already exists.'); return; }
+  data.seasons.push({ code, tariffRates: {}, styles: [] });
+  saveData();
+  closeAddSeasonModal();
+  currentTab = code;
   renderAll();
 }
 
+// ─────────────────────────────────────────────
+// TARIFF MANAGER
+// ─────────────────────────────────────────────
+function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
+function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
+function renderTariffList() {
+  document.getElementById('tariff-list').innerHTML = data.tariffs.map((t, i) => `
+    <div class="tariff-item">
+      <span style="font-size:13px">${t.name}</span>
+      <button class="tariff-del" onclick="deleteTariff(${i})" title="Remove"><i class="ti ti-trash" style="font-size:14px"></i></button>
+    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
+}
+function deleteTariff(i) {
+  if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
+  if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
+  const id = data.tariffs[i].id;
+  data.tariffs.splice(i, 1);
+  // Clean up season rates and style overrides
+  data.seasons.forEach(s => {
+    delete s.tariffRates[id];
+    s.styles.forEach(ss => { if (ss.tariffOverrides) delete ss.tariffOverrides[id]; });
+  });
+  saveData();
+  renderTariffList();
+}
+function addTariff() {
+  const inp = document.getElementById('new-tariff-name');
+  const name = inp.value.trim();
+  if (!name) return;
+  const id = uid();
+  data.tariffs.push({ id, name });
+  // Default new tariff to ON for all existing season styles
+  data.seasons.forEach(s => {
+    s.styles.forEach(ss => {
+      if (!ss.tariffOverrides) ss.tariffOverrides = {};
+      ss.tariffOverrides[id] = true;
+    });
+  });
+  inp.value = '';
+  saveData();
+  renderTariffList();
+}
 
-/* ---- Freight calculator ---- */
+// ─────────────────────────────────────────────
+// FREIGHT CALCULATOR
+// ─────────────────────────────────────────────
 function openFreightCalc() {
   document.getElementById('fc-total').value = '';
   document.getElementById('fc-units').value = '';
@@ -591,126 +1042,80 @@ function closeFreightCalc() { document.getElementById('freightModal').classList.
 function calcFreight() {
   const total = parseFloat(document.getElementById('fc-total').value) || 0;
   const units = parseFloat(document.getElementById('fc-units').value) || 0;
-  const el = document.getElementById('fc-result');
-  if (total > 0 && units > 0) {
-    el.textContent = '$' + (total / units).toFixed(4);
+  document.getElementById('fc-result').textContent = (total > 0 && units > 0) ? '$' + (total/units).toFixed(4) : '—';
+}
+
+// ─────────────────────────────────────────────
+// CSV EXPORT
+// ─────────────────────────────────────────────
+function exportCSV() {
+  if (currentTab === 'master') {
+    const headers = ['Style', 'Materials', 'Fabric Type', 'Knit/Woven', 'HTSUS', 'Base Tariff %', 'Colorways'];
+    const rows = data.master.map(s => [
+      s.name, s.materials, s.fabricType, s.kw, s.hts, s.baseTariff,
+      (s.colorways||[]).map(c => c.color + (c.fabricType?' ('+c.fabricType+')':'')).join('; ')
+    ]);
+    downloadCSV('skhoop-master-library', headers, rows);
   } else {
-    el.textContent = '—';
+    const season = getSeason(currentTab);
+    if (!season) return;
+    const headers = ['Season', 'Style', 'Color', 'Fabric Type', 'Knit/Woven', 'Qty', 'Supplier Price',
+      'HTSUS', 'Base Tariff %', 'Base Tariff / unit',
+      ...data.tariffs.map(t => t.name + ' %'),
+      ...data.tariffs.map(t => t.name + ' / unit'),
+      'Royalty / unit', 'Freight / unit', 'Landed Cost / unit', 'Total Landed Value'];
+    const rows = [];
+    season.styles.forEach(ss => {
+      const ms = getMasterStyle(ss.masterStyleId);
+      if (!ms) return;
+      ss.colorways.forEach(cw => {
+        const mc = (ms.colorways||[]).find(x=>x.id===cw.masterColorwayId)||{};
+        const sp = parseFloat(cw.supplierPrice)||0;
+        const lc = colorwayLC(cw, ss, ms, currentTab);
+        const qty = parseFloat(cw.qty)||0;
+        rows.push([
+          currentTab, ms.name, mc.color||'', mc.fabricType||'', ms.kw, cw.qty, cw.supplierPrice,
+          ms.hts, ms.baseTariff, (sp*((parseFloat(ms.baseTariff)||0)/100)).toFixed(2),
+          ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (season.tariffRates[t.id]||'') : 'OFF'),
+          ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (sp*(getSeasonTariffRate(currentTab,t.id)/100)).toFixed(2) : '0.00'),
+          (sp*0.15).toFixed(2), ss.freight, lc.toFixed(2), (lc*qty).toFixed(2)
+        ]);
+      });
+    });
+    downloadCSV('skhoop-'+currentTab, headers, rows);
   }
 }
 
-/* ---- Tariff manager ---- */
-function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
-function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
-function renderTariffList() {
-  // Rate fields
-  document.getElementById('tariff-rate-fields').innerHTML = data.tariffs.map(t => `
-    <div class="field" style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <label style="min-width:110px;margin-bottom:0;font-size:12px;font-weight:500;color:var(--text)">${t.name}</label>
-      <div style="display:flex;align-items:center;gap:6px;flex:1">
-        <input id="gr-${t.id}" type="number" min="0" step="0.1"
-          value="${t.globalRate !== undefined ? t.globalRate : ''}"
-          placeholder="0.0"
-          style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;outline:none">
-        <span style="font-size:13px;color:var(--text-2)">%</span>
-      </div>
-    </div>`).join('') || '';
-
-  // Column list
-  document.getElementById('tariff-list').innerHTML = data.tariffs.map((t, i) => `
-    <div class="tariff-item">
-      <span>${t.name}</span>
-      <button class="tariff-del" onclick="deleteTariff(${i})">×</button>
-    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
-}
-
-function applyGlobalRates() {
-  // Save the global rate on each tariff and push to all styles
-  let changed = false;
-  data.tariffs.forEach(t => {
-    const el = document.getElementById('gr-' + t.id);
-    if (!el) return;
-    const val = el.value.trim();
-    if (val === '') return;
-    t.globalRate = val;
-    data.styles.forEach(style => {
-      if (!style.tariffRates) style.tariffRates = {};
-      style.tariffRates[t.id] = val;
-    });
-    changed = true;
-  });
-  if (!changed) { alert('Enter at least one rate to apply.'); return; }
-  save();
-  const count = data.styles.length;
-  alert('Rates applied to ' + count + ' style' + (count !== 1 ? 's' : '') + '.');
-  renderAll();
-}
-function deleteTariff(i) {
-  if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
-  if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
-  data.tariffs.splice(i, 1);
-  save();
-  renderTariffList();
-}
-function addTariff() {
-  const inp = document.getElementById('new-tariff-name');
-  const name = inp.value.trim();
-  if (!name) return;
-  data.tariffs.push({ id: 't' + Date.now(), name, active: true });
-  inp.value = '';
-  save();
-  renderTariffList();
-}
-
-/* ---- CSV Export ---- */
-function exportCSV() {
-  const active = data.tariffs.filter(t => t.active);
-  const headers = [
-    'Style', 'Color', 'Fabric Type', 'Materials', 'Knit/Woven', 'Qty',
-    'Supplier Price', 'HTSUS', 'Base Tariff %', 'Base Tariff / unit',
-    ...active.flatMap(t => [t.name + ' %', t.name + ' / unit']),
-    'Royalty / unit', 'Freight / unit', 'Landed Cost / unit',
-    'Total Landed Value'
-  ];
-  const rows = [];
-  data.styles.forEach(style => {
-    (style.colorways || []).forEach(cw => {
-      const sp  = parseFloat(cw.supplierPrice) || 0;
-      const lc  = colorwayLC(cw, style);
-      const qty = parseFloat(cw.qty) || 0;
-      rows.push([
-        style.name, cw.color, cw.fabricType, style.materials, style.kw, cw.qty,
-        cw.supplierPrice, style.hts, style.baseTariff,
-        colorwayBaseTariffCost(cw, style).toFixed(2),
-        ...active.flatMap(t => [
-          (style.tariffRates||{})[t.id]||'',
-          colorwayTariffCost(cw, style, t.id).toFixed(2)
-        ]),
-        (sp * 0.15).toFixed(2),
-        style.freight,
-        lc.toFixed(2),
-        (lc * qty).toFixed(2)
-      ]);
-    });
-  });
-  const csv = [headers, ...rows]
-    .map(r => r.map(c => `"${(c||'').toString().replace(/"/g,'""')}"`).join(','))
-    .join('\n');
+function downloadCSV(filename, headers, rows) {
+  const csv = [headers, ...rows].map(r => r.map(c => `"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'skhoop-landed-cost-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.download = filename + '-' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
 }
 
-/* ---- Backdrop close ---- */
-['styleModal','colorwayModal','tariffModal','freightModal'].forEach(id => {
+// ─────────────────────────────────────────────
+// BACKDROP CLOSE
+// ─────────────────────────────────────────────
+['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('open');
   });
 });
 
-/* ---- Init ---- */
-function renderAll() { renderStats(); renderToggles(); renderTable(); }
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+function renderAll() {
+  renderTabs();
+  renderHeaderBtn();
+  if (currentTab === 'master') {
+    renderMasterView();
+  } else {
+    renderSeasonView(currentTab);
+  }
+}
+
 renderAll();
 </script>
 </body>
