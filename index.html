@@ -590,11 +590,30 @@ function renderSeasonView(seasonCode) {
   });
   const avgLC = allWLC.length ? allWLC.reduce((a,n)=>a+n,0)/allWLC.length : NaN;
 
+  // Weighted avg WS and MSRP margins
+  let wsMarginNum = 0, wsMarginDen = 0, msrpMarginNum = 0, msrpMarginDen = 0;
+  season.styles.forEach(ss => {
+    const ms = getMasterStyle(ss.masterStyleId);
+    if (!ms) return;
+    const units = styleTotalUnits(ss);
+    if (!units) return;
+    const wlc = styleWeightedLC(ss, ms, seasonCode);
+    if (isNaN(wlc)) return;
+    const ws   = parseFloat(ss.ws);
+    const msrp = parseFloat(ss.msrp);
+    if (ws)   { wsMarginNum   += ((ws   - wlc) / ws)   * units; wsMarginDen   += units; }
+    if (msrp) { msrpMarginNum += ((msrp - wlc) / msrp) * units; msrpMarginDen += units; }
+  });
+  const wtdWSMargin   = wsMarginDen   ? (wsMarginNum   / wsMarginDen   * 100) : NaN;
+  const wtdMSRPMargin = msrpMarginDen ? (msrpMarginNum / msrpMarginDen * 100) : NaN;
+
   let html = `<div class="stats">
     <div class="stat"><div class="stat-label">Styles</div><div class="stat-val">${season.styles.length}</div></div>
     <div class="stat"><div class="stat-label">Total units</div><div class="stat-val">${totalUnits.toLocaleString()}</div></div>
     <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
     <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalLV)}</div></div>
+    <div class="stat"><div class="stat-label">Wtd avg WS margin</div><div class="stat-val" style="color:${!isNaN(wtdWSMargin) ? 'var(--green)' : 'inherit'}">${isNaN(wtdWSMargin) ? '—' : wtdWSMargin.toFixed(1)+'%'}</div></div>
+    <div class="stat"><div class="stat-label">Wtd avg MSRP margin</div><div class="stat-val" style="color:${!isNaN(wtdMSRPMargin) ? 'var(--green)' : 'inherit'}">${isNaN(wtdMSRPMargin) ? '—' : wtdMSRPMargin.toFixed(1)+'%'}</div></div>
   </div>`;
 
   // Season tariff rates bar
