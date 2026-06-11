@@ -74,7 +74,13 @@ header { display: flex; align-items: flex-start; justify-content: space-between;
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { position: sticky; top: 0; z-index: 2; }
 th { background: var(--surface2); color: var(--text-2); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
+th:first-child { position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 4px rgba(0,0,0,0.06); }
 td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+td:first-child { position: sticky; left: 0; z-index: 1; box-shadow: 2px 0 4px rgba(0,0,0,0.06); }
+tr.style-row td:first-child { background: var(--surface2); }
+tr.style-row:hover td:first-child { background: var(--surface3); }
+tr.colorway-row td:first-child { background: var(--surface); }
+tr.colorway-row:hover td:first-child { background: #faf9f7; }
 tr:last-child td { border-bottom: none; }
 tr.style-row td { background: var(--surface2); font-weight: 500; border-bottom: 1px solid var(--border-md); }
 tr.style-row:hover td { background: var(--surface3); }
