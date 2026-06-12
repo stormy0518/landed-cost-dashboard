@@ -175,6 +175,8 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
       <button class="btn" onclick="openFreightCalc()"><i class="ti ti-calculator"></i> Freight Calculator</button>
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+      <button class="btn" onclick="backupData()"><i class="ti ti-cloud-download"></i> Backup</button>
+      <button class="btn" onclick="openRestoreModal()"><i class="ti ti-cloud-upload"></i> Restore</button>
       <div id="header-primary-btn"></div>
     </div>
   </header>
@@ -316,6 +318,24 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
     </div>
     <div class="modal-actions">
       <button class="btn primary" onclick="closeTariffMgr()"><i class="ti ti-check"></i> Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Restore Modal ===== -->
+<div class="modal" id="restoreModal">
+  <div class="modal-box">
+    <h3>Restore from backup</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Select a <code style="font-family:'DM Mono',monospace;background:var(--surface2);padding:1px 5px;border-radius:4px">.json</code> backup file to restore. <strong>This will overwrite all current data.</strong></p>
+    <div class="field">
+      <label>Backup file</label>
+      <input type="file" id="restore-file" accept=".json" onchange="previewRestore(this)"
+        style="font-size:13px;padding:6px 0;border:none;background:transparent;cursor:pointer">
+    </div>
+    <div id="restore-preview" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:4px;font-size:12px;color:var(--text-2)"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeRestoreModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn danger" id="restore-confirm-btn" onclick="confirmRestore()" disabled style="opacity:0.4"><i class="ti ti-refresh"></i> Restore data</button>
     </div>
   </div>
 </div>
@@ -1174,6 +1194,79 @@ function addTariff() {
 }
 
 // ─────────────────────────────────────────────
+// BACKUP & RESTORE
+// ─────────────────────────────────────────────
+function backupData() {
+  const timestamp = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
+  const filename = 'skhoop-backup-' + timestamp + '.json';
+  const json = JSON.stringify(data, null, 2);
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  a.download = filename;
+  a.click();
+}
+
+let restorePayload = null;
+
+function openRestoreModal() {
+  restorePayload = null;
+  document.getElementById('restore-file').value = '';
+  document.getElementById('restore-preview').style.display = 'none';
+  document.getElementById('restore-confirm-btn').disabled = true;
+  document.getElementById('restore-confirm-btn').style.opacity = '0.4';
+  document.getElementById('restoreModal').classList.add('open');
+}
+
+function closeRestoreModal() {
+  document.getElementById('restoreModal').classList.remove('open');
+}
+
+function previewRestore(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      // Validate basic structure
+      if (!parsed.master || !parsed.seasons || !parsed.tariffs) {
+        throw new Error('Invalid backup file structure.');
+      }
+      restorePayload = parsed;
+      const preview = document.getElementById('restore-preview');
+      preview.style.display = 'block';
+      preview.innerHTML = `
+        <strong>File looks good.</strong> This backup contains:<br>
+        <span style="margin-left:8px">· ${parsed.master.length} styles in master library</span><br>
+        <span style="margin-left:8px">· ${parsed.seasons.length} season(s): ${parsed.seasons.map(s=>s.code).join(', ')}</span><br>
+        <span style="margin-left:8px">· ${parsed.tariffs.length} tariff column(s)</span>`;
+      const btn = document.getElementById('restore-confirm-btn');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    } catch(err) {
+      restorePayload = null;
+      const preview = document.getElementById('restore-preview');
+      preview.style.display = 'block';
+      preview.innerHTML = '<span style="color:#a32d2d">⚠ Could not read this file. Make sure it's a SKHOOP backup .json file.</span>';
+      const btn = document.getElementById('restore-confirm-btn');
+      btn.disabled = true;
+      btn.style.opacity = '0.4';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmRestore() {
+  if (!restorePayload) return;
+  if (!confirm('This will replace all current data with the backup. Are you sure?')) return;
+  data = restorePayload;
+  saveData();
+  closeRestoreModal();
+  currentTab = 'master';
+  renderAll();
+}
+
+// ─────────────────────────────────────────────
 // FREIGHT CALCULATOR
 // ─────────────────────────────────────────────
 function openFreightCalc() {
@@ -1244,7 +1337,7 @@ function downloadCSV(filename, headers, rows) {
 // ─────────────────────────────────────────────
 // BACKDROP CLOSE
 // ─────────────────────────────────────────────
-['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal','seasonStyleEditModal'].forEach(id => {
+['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal','seasonStyleEditModal','restoreModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('open');
   });
