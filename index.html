@@ -534,6 +534,29 @@ function renderSeasonView(seasonCode) {
   var wtdWSMargin   = wsDen   ? (wsNum   / wsDen   * 100) : NaN;
   var wtdMSRPMargin = msrpDen ? (msrpNum / msrpDen * 100) : NaN;
 
+  // Totals for freight, royalties, tariffs across all units
+  var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0;
+  for (var i = 0; i < season.styles.length; i++) {
+    var ss2 = season.styles[i];
+    var ms2 = getMasterStyle(ss2.masterStyleId);
+    if (!ms2) continue;
+    var freight2 = parseFloat(ss2.freight) || 0;
+    var bt2 = (parseFloat(ms2.baseTariff) || 0) / 100;
+    var addT2 = 0;
+    for (var ti2 = 0; ti2 < data.tariffs.length; ti2++) {
+      var t2 = data.tariffs[ti2];
+      if (isTariffActive(ss2, t2.id)) addT2 += getSeasonTariffRate(seasonCode, t2.id) / 100;
+    }
+    for (var ci2 = 0; ci2 < (ss2.colorways || []).length; ci2++) {
+      var cw2 = ss2.colorways[ci2];
+      var sp2 = parseFloat(cw2.supplierPrice) || 0;
+      var qty2 = parseFloat(cw2.qty) || 0;
+      totalFreight  += freight2 * qty2;
+      totalRoyalty  += sp2 * 0.15 * qty2;
+      totalTariffs  += sp2 * (bt2 + addT2) * qty2;
+    }
+  }
+
   var html = '<div class="stats">'
     + '<div class="stat"><div class="stat-label">Styles</div><div class="stat-val">' + season.styles.length + '</div></div>'
     + '<div class="stat"><div class="stat-label">Total units</div><div class="stat-val">' + totalUnits.toLocaleString() + '</div></div>'
@@ -541,6 +564,9 @@ function renderSeasonView(seasonCode) {
     + '<div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">' + fmtBig(totalLV) + '</div></div>'
     + '<div class="stat"><div class="stat-label">Wtd avg WS margin</div><div class="stat-val" style="color:' + (!isNaN(wtdWSMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdWSMargin) + '</div></div>'
     + '<div class="stat"><div class="stat-label">Wtd avg MSRP margin</div><div class="stat-val" style="color:' + (!isNaN(wtdMSRPMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdMSRPMargin) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Total freight</div><div class="stat-val">' + fmtBig(totalFreight) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Total royalties</div><div class="stat-val">' + fmtBig(totalRoyalty) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Total tariffs</div><div class="stat-val">' + fmtBig(totalTariffs) + '</div></div>'
     + '</div>';
 
   // Tariff rate bar
