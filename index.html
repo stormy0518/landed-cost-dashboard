@@ -15,61 +15,46 @@
   --border: rgba(0,0,0,0.09); --border-md: rgba(0,0,0,0.16);
   --text: #1a1917; --text-2: #6b6860; --text-3: #9e9b95;
   --accent: #1a1917; --accent-fg: #ffffff;
-  --green: #1a6b4a; --green-bg: #e8f5ee;
-  --radius: 8px; --radius-lg: 12px;
+  --green: #1a6b4a; --radius: 8px; --radius-lg: 12px;
 }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
 .page { max-width: 1600px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-/* Header */
 header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .brand-name { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
 .brand-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
 .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-/* Buttons */
 .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-md); background: var(--surface); color: var(--text); cursor: pointer; white-space: nowrap; transition: background 0.15s; }
 .btn:hover { background: var(--surface2); }
 .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
 .btn.primary:hover { opacity: 0.88; }
 .btn.sm { font-size: 12px; padding: 4px 10px; }
+.btn.danger { color: #a32d2d; border-color: #f09595; }
+.btn.danger:hover { background: #fcebeb; }
 .btn i { font-size: 15px; }
 
-/* Tabs */
-.tabs-bar { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--border-md); margin-bottom: 1.5rem; flex-wrap: wrap; }
+.tabs-bar { display: flex; align-items: center; border-bottom: 1px solid var(--border-md); margin-bottom: 1.5rem; flex-wrap: wrap; }
 .tab { font-size: 13px; font-weight: 500; padding: 8px 18px; border: none; background: none; color: var(--text-2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s, border-color 0.15s; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
 .tab:hover { color: var(--text); }
 .tab.active { color: var(--text); border-bottom-color: var(--accent); }
-.tab.master { font-style: italic; }
 .tab-add { font-size: 12px; padding: 8px 12px; border: none; background: none; color: var(--text-3); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; margin-bottom: -1px; }
 .tab-add:hover { color: var(--text); }
 
-/* Stats */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.75rem; }
 .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
 .stat-label { font-size: 11px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
 .stat-val { font-size: 22px; font-weight: 500; }
 
-/* Season tariff bar */
 .season-tariff-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .season-tariff-bar-label { font-size: 12px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
 .tariff-rate-item { display: flex; align-items: center; gap: 6px; }
 .tariff-rate-item label { font-size: 12px; color: var(--text-2); white-space: nowrap; }
 .tariff-rate-item input { width: 70px; font-size: 13px; font-family: 'DM Mono', monospace; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 4px 8px; background: var(--surface); color: var(--text); outline: none; }
-.tariff-rate-item input:focus { border-color: var(--accent); }
-.tariff-rate-item span { font-size: 12px; color: var(--text-3); }
-.season-tariff-divider { width: 1px; height: 24px; background: var(--border-md); }
+.tariff-rate-divider { width: 1px; height: 24px; background: var(--border-md); }
 
-/* Controls */
 .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; justify-content: space-between; }
-.controls-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.controls-label { font-size: 12px; color: var(--text-2); font-weight: 500; }
-.toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
-.toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-.toggle:hover { border-color: var(--accent); color: var(--text); }
-.toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-/* Table */
 .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { position: sticky; top: 0; z-index: 2; }
@@ -77,17 +62,16 @@ th { background: var(--surface2); color: var(--text-2); font-size: 11px; font-we
 th:first-child { position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 4px rgba(0,0,0,0.06); }
 td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 td:first-child { position: sticky; left: 0; z-index: 1; box-shadow: 2px 0 4px rgba(0,0,0,0.06); }
-tr.style-row td:first-child { background: var(--surface2); }
-tr.style-row:hover td:first-child { background: var(--surface3); }
-tr.colorway-row td:first-child { background: var(--surface); }
-tr.colorway-row:hover td:first-child { background: #faf9f7; }
 tr:last-child td { border-bottom: none; }
 tr.style-row td { background: var(--surface2); font-weight: 500; border-bottom: 1px solid var(--border-md); }
+tr.style-row td:first-child { background: var(--surface2); }
 tr.style-row:hover td { background: var(--surface3); }
+tr.style-row:hover td:first-child { background: var(--surface3); }
 tr.colorway-row td { background: var(--surface); }
+tr.colorway-row td:first-child { background: var(--surface); }
 tr.colorway-row:hover td { background: #faf9f7; }
+tr.colorway-row:hover td:first-child { background: #faf9f7; }
 tr.colorway-row.hidden { display: none; }
-tr.colorway-row td:first-child { padding-left: 36px; }
 .style-toggle { background: none; border: none; cursor: pointer; color: var(--text-2); margin-right: 4px; display: inline-flex; align-items: center; padding: 0; font-size: 14px; vertical-align: middle; transition: transform 0.15s; }
 .style-toggle.open { transform: rotate(90deg); }
 td input, td select { width: 100%; min-width: 60px; font-size: 13px; background: transparent; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; padding: 1px 0; outline: none; }
@@ -103,16 +87,11 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .icon-btn:hover { color: #a32d2d; background: #fcebeb; }
 .icon-btn.edit:hover { color: var(--accent); background: var(--surface2); }
 .empty-row td { text-align: center; padding: 3rem; color: var(--text-3); font-size: 14px; }
-
-/* Tariff toggle pill per style in season */
 .tariff-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border-md); cursor: pointer; user-select: none; margin: 1px; white-space: nowrap; transition: all 0.15s; font-family: 'DM Sans', sans-serif; font-weight: 500; }
 .tariff-pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 .tariff-pill.off { background: var(--surface); color: var(--text-3); border-color: var(--border-md); text-decoration: line-through; }
-
-/* Master table extras */
 .cw-chip { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 8px; margin: 1px; color: var(--text-2); }
 
-/* Modal */
 .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
 .modal.open { display: flex; }
 .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 460px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -127,8 +106,6 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
 .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin: 16px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-
-/* Colorway picker */
 .cw-pick-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; max-height: 200px; overflow-y: auto; }
 .cw-pick-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: background 0.1s; }
 .cw-pick-item:hover { background: var(--surface2); }
@@ -136,36 +113,21 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .cw-pick-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
 .cw-pick-label { font-size: 13px; flex: 1; }
 .cw-pick-sub { font-size: 11px; color: var(--text-3); }
-
-/* Tariff manager */
 .tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .tariff-item:last-child { border-bottom: none; }
 .tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 15px; padding: 2px 4px; display: inline-flex; align-items: center; }
 .tariff-del:hover { color: #a32d2d; }
 .add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
 .add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
-
-/* Freight calc */
 .calc-result { background: var(--surface2); border-radius: var(--radius); padding: 14px 16px; margin: 4px 0 16px; }
 .calc-result-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
 .calc-result-val { font-size: 28px; font-weight: 500; font-family: 'DM Mono', monospace; }
 .calc-result-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; }
-
-/* Season tab context menu */
-.tab-ctx { position: relative; display: inline-flex; }
-.tab-ctx-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--surface); border: 1px solid var(--border-md); border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; min-width: 140px; padding: 4px 0; }
-.tab-ctx-menu.open { display: block; }
-.tab-ctx-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer; color: var(--text); }
-.tab-ctx-item:hover { background: var(--surface2); }
-.tab-ctx-item.danger { color: #a32d2d; }
-.tab-ctx-item.danger:hover { background: #fcebeb; }
-
-.add-style-season-btn { font-size: 12px; }
+.restore-preview { background: var(--surface2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 4px; font-size: 12px; color: var(--text-2); display: none; }
 </style>
 </head>
 <body>
 <div class="page">
-
   <header>
     <div class="brand">
       <div class="brand-name">SKHOOP USA</div>
@@ -175,19 +137,17 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
       <button class="btn" onclick="openFreightCalc()"><i class="ti ti-calculator"></i> Freight Calculator</button>
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
+      <button class="btn" onclick="openImportModal()"><i class="ti ti-file-import"></i> Import</button>
       <button class="btn" onclick="backupData()"><i class="ti ti-cloud-download"></i> Backup</button>
       <button class="btn" onclick="openRestoreModal()"><i class="ti ti-cloud-upload"></i> Restore</button>
       <div id="header-primary-btn"></div>
     </div>
   </header>
-
   <div class="tabs-bar" id="tabs-bar"></div>
-
   <div id="main-content"></div>
-
 </div>
 
-<!-- ===== MASTER: Add/Edit Style Modal ===== -->
+<!-- Master Style Modal -->
 <div class="modal" id="masterStyleModal">
   <div class="modal-box">
     <h3 id="msModalTitle">Add style to library</h3>
@@ -213,7 +173,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
-<!-- ===== SEASON: Add Style Modal ===== -->
+<!-- Season Style Modal -->
 <div class="modal" id="seasonStyleModal">
   <div class="modal-box wide">
     <h3 id="ssModalTitle">Add style to season</h3>
@@ -224,15 +184,15 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
       </select>
     </div>
     <div id="ss-style-info" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text-2)"></div>
-    <div class="field"><label>Freight per unit (USD)</label><input id="ss-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
     <div class="field-row">
-      <div class="field"><label>Wholesale price / WS$ (USD)</label><input id="ss-ws" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="field"><label>Freight per unit (USD)</label><input id="ss-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>WS$ (USD)</label><input id="ss-ws" type="number" min="0" step="0.01" placeholder="0.00"></div>
       <div class="field"><label>MSRP (USD)</label><input id="ss-msrp" type="number" min="0" step="0.01" placeholder="0.00"></div>
     </div>
-
     <div class="section-label">Colorways to include</div>
     <div id="ss-cw-picker" style="color:var(--text-3);font-size:13px">Select a style above to choose colorways.</div>
-
     <div class="modal-actions">
       <button class="btn" onclick="closeSeasonStyleModal()"><i class="ti ti-x"></i> Cancel</button>
       <button class="btn primary" onclick="saveSeasonStyle()"><i class="ti ti-check"></i> Add to season</button>
@@ -240,51 +200,18 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
-<!-- ===== SEASON: Edit Colorway Modal ===== -->
-<div class="modal" id="cwEditModal">
-  <div class="modal-box">
-    <h3 id="cwEditTitle">Edit colorway</h3>
-    <div style="background:var(--surface2);border-radius:var(--radius);padding:8px 12px;margin-bottom:14px;font-size:12px;color:var(--text-2)" id="cw-edit-info"></div>
-    <div class="field-row">
-      <div class="field"><label>PO Qty</label><input id="cwe-qty" type="number" min="0" placeholder="0"></div>
-      <div class="field"><label>Supplier price (USD)</label><input id="cwe-sp" type="number" min="0" step="0.01" placeholder="0.00"></div>
-    </div>
-    <div class="field">
-      <label>Royalty (15% of supplier price)</label>
-      <input id="cwe-roy" type="text" disabled placeholder="auto-calculated">
-    </div>
-    <div class="modal-actions">
-      <button class="btn" onclick="closeCwEditModal()"><i class="ti ti-x"></i> Cancel</button>
-      <button class="btn primary" onclick="saveCwEdit()"><i class="ti ti-check"></i> Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== Add Season Modal ===== -->
-<div class="modal" id="addSeasonModal">
-  <div class="modal-box">
-    <h3>Add season</h3>
-    <div class="field">
-      <label>Season code</label>
-      <input id="as-code" type="text" placeholder="e.g. FW26, SS27" maxlength="6">
-      <div class="hint">Format: FW or SS followed by 2-digit year.</div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn" onclick="closeAddSeasonModal()"><i class="ti ti-x"></i> Cancel</button>
-      <button class="btn primary" onclick="saveNewSeason()"><i class="ti ti-check"></i> Add season</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== Season Style Edit Modal ===== -->
+<!-- Season Style Edit Modal -->
 <div class="modal" id="seasonStyleEditModal">
   <div class="modal-box wide">
     <h3 id="sse-title">Edit style</h3>
-    <div class="field">
-      <label>Freight per unit (USD)</label>
-      <input id="sse-freight" type="number" min="0" step="0.01" placeholder="0.00" style="max-width:160px">
+    <div class="field-row">
+      <div class="field"><label>Freight per unit (USD)</label><input id="sse-freight" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="field"><label>WS$ (USD)</label><input id="sse-ws" type="number" min="0" step="0.01" placeholder="0.00"></div>
     </div>
-    <div class="section-label">Colorway pricing & quantities</div>
+    <div class="field-row">
+      <div class="field"><label>MSRP (USD)</label><input id="sse-msrp" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    </div>
+    <div class="section-label">Colorway pricing and quantities</div>
     <div style="overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:4px">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
         <thead>
@@ -306,14 +233,30 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
-<!-- ===== Tariff Manager Modal ===== -->
+<!-- Add Season Modal -->
+<div class="modal" id="addSeasonModal">
+  <div class="modal-box">
+    <h3>Add season</h3>
+    <div class="field">
+      <label>Season code</label>
+      <input id="as-code" type="text" placeholder="e.g. FW26, SS27" maxlength="6">
+      <div class="hint">Format: FW or SS followed by 2-digit year.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeAddSeasonModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveNewSeason()"><i class="ti ti-check"></i> Add season</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tariff Manager Modal -->
 <div class="modal" id="tariffModal">
   <div class="modal-box">
     <h3>Manage tariff columns</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">These are the additional tariff columns available across all seasons. Rates are set per season in the season view.</p>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Add or remove additional tariff columns. Rates are set per season.</p>
     <div id="tariff-list"></div>
     <div class="add-tariff-row">
-      <input id="new-tariff-name" type="text" placeholder="New tariff name (e.g. Section 232)">
+      <input id="new-tariff-name" type="text" placeholder="e.g. Section 232">
       <button class="btn" onclick="addTariff()"><i class="ti ti-plus"></i> Add</button>
     </div>
     <div class="modal-actions">
@@ -322,29 +265,11 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
-<!-- ===== Restore Modal ===== -->
-<div class="modal" id="restoreModal">
-  <div class="modal-box">
-    <h3>Restore from backup</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Select a <code style="font-family:'DM Mono',monospace;background:var(--surface2);padding:1px 5px;border-radius:4px">.json</code> backup file to restore. <strong>This will overwrite all current data.</strong></p>
-    <div class="field">
-      <label>Backup file</label>
-      <input type="file" id="restore-file" accept=".json" onchange="previewRestore(this)"
-        style="font-size:13px;padding:6px 0;border:none;background:transparent;cursor:pointer">
-    </div>
-    <div id="restore-preview" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:4px;font-size:12px;color:var(--text-2)"></div>
-    <div class="modal-actions">
-      <button class="btn" onclick="closeRestoreModal()"><i class="ti ti-x"></i> Cancel</button>
-      <button class="btn danger" id="restore-confirm-btn" onclick="confirmRestore()" disabled style="opacity:0.4"><i class="ti ti-refresh"></i> Restore data</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== Freight Calculator Modal ===== -->
+<!-- Freight Calculator Modal -->
 <div class="modal" id="freightModal">
   <div class="modal-box">
     <h3>Freight calculator</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Include all charges — ocean/air freight, destination fees, brokerage, drayage, and inland trucking.</p>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Include all charges — ocean/air, destination fees, brokerage, drayage, and inland trucking.</p>
     <div class="field"><label>Total freight cost (USD)</label><input id="fc-total" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcFreight()"></div>
     <div class="field"><label>Total units in shipment</label><input id="fc-units" type="number" min="0" placeholder="0" oninput="calcFreight()"></div>
     <div class="calc-result">
@@ -358,15 +283,81 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
+<!-- Import Modal -->
+<div class="modal" id="importModal">
+  <div class="modal-box wide">
+    <h3>Import from spreadsheet</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Upload a filled-in import template. Import Master Library first, then Season Data.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Step 1 — Master Library</div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">Styles, materials, HTSUS, colorways</div>
+        <button class="btn sm" onclick="downloadMasterTemplate()"><i class="ti ti-download"></i> Download template</button>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">Step 2 — Season Data</div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">PO qty, prices, freight, WS$, MSRP</div>
+        <button class="btn sm" onclick="downloadSeasonTemplate()"><i class="ti ti-download"></i> Download template</button>
+      </div>
+    </div>
+
+    <div class="section-label">Upload filled template</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <select id="import-type" style="font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:7px 10px;font-family:'DM Sans',sans-serif;outline:none;background:var(--surface);color:var(--text)">
+        <option value="master">Master Library</option>
+        <option value="season">Season Data</option>
+      </select>
+      <input type="file" id="import-file" accept=".csv,.xlsx" onchange="previewImport(this)" style="font-size:13px;cursor:pointer">
+    </div>
+    <div id="import-preview" style="display:none;background:var(--surface2);border-radius:var(--radius);padding:12px 14px;margin-bottom:4px;font-size:12px;color:var(--text-2)"></div>
+    <div id="import-errors" style="display:none;background:#fcebeb;border-radius:var(--radius);padding:12px 14px;margin-bottom:4px;font-size:12px;color:#a32d2d"></div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeImportModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" id="import-confirm-btn" onclick="confirmImport()" disabled style="opacity:0.4"><i class="ti ti-file-import"></i> Import data</button>
+    </div>
+  </div>
+</div>
+
+<!-- Restore Modal -->
+<div class="modal" id="restoreModal">
+  <div class="modal-box">
+    <h3>Restore from backup</h3>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Select a <code style="font-family:'DM Mono',monospace;background:var(--surface2);padding:1px 5px;border-radius:4px">.json</code> backup file. <strong>This will overwrite all current data.</strong></p>
+    <div class="field">
+      <label>Backup file</label>
+      <input type="file" id="restore-file" accept=".json" onchange="previewRestore(this)" style="font-size:13px;padding:6px 0;border:none;background:transparent;cursor:pointer">
+    </div>
+    <div class="restore-preview" id="restore-preview"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeRestoreModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn danger" id="restore-confirm-btn" onclick="confirmRestore()" disabled style="opacity:0.4"><i class="ti ti-refresh"></i> Restore data</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ─────────────────────────────────────────────
-// DATA & PERSISTENCE
-// ─────────────────────────────────────────────
+// ── DATA ──────────────────────────────────────
 const STORE_KEY = 'skhoop_v4';
+let data, currentTab, expanded, editingMasterStyleId, seasonStyleEditCtx, addingToSeasonCode, masterCwFieldCount, restorePayload;
+
+function init() {
+  data = loadData();
+  currentTab = 'master';
+  expanded = {};
+  editingMasterStyleId = null;
+  seasonStyleEditCtx = null;
+  addingToSeasonCode = null;
+  masterCwFieldCount = 0;
+  restorePayload = null;
+}
+
+function uid() { return 'id' + Math.random().toString(36).slice(2, 10); }
 
 function defaultData() {
   return {
-    master: [],   // array of style objects
+    master: [],
     seasons: [
       { code: 'FW26', tariffRates: {}, styles: [] },
       { code: 'SS27', tariffRates: {}, styles: [] }
@@ -381,442 +372,304 @@ function defaultData() {
 function loadData() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) return JSON.parse(raw);
-    // Migrate from v3
-    const v3raw = localStorage.getItem('skhoop_v3');
-    if (v3raw) return migrateV3(JSON.parse(v3raw));
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.master && parsed.seasons && parsed.tariffs) return parsed;
+    }
   } catch(e) {}
   return defaultData();
 }
 
-function migrateV3(v3) {
-  const d = defaultData();
-  // Build master library from v3 styles
-  (v3.styles || []).forEach(s => {
-    const masterStyle = {
-      id: uid(),
-      name: s.name || '',
-      materials: s.materials || '',
-      fabricType: '',
-      kw: s.kw || '',
-      hts: s.hts || '',
-      baseTariff: s.baseTariff || '',
-      colorways: (s.colorways || []).map(c => ({
-        id: uid(),
-        color: c.color || '',
-        fabricType: c.fabricType || ''
-      }))
-    };
-    d.master.push(masterStyle);
-
-    // Add to FW26 season
-    const seasonStyle = {
-      masterStyleId: masterStyle.id,
-      freight: s.freight || '',
-      tariffOverrides: {},  // all on by default
-      colorways: masterStyle.colorways.map((mc, i) => {
-        const orig = (s.colorways || [])[i] || {};
-        return {
-          masterColorwayId: mc.id,
-          qty: orig.qty || '',
-          supplierPrice: orig.supplierPrice || ''
-        };
-      })
-    };
-    // Set tariff overrides from v3 tariff rates
-    d.tariffs.forEach(t => { seasonStyle.tariffOverrides[t.id] = true; });
-    d.seasons[0].styles.push(seasonStyle);
-  });
-
-  // Migrate tariff rates to FW26
-  (v3.tariffs || []).forEach(vt => {
-    const match = d.tariffs.find(t => t.id === vt.id);
-    if (match && vt.globalRate) {
-      d.seasons[0].tariffRates[match.id] = vt.globalRate;
-    }
-  });
-
-  return d;
-}
-
-function uid() { return 't' + Math.random().toString(36).slice(2, 10); }
 function saveData() { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
 
-let data = loadData();
-let currentTab = 'master';
-const expanded = {};
-let editingMasterStyleId = null;
-let editingSeasonStyle = null;  // { seasonCode, styleIdx }
-let cwEditContext = null;       // { seasonCode, styleIdx, cwIdx }
-let masterCwFieldCount = 0;
-
-// ─────────────────────────────────────────────
-// LOOKUPS
-// ─────────────────────────────────────────────
-function getMasterStyle(id) { return data.master.find(s => s.id === id); }
-function getSeason(code) { return data.seasons.find(s => s.code === code); }
-
+// ── LOOKUPS ───────────────────────────────────
+function getMasterStyle(id) { return data.master.find(function(s) { return s.id === id; }); }
+function getSeason(code) { return data.seasons.find(function(s) { return s.code === code; }); }
 function getSeasonTariffRate(seasonCode, tariffId) {
-  const s = getSeason(seasonCode);
+  var s = getSeason(seasonCode);
   return s ? (parseFloat(s.tariffRates[tariffId]) || 0) : 0;
 }
-
-function isTariffActive(seasonStyle, tariffId) {
-  // Default on; only off if explicitly set to false
-  if (!seasonStyle.tariffOverrides) return true;
-  if (seasonStyle.tariffOverrides[tariffId] === false) return false;
+function isTariffActive(ss, tariffId) {
+  if (!ss.tariffOverrides) return true;
+  if (ss.tariffOverrides[tariffId] === false) return false;
   return true;
 }
 
-// ─────────────────────────────────────────────
-// CALCULATIONS
-// ─────────────────────────────────────────────
-function colorwayLC(cw, seasonStyle, masterStyle, seasonCode) {
-  const sp      = parseFloat(cw.supplierPrice) || 0;
-  const bt      = (parseFloat(masterStyle.baseTariff) || 0) / 100;
-  const roy     = 0.15;
-  const freight = parseFloat(seasonStyle.freight) || 0;
-  let addT = 0;
-  data.tariffs.forEach(t => {
-    if (isTariffActive(seasonStyle, t.id)) {
-      addT += getSeasonTariffRate(seasonCode, t.id) / 100;
-    }
+// ── CALCULATIONS ──────────────────────────────
+function colorwayLC(cw, ss, ms, seasonCode) {
+  var sp      = parseFloat(cw.supplierPrice) || 0;
+  var bt      = (parseFloat(ms.baseTariff) || 0) / 100;
+  var roy     = 0.15;
+  var freight = parseFloat(ss.freight) || 0;
+  var addT    = 0;
+  data.tariffs.forEach(function(t) {
+    if (isTariffActive(ss, t.id)) addT += getSeasonTariffRate(seasonCode, t.id) / 100;
   });
   return sp * (1 + bt + addT + roy) + freight;
 }
 
-function styleWeightedLC(seasonStyle, masterStyle, seasonCode) {
-  const cws = seasonStyle.colorways || [];
-  const totalQty = cws.reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+function styleWeightedLC(ss, ms, seasonCode) {
+  var cws = ss.colorways || [];
+  var totalQty = cws.reduce(function(a, c) { return a + (parseFloat(c.qty) || 0); }, 0);
   if (!totalQty) return NaN;
-  return cws.reduce((a, c) => a + colorwayLC(c, seasonStyle, masterStyle, seasonCode) * (parseFloat(c.qty) || 0), 0) / totalQty;
+  return cws.reduce(function(a, c) { return a + colorwayLC(c, ss, ms, seasonCode) * (parseFloat(c.qty) || 0); }, 0) / totalQty;
 }
 
-function styleTotalUnits(seasonStyle) {
-  return (seasonStyle.colorways || []).reduce((a, c) => a + (parseFloat(c.qty) || 0), 0);
+function styleTotalUnits(ss) {
+  return (ss.colorways || []).reduce(function(a, c) { return a + (parseFloat(c.qty) || 0); }, 0);
 }
 
-function styleTotalLV(seasonStyle, masterStyle, seasonCode) {
-  return (seasonStyle.colorways || []).reduce((a, c) =>
-    a + colorwayLC(c, seasonStyle, masterStyle, seasonCode) * (parseFloat(c.qty) || 0), 0);
+function styleTotalLV(ss, ms, seasonCode) {
+  return (ss.colorways || []).reduce(function(a, c) {
+    return a + colorwayLC(c, ss, ms, seasonCode) * (parseFloat(c.qty) || 0);
+  }, 0);
 }
 
-function fmt(n)    { return isNaN(n) || !isFinite(n) ? '—' : '$' + n.toFixed(2); }
+function fmt(n)    { return (isNaN(n) || !isFinite(n)) ? '—' : '$' + n.toFixed(2); }
+function fmtPct(n) { return (isNaN(n) || !isFinite(n)) ? '—' : n.toFixed(1) + '%'; }
 function fmtBig(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function esc(s)    { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
-// ─────────────────────────────────────────────
-// TABS
-// ─────────────────────────────────────────────
+// ── TABS ──────────────────────────────────────
 function renderTabs() {
-  const bar = document.getElementById('tabs-bar');
-  let html = `<button class="tab master ${currentTab==='master'?'active':''}" onclick="switchTab('master')">
-    <i class="ti ti-books" style="font-size:13px;margin-right:4px"></i>Master Library
-  </button>`;
-  data.seasons.forEach(s => {
-    html += `<div class="tab-ctx" id="tab-ctx-${s.code}">
-      <button class="tab ${currentTab===s.code?'active':''}" onclick="switchTab('${s.code}')" oncontextmenu="openTabCtx('${s.code}',event)">${s.code}</button>
-    </div>`;
+  var html = '<button class="tab' + (currentTab === 'master' ? ' active' : '') + '" onclick="switchTab(\'master\')"><i class="ti ti-books" style="font-size:13px;margin-right:4px"></i>Master Library</button>';
+  data.seasons.forEach(function(s) {
+    html += '<button class="tab' + (currentTab === s.code ? ' active' : '') + '" onclick="switchTab(\'' + s.code + '\')" ondblclick="confirmDeleteSeason(\'' + s.code + '\')">' + esc(s.code) + '</button>';
   });
-  html += `<button class="tab-add" onclick="openAddSeasonModal()"><i class="ti ti-plus"></i> Season</button>`;
-  bar.innerHTML = html;
+  html += '<button class="tab-add" onclick="openAddSeasonModal()"><i class="ti ti-plus"></i> Season</button>';
+  document.getElementById('tabs-bar').innerHTML = html;
 }
 
-function switchTab(tab) {
-  currentTab = tab;
-  renderAll();
-}
+function switchTab(tab) { currentTab = tab; renderAll(); }
 
-function openTabCtx(code, e) {
-  e.preventDefault();
-  // simple confirm delete
-  if (confirm('Delete season ' + code + '? This removes all season data but keeps master library styles.')) {
-    data.seasons = data.seasons.filter(s => s.code !== code);
+function confirmDeleteSeason(code) {
+  if (confirm('Delete season ' + code + '? Master library styles are unaffected.')) {
+    data.seasons = data.seasons.filter(function(s) { return s.code !== code; });
     if (currentTab === code) currentTab = 'master';
     saveData();
     renderAll();
   }
 }
 
-// ─────────────────────────────────────────────
-// HEADER PRIMARY BUTTON
-// ─────────────────────────────────────────────
 function renderHeaderBtn() {
-  const el = document.getElementById('header-primary-btn');
+  var el = document.getElementById('header-primary-btn');
   if (currentTab === 'master') {
-    el.innerHTML = `<button class="btn primary" onclick="openMasterStyleModal()"><i class="ti ti-plus"></i> Add Style</button>`;
+    el.innerHTML = '<button class="btn primary" onclick="openMasterStyleModal()"><i class="ti ti-plus"></i> Add Style</button>';
   } else {
-    el.innerHTML = `<button class="btn primary add-style-season-btn" onclick="openSeasonStyleModal('${currentTab}')"><i class="ti ti-plus"></i> Add Style to ${currentTab}</button>`;
+    el.innerHTML = '<button class="btn primary" onclick="openSeasonStyleModal(\'' + currentTab + '\')"><i class="ti ti-plus"></i> Add Style to ' + esc(currentTab) + '</button>';
   }
 }
 
-// ─────────────────────────────────────────────
-// MASTER LIBRARY VIEW
-// ─────────────────────────────────────────────
+// ── MASTER VIEW ───────────────────────────────
 function renderMasterView() {
-  const content = document.getElementById('main-content');
-  const styles = data.master;
-
-  let html = `<div class="tbl-wrap"><table>
-    <thead><tr>
-      <th>Style name</th><th>Materials</th><th>Fabric type</th><th>Knit/Woven</th>
-      <th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th>
-    </tr></thead><tbody>`;
-
+  var styles = data.master;
+  var html = '<div class="tbl-wrap"><table><thead><tr><th>Style name</th><th>Materials</th><th>Fabric type</th><th>Knit/Woven</th><th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th></tr></thead><tbody>';
   if (!styles.length) {
-    html += `<tr class="empty-row"><td colspan="8">No styles in master library yet — click Add Style to get started.</td></tr>`;
+    html += '<tr class="empty-row"><td colspan="8">No styles in master library yet — click Add Style to get started.</td></tr>';
   } else {
-    styles.forEach((s, i) => {
-      const cwChips = (s.colorways || []).map(c =>
-        `<span class="cw-chip">${esc(c.color)}${c.fabricType ? ' · '+esc(c.fabricType) : ''}</span>`
-      ).join('');
-      html += `<tr>
-        <td style="font-weight:500">${esc(s.name)}</td>
-        <td style="font-size:12px;color:var(--text-2)">${esc(s.materials)}</td>
-        <td style="font-size:12px">${esc(s.fabricType)}</td>
-        <td style="font-size:12px">${esc(s.kw)}</td>
-        <td class="mono">${esc(s.hts)}</td>
-        <td class="mono">${s.baseTariff||'—'}%</td>
-        <td style="max-width:280px">${cwChips || '<span style="color:var(--text-3);font-size:12px">None</span>'}</td>
-        <td><div style="display:flex;gap:4px">
-          <button class="icon-btn edit" onclick="openMasterStyleModal('${s.id}')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>
-          <button class="icon-btn" onclick="deleteMasterStyle('${s.id}')" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button>
-        </div></td>
-      </tr>`;
+    styles.forEach(function(s, i) {
+      var cwChips = (s.colorways || []).map(function(c) {
+        return '<span class="cw-chip">' + esc(c.color) + (c.fabricType ? ' · ' + esc(c.fabricType) : '') + '</span>';
+      }).join('');
+      html += '<tr><td style="font-weight:500">' + esc(s.name) + '</td><td style="font-size:12px;color:var(--text-2)">' + esc(s.materials) + '</td><td style="font-size:12px">' + esc(s.fabricType) + '</td><td style="font-size:12px">' + esc(s.kw) + '</td><td class="mono">' + esc(s.hts) + '</td><td class="mono">' + (s.baseTariff || '—') + '%</td><td style="max-width:280px">' + (cwChips || '<span style="color:var(--text-3);font-size:12px">None</span>') + '</td><td><div style="display:flex;gap:4px"><button class="icon-btn edit" onclick="openMasterStyleModal(\'' + s.id + '\')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button><button class="icon-btn" onclick="deleteMasterStyle(\'' + s.id + '\')" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button></div></td></tr>';
     });
   }
-
-  html += `</tbody></table></div>`;
-  content.innerHTML = html;
+  html += '</tbody></table></div>';
+  document.getElementById('main-content').innerHTML = html;
 }
 
-// ─────────────────────────────────────────────
-// SEASON VIEW
-// ─────────────────────────────────────────────
+// ── SEASON VIEW ───────────────────────────────
 function renderSeasonView(seasonCode) {
-  const season = getSeason(seasonCode);
+  var season = getSeason(seasonCode);
   if (!season) return;
-  const content = document.getElementById('main-content');
 
   // Stats
-  let totalUnits = 0, totalLV = 0, allWLC = [];
-  season.styles.forEach(ss => {
-    const ms = getMasterStyle(ss.masterStyleId);
+  var totalUnits = 0, totalLV = 0, allWLC = [];
+  var wsNum = 0, wsDen = 0, msrpNum = 0, msrpDen = 0;
+  season.styles.forEach(function(ss) {
+    var ms = getMasterStyle(ss.masterStyleId);
     if (!ms) return;
-    totalUnits += styleTotalUnits(ss);
+    var units = styleTotalUnits(ss);
+    totalUnits += units;
     totalLV    += styleTotalLV(ss, ms, seasonCode);
-    const wlc = styleWeightedLC(ss, ms, seasonCode);
+    var wlc = styleWeightedLC(ss, ms, seasonCode);
     if (!isNaN(wlc)) allWLC.push(wlc);
+    if (units) {
+      var ws   = parseFloat(ss.ws);
+      var msrp = parseFloat(ss.msrp);
+      if (ws   && !isNaN(wlc)) { wsNum   += ((ws   - wlc) / ws)   * units; wsDen   += units; }
+      if (msrp && !isNaN(wlc)) { msrpNum += ((msrp - wlc) / msrp) * units; msrpDen += units; }
+    }
   });
-  const avgLC = allWLC.length ? allWLC.reduce((a,n)=>a+n,0)/allWLC.length : NaN;
+  var avgLC       = allWLC.length ? allWLC.reduce(function(a,n){return a+n;},0) / allWLC.length : NaN;
+  var wtdWSMargin   = wsDen   ? (wsNum   / wsDen   * 100) : NaN;
+  var wtdMSRPMargin = msrpDen ? (msrpNum / msrpDen * 100) : NaN;
 
-  // Weighted avg WS and MSRP margins
-  let wsMarginNum = 0, wsMarginDen = 0, msrpMarginNum = 0, msrpMarginDen = 0;
-  season.styles.forEach(ss => {
-    const ms = getMasterStyle(ss.masterStyleId);
-    if (!ms) return;
-    const units = styleTotalUnits(ss);
-    if (!units) return;
-    const wlc = styleWeightedLC(ss, ms, seasonCode);
-    if (isNaN(wlc)) return;
-    const ws   = parseFloat(ss.ws);
-    const msrp = parseFloat(ss.msrp);
-    if (ws)   { wsMarginNum   += ((ws   - wlc) / ws)   * units; wsMarginDen   += units; }
-    if (msrp) { msrpMarginNum += ((msrp - wlc) / msrp) * units; msrpMarginDen += units; }
+  var html = '<div class="stats">'
+    + '<div class="stat"><div class="stat-label">Styles</div><div class="stat-val">' + season.styles.length + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Total units</div><div class="stat-val">' + totalUnits.toLocaleString() + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">' + fmt(avgLC) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">' + fmtBig(totalLV) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Wtd avg WS margin</div><div class="stat-val" style="color:' + (!isNaN(wtdWSMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdWSMargin) + '</div></div>'
+    + '<div class="stat"><div class="stat-label">Wtd avg MSRP margin</div><div class="stat-val" style="color:' + (!isNaN(wtdMSRPMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdMSRPMargin) + '</div></div>'
+    + '</div>';
+
+  // Tariff rate bar
+  html += '<div class="season-tariff-bar"><span class="season-tariff-bar-label">' + esc(seasonCode) + ' tariff rates:</span>';
+  data.tariffs.forEach(function(t, i) {
+    var val = season.tariffRates[t.id] || '';
+    html += '<div class="tariff-rate-item"><label>' + esc(t.name) + '</label><input type="number" min="0" step="0.1" value="' + esc(val) + '" placeholder="0.0" onchange="updateSeasonTariffRate(\'' + seasonCode + '\',\'' + t.id + '\',this.value)"><span>%</span></div>';
+    if (i < data.tariffs.length - 1) html += '<div class="tariff-rate-divider"></div>';
   });
-  const wtdWSMargin   = wsMarginDen   ? (wsMarginNum   / wsMarginDen   * 100) : NaN;
-  const wtdMSRPMargin = msrpMarginDen ? (msrpMarginNum / msrpMarginDen * 100) : NaN;
+  html += '</div>';
 
-  let html = `<div class="stats">
-    <div class="stat"><div class="stat-label">Styles</div><div class="stat-val">${season.styles.length}</div></div>
-    <div class="stat"><div class="stat-label">Total units</div><div class="stat-val">${totalUnits.toLocaleString()}</div></div>
-    <div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">${fmt(avgLC)}</div></div>
-    <div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">${fmtBig(totalLV)}</div></div>
-    <div class="stat"><div class="stat-label">Wtd avg WS margin</div><div class="stat-val" style="color:${!isNaN(wtdWSMargin) ? 'var(--green)' : 'inherit'}">${isNaN(wtdWSMargin) ? '—' : wtdWSMargin.toFixed(1)+'%'}</div></div>
-    <div class="stat"><div class="stat-label">Wtd avg MSRP margin</div><div class="stat-val" style="color:${!isNaN(wtdMSRPMargin) ? 'var(--green)' : 'inherit'}">${isNaN(wtdMSRPMargin) ? '—' : wtdMSRPMargin.toFixed(1)+'%'}</div></div>
-  </div>`;
-
-  // Season tariff rates bar
-  html += `<div class="season-tariff-bar">
-    <span class="season-tariff-bar-label">${seasonCode} tariff rates:</span>`;
-  data.tariffs.forEach((t, i) => {
-    const val = season.tariffRates[t.id] || '';
-    html += `<div class="tariff-rate-item">
-      <label>${t.name}</label>
-      <input type="number" min="0" step="0.1" value="${esc(val)}" placeholder="0.0"
-        onchange="updateSeasonTariffRate('${seasonCode}','${t.id}',this.value)"
-        title="Set ${t.name} rate for ${seasonCode}">
-      <span>%</span>
-    </div>`;
-    if (i < data.tariffs.length - 1) html += `<div class="season-tariff-divider"></div>`;
-  });
-  html += `<div style="margin-left:auto"><button class="btn sm" onclick="pushSeasonRatesToStyles('${seasonCode}')"><i class="ti ti-refresh"></i> Apply to all styles</button></div>`;
-  html += `</div>`;
-
-  // Table
-  html += `<div class="tbl-wrap"><table><thead><tr>
-    <th>Style / Color</th><th>Fabric type</th><th>Knit/Woven</th><th>Qty</th>
-    <th>Supplier price</th><th>HTSUS</th><th>Base tariff %</th>
-    ${data.tariffs.map(t => `<th>${t.name}</th>`).join('')}
-    <th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th><th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>
-  </tr></thead><tbody>`;
+  // Table header
+  var tariffCols = data.tariffs.map(function(t) { return '<th>' + esc(t.name) + '</th>'; }).join('');
+  html += '<div class="tbl-wrap"><table><thead><tr>'
+    + '<th>Style / Color</th><th>Fabric type</th><th>Knit/Woven</th><th>Qty</th>'
+    + '<th>Supplier price</th><th>HTSUS</th><th>Base tariff %</th>'
+    + tariffCols
+    + '<th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th>'
+    + '<th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>'
+    + '</tr></thead><tbody>';
 
   if (!season.styles.length) {
-    html += `<tr class="empty-row"><td colspan="${10 + data.tariffs.length}">No styles in ${seasonCode} yet — click "Add Style to ${seasonCode}".</td></tr>`;
+    var colspan = 12 + data.tariffs.length;
+    html += '<tr class="empty-row"><td colspan="' + colspan + '">No styles in ' + esc(seasonCode) + ' yet — click "Add Style to ' + esc(seasonCode) + '".</td></tr>';
   } else {
-    season.styles.forEach((ss, si) => {
-      const ms = getMasterStyle(ss.masterStyleId);
+    season.styles.forEach(function(ss, si) {
+      var ms = getMasterStyle(ss.masterStyleId);
       if (!ms) return;
-      const isOpen  = !!expanded[seasonCode + '_' + si];
-      const wlc     = styleWeightedLC(ss, ms, seasonCode);
-      const totalU  = styleTotalUnits(ss);
-      const totalLV = styleTotalLV(ss, ms, seasonCode);
-      const freight = parseFloat(ss.freight) || 0;
+      var isOpen  = !!expanded[seasonCode + '_' + si];
+      var wlc     = styleWeightedLC(ss, ms, seasonCode);
+      var totalU  = styleTotalUnits(ss);
+      var freight = parseFloat(ss.freight) || 0;
+      var ws      = parseFloat(ss.ws);
+      var msrp    = parseFloat(ss.msrp);
+      var wsMargin   = (!isNaN(wlc) && ws)   ? ((ws   - wlc) / ws   * 100) : NaN;
+      var msrpMargin = (!isNaN(wlc) && msrp) ? ((msrp - wlc) / msrp * 100) : NaN;
 
-      // Tariff pills for style row
-      const tariffPills = data.tariffs.map(t => {
-        const on = isTariffActive(ss, t.id);
-        const rate = getSeasonTariffRate(seasonCode, t.id);
-        return `<span class="tariff-pill ${on?'on':'off'}" onclick="toggleStyleTariff('${seasonCode}',${si},'${t.id}')" title="${on?'Click to disable':'Click to enable'} ${t.name} for this style">
-          ${t.name}${rate ? ' '+rate+'%' : ''}
-        </span>`;
+      // Weighted avg supplier price for tariff cost display
+      var cws2 = ss.colorways || [];
+      var totalQ2 = cws2.reduce(function(a,c){return a+(parseFloat(c.qty)||0);},0);
+      var avgSP2  = totalQ2 ? cws2.reduce(function(a,c){return a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0);},0)/totalQ2 : 0;
+      var wRoy = avgSP2 * 0.15;
+
+      // Tariff pills
+      var tariffStyleCols = data.tariffs.map(function(t) {
+        var on   = isTariffActive(ss, t.id);
+        var rate = getSeasonTariffRate(seasonCode, t.id);
+        var cost = on ? fmt(avgSP2 * (rate / 100)) : '—';
+        var pill = '<span class="tariff-pill ' + (on ? 'on' : 'off') + '" onclick="toggleStyleTariff(\'' + seasonCode + '\',' + si + ',\'' + t.id + '\')">' + esc(t.name) + (rate ? ' ' + rate + '%' : '') + '</span>';
+        return '<td class="summary-num">' + pill + '<br><span style="font-size:11px;color:var(--text-3)">' + cost + ' avg</span></td>';
       }).join('');
 
-      // Weighted tariff / royalty cols for summary
-      const tariffSumCols = data.tariffs.map(t => {
-        const on = isTariffActive(ss, t.id);
-        const rate = getSeasonTariffRate(seasonCode, t.id);
-        const avgSP = (() => {
-          const cws = ss.colorways || [];
-          const totalQ = cws.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
-          if (!totalQ) return 0;
-          return cws.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ;
-        })();
-        const cost = on ? avgSP * (rate/100) : 0;
-        return `<td class="summary-num">${tariffPills}</td>`;
-      });
-
-      // We actually want one tariff cell for pills, then separate cost cells
-      // Let's do: tariff pills in one spanning approach - actually put pills in col, cost shown per colorway
-      const tariffColsHeader = data.tariffs.map(t => {
-        const on = isTariffActive(ss, t.id);
-        const rate = getSeasonTariffRate(seasonCode, t.id);
-        const pill = `<span class="tariff-pill ${on?'on':'off'}" onclick="toggleStyleTariff('${seasonCode}',${si},'${t.id}')" title="${on?'Disable':'Enable'} ${t.name}">
-          ${t.name}${rate ? ' · '+rate+'%' : ''}
-        </span>`;
-        // weighted avg cost
-        const cws = ss.colorways || [];
-        const totalQ = cws.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
-        const avgSP = totalQ ? cws.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ : 0;
-        const cost = on ? fmt(avgSP * (rate/100)) : '—';
-        return `<td class="summary-num">${pill}<br><span style="font-size:11px;color:var(--text-3)">${cost} avg</span></td>`;
-      }).join('');
-
-      // Weighted avg royalty
-      const cws2 = ss.colorways || [];
-      const totalQ2 = cws2.reduce((a,c)=>a+(parseFloat(c.qty)||0),0);
-      const avgSP2 = totalQ2 ? cws2.reduce((a,c)=>a+(parseFloat(c.supplierPrice)||0)*(parseFloat(c.qty)||0),0)/totalQ2 : 0;
-      const wRoy = avgSP2 * 0.15;
-
-      html += `<tr class="style-row">
-        <td style="font-size:13px">
-          <button class="style-toggle ${isOpen?'open':''}" onclick="toggleExpand('${seasonCode}',${si})"><i class="ti ti-chevron-right"></i></button>
-          ${esc(ms.name)}
-        </td>
-        <td class="muted">${esc(ms.fabricType)}</td>
-        <td class="muted">${esc(ms.kw)}</td>
-        <td class="summary-num">${totalU.toLocaleString()}</td>
-        <td class="muted">—</td>
-        <td class="summary-num" style="font-size:11px">${esc(ms.hts)}</td>
-        <td class="summary-num">${ms.baseTariff||'—'}%</td>
-        ${tariffColsHeader}
-        <td class="summary-num">${fmt(wRoy)}</td>
-        <td class="summary-num">${fmt(freight)}</td>
-        <td class="summary-lc">${fmt(wlc)}</td>
-        <td class="summary-num"><input type="number" min="0" step="0.01" value="${ss.ws||''}" placeholder="—" onchange="updateStyleField('${seasonCode}',${si},'ws',this.value)" style="min-width:65px;font-family:'DM Mono',monospace;font-size:12px"></td>
-        <td class="${!isNaN(wlc) && ss.ws ? 'summary-lc' : 'muted'}" id="wsmargin-${seasonCode}-${si}">${(!isNaN(wlc) && ss.ws && parseFloat(ss.ws)) ? (((parseFloat(ss.ws)-wlc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '—'}</td>
-        <td class="summary-num"><input type="number" min="0" step="0.01" value="${ss.msrp||''}" placeholder="—" onchange="updateStyleField('${seasonCode}',${si},'msrp',this.value)" style="min-width:65px;font-family:'DM Mono',monospace;font-size:12px"></td>
-        <td class="${!isNaN(wlc) && ss.msrp ? 'summary-lc' : 'muted'}" id="msrpmargin-${seasonCode}-${si}">${(!isNaN(wlc) && ss.msrp && parseFloat(ss.msrp)) ? (((parseFloat(ss.msrp)-wlc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : '—'}</td>
-        <td><div style="display:flex;gap:4px">
-          <button class="icon-btn edit" onclick="openSeasonStyleEdit('${seasonCode}',${si})" title="Edit style details"><i class="ti ti-edit" style="font-size:15px"></i></button>
-          <button class="icon-btn" onclick="removeSeasonStyle('${seasonCode}',${si})" title="Remove from season"><i class="ti ti-trash" style="font-size:15px"></i></button>
-        </div></td>
-      </tr>`;
+      html += '<tr class="style-row">'
+        + '<td><button class="style-toggle ' + (isOpen ? 'open' : '') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>' + esc(ms.name) + '</td>'
+        + '<td class="muted">' + esc(ms.fabricType) + '</td>'
+        + '<td class="muted">' + esc(ms.kw) + '</td>'
+        + '<td class="summary-num">' + totalU.toLocaleString() + '</td>'
+        + '<td class="muted">—</td>'
+        + '<td class="summary-num" style="font-size:11px">' + esc(ms.hts) + '</td>'
+        + '<td class="summary-num">' + (ms.baseTariff || '—') + '%</td>'
+        + tariffStyleCols
+        + '<td class="summary-num">' + fmt(wRoy) + '</td>'
+        + '<td class="summary-num">' + fmt(freight) + '</td>'
+        + '<td class="summary-lc">' + fmt(wlc) + '</td>'
+        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.ws || '') + '" placeholder="—" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'ws\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
+        + '<td class="' + (!isNaN(wsMargin) ? 'summary-lc' : 'muted') + '" id="wsm-' + seasonCode + '-' + si + '">' + fmtPct(wsMargin) + '</td>'
+        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.msrp || '') + '" placeholder="—" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'msrp\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
+        + '<td class="' + (!isNaN(msrpMargin) ? 'summary-lc' : 'muted') + '" id="msrpm-' + seasonCode + '-' + si + '">' + fmtPct(msrpMargin) + '</td>'
+        + '<td><div style="display:flex;gap:4px">'
+        + '<button class="icon-btn edit" onclick="openSeasonStyleEdit(\'' + seasonCode + '\',' + si + ')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>'
+        + '<button class="icon-btn" onclick="removeSeasonStyle(\'' + seasonCode + '\',' + si + ')" title="Remove"><i class="ti ti-trash" style="font-size:15px"></i></button>'
+        + '</div></td>'
+        + '</tr>';
 
       // Colorway rows
-      (ss.colorways || []).forEach((cw, ci) => {
-        const mc = (ms.colorways || []).find(x => x.id === cw.masterColorwayId) || {};
-        const sp = parseFloat(cw.supplierPrice) || 0;
-        const lc = colorwayLC(cw, ss, ms, seasonCode);
-        const roy = sp * 0.15;
-        const bt  = sp * ((parseFloat(ms.baseTariff)||0)/100);
-
-        const tariffCwCols = data.tariffs.map(t => {
-          const on = isTariffActive(ss, t.id);
-          const rate = getSeasonTariffRate(seasonCode, t.id);
-          const cost = on ? fmt(sp * (rate/100)) : '<span style="color:var(--text-3)">off</span>';
-          return `<td class="mono">${cost}</td>`;
+      (ss.colorways || []).forEach(function(cw, ci) {
+        var mc  = (ms.colorways || []).find(function(x) { return x.id === cw.masterColorwayId; }) || {};
+        var sp  = parseFloat(cw.supplierPrice) || 0;
+        var lc  = colorwayLC(cw, ss, ms, seasonCode);
+        var roy = sp * 0.15;
+        var bt  = sp * ((parseFloat(ms.baseTariff) || 0) / 100);
+        var tariffCwCols = data.tariffs.map(function(t) {
+          var on   = isTariffActive(ss, t.id);
+          var rate = getSeasonTariffRate(seasonCode, t.id);
+          return '<td class="mono">' + (on ? fmt(sp * (rate / 100)) : '<span style="color:var(--text-3)">off</span>') + '</td>';
         }).join('');
-
-        html += `<tr class="colorway-row ${isOpen?'':'hidden'}">
-          <td style="color:var(--text-2);padding-left:36px">${esc(mc.color || cw.masterColorwayId)}</td>
-          <td class="muted">${esc(mc.fabricType)}</td>
-          <td class="muted">—</td>
-          <td class="mono">${(parseFloat(cw.qty)||0).toLocaleString()}</td>
-          <td class="mono">${fmt(sp)}</td>
-          <td class="muted">—</td>
-          <td class="mono">${fmt(bt)}</td>
-          ${tariffCwCols}
-          <td class="roy">${fmt(roy)}</td>
-          <td class="mono">${fmt(freight)}</td>
-          <td class="lc">${fmt(lc)}</td>
-          <td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td>
-          <td><button class="icon-btn edit" onclick="openCwEditModal('${seasonCode}',${si},${ci})" title="Edit qty & price"><i class="ti ti-edit" style="font-size:15px"></i></button></td>
-        </tr>`;
+        html += '<tr class="colorway-row' + (isOpen ? '' : ' hidden') + '">'
+          + '<td style="color:var(--text-2)">' + esc(mc.color || '—') + '</td>'
+          + '<td class="muted">' + esc(mc.fabricType) + '</td>'
+          + '<td class="muted">—</td>'
+          + '<td class="mono">' + (parseFloat(cw.qty) || 0).toLocaleString() + '</td>'
+          + '<td class="mono">' + fmt(sp) + '</td>'
+          + '<td class="muted">—</td>'
+          + '<td class="mono">' + fmt(bt) + '</td>'
+          + tariffCwCols
+          + '<td class="roy">' + fmt(roy) + '</td>'
+          + '<td class="mono">' + fmt(freight) + '</td>'
+          + '<td class="lc">' + fmt(lc) + '</td>'
+          + '<td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td>'
+          + '<td></td>'
+          + '</tr>';
       });
     });
   }
 
-  html += `</tbody></table></div>`;
-  content.innerHTML = html;
+  html += '</tbody></table></div>';
+  document.getElementById('main-content').innerHTML = html;
 }
 
 function toggleExpand(seasonCode, si) {
-  const key = seasonCode + '_' + si;
-  expanded[key] = !expanded[key];
+  expanded[seasonCode + '_' + si] = !expanded[seasonCode + '_' + si];
   renderSeasonView(seasonCode);
 }
 
 function updateSeasonTariffRate(seasonCode, tariffId, val) {
-  const season = getSeason(seasonCode);
-  if (!season) return;
-  season.tariffRates[tariffId] = val;
-  saveData();
-  renderSeasonView(seasonCode);
-}
-
-function pushSeasonRatesToStyles(seasonCode) {
-  // Just re-renders — rates are already at season level, this is for visual confirmation
-  saveData();
-  renderSeasonView(seasonCode);
+  var season = getSeason(seasonCode);
+  if (season) { season.tariffRates[tariffId] = val; saveData(); renderSeasonView(seasonCode); }
 }
 
 function toggleStyleTariff(seasonCode, si, tariffId) {
-  const season = getSeason(seasonCode);
+  var season = getSeason(seasonCode);
   if (!season) return;
-  const ss = season.styles[si];
+  var ss = season.styles[si];
   if (!ss.tariffOverrides) ss.tariffOverrides = {};
   ss.tariffOverrides[tariffId] = !isTariffActive(ss, tariffId);
   saveData();
   renderSeasonView(seasonCode);
 }
 
-// ─────────────────────────────────────────────
-// MASTER STYLE MODAL
-// ─────────────────────────────────────────────
-function openMasterStyleModal(id = null) {
-  editingMasterStyleId = id;
-  const s = id ? getMasterStyle(id) : {};
+function updateStyleField(seasonCode, si, field, val) {
+  var season = getSeason(seasonCode);
+  if (!season) return;
+  season.styles[si][field] = val;
+  saveData();
+  var ss  = season.styles[si];
+  var ms  = getMasterStyle(ss.masterStyleId);
+  var wlc = styleWeightedLC(ss, ms, seasonCode);
+  var wsEl   = document.getElementById('wsm-'   + seasonCode + '-' + si);
+  var msrpEl = document.getElementById('msrpm-' + seasonCode + '-' + si);
+  if (wsEl) {
+    var wsV = parseFloat(ss.ws);
+    var wsM = (!isNaN(wlc) && wsV) ? ((wsV - wlc) / wsV * 100) : NaN;
+    wsEl.textContent  = fmtPct(wsM);
+    wsEl.className    = (!isNaN(wsM)) ? 'summary-lc' : 'muted';
+  }
+  if (msrpEl) {
+    var msrpV = parseFloat(ss.msrp);
+    var msrpM = (!isNaN(wlc) && msrpV) ? ((msrpV - wlc) / msrpV * 100) : NaN;
+    msrpEl.textContent = fmtPct(msrpM);
+    msrpEl.className   = (!isNaN(msrpM)) ? 'summary-lc' : 'muted';
+  }
+}
+
+// ── MASTER STYLE MODAL ────────────────────────
+function openMasterStyleModal(id) {
+  editingMasterStyleId = id || null;
+  var s = id ? getMasterStyle(id) : {};
+  if (!s) s = {};
   document.getElementById('msModalTitle').textContent = id ? 'Edit style' : 'Add style to library';
   document.getElementById('msModalSave').textContent  = id ? 'Save changes' : 'Save style';
   document.getElementById('ms-name').value      = s.name || '';
@@ -826,65 +679,62 @@ function openMasterStyleModal(id = null) {
   document.getElementById('ms-hts').value       = s.hts || '';
   document.getElementById('ms-bt').value        = s.baseTariff || '';
   masterCwFieldCount = 0;
-  const cwList = document.getElementById('ms-cw-list');
-  cwList.innerHTML = '';
-  (s.colorways || []).forEach(c => addMasterColorwayField(c.color, c.fabricType, c.id));
+  document.getElementById('ms-cw-list').innerHTML = '';
+  (s.colorways || []).forEach(function(c) { addMasterColorwayField(c.color, c.fabricType, c.id); });
   document.getElementById('masterStyleModal').classList.add('open');
-  setTimeout(() => document.getElementById('ms-name').focus(), 50);
+  setTimeout(function() { document.getElementById('ms-name').focus(); }, 50);
 }
 
-function addMasterColorwayField(color='', fabricType='', existingId='') {
+function addMasterColorwayField(color, fabricType, existingId) {
+  color = color || ''; fabricType = fabricType || ''; existingId = existingId || '';
   masterCwFieldCount++;
-  const idx = masterCwFieldCount;
-  const div = document.createElement('div');
+  var idx = masterCwFieldCount;
+  var div = document.createElement('div');
   div.id = 'ms-cw-' + idx;
   div.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px';
-  div.innerHTML = `
-    <input type="hidden" id="ms-cwid-${idx}" value="${esc(existingId)}">
-    <input type="text" id="ms-cwcolor-${idx}" placeholder="Color name" value="${esc(color)}"
-      style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:'DM Sans',sans-serif;outline:none">
-    <input type="text" id="ms-cwfabric-${idx}" placeholder="Fabric type" value="${esc(fabricType)}"
-      style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:'DM Sans',sans-serif;outline:none">
-    <button class="icon-btn" onclick="document.getElementById('ms-cw-${idx}').remove()" title="Remove"><i class="ti ti-x"></i></button>`;
+  div.innerHTML = '<input type="hidden" id="ms-cwid-' + idx + '" value="' + esc(existingId) + '">'
+    + '<input type="text" id="ms-cwcolor-' + idx + '" placeholder="Color name" value="' + esc(color) + '" style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:\'DM Sans\',sans-serif;outline:none">'
+    + '<input type="text" id="ms-cwfabric-' + idx + '" placeholder="Fabric type" value="' + esc(fabricType) + '" style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:\'DM Sans\',sans-serif;outline:none">'
+    + '<button class="icon-btn" onclick="document.getElementById(\'ms-cw-' + idx + '\').remove()" title="Remove"><i class="ti ti-x"></i></button>';
   document.getElementById('ms-cw-list').appendChild(div);
 }
 
 function closeMasterStyleModal() { document.getElementById('masterStyleModal').classList.remove('open'); }
 
 function saveMasterStyle() {
-  const name = document.getElementById('ms-name').value.trim();
+  var name = document.getElementById('ms-name').value.trim();
   if (!name) { alert('Style name is required.'); return; }
-
-  // Collect colorways
-  const colorways = [];
-  document.querySelectorAll('[id^="ms-cw-"]').forEach(div => {
-    const idx = div.id.replace('ms-cw-','');
-    if (isNaN(idx)) return;
-    const color = document.getElementById('ms-cwcolor-'+idx)?.value.trim();
+  var colorways = [];
+  var divs = document.querySelectorAll('[id^="ms-cw-"]');
+  divs.forEach(function(div) {
+    var idx = div.id.replace('ms-cw-', '');
+    if (isNaN(parseInt(idx))) return;
+    var colorEl = document.getElementById('ms-cwcolor-' + idx);
+    if (!colorEl) return;
+    var color = colorEl.value.trim();
     if (!color) return;
+    var idEl = document.getElementById('ms-cwid-' + idx);
     colorways.push({
-      id: document.getElementById('ms-cwid-'+idx)?.value || uid(),
-      color,
-      fabricType: document.getElementById('ms-cwfabric-'+idx)?.value.trim() || ''
+      id: (idEl && idEl.value) ? idEl.value : uid(),
+      color: color,
+      fabricType: (document.getElementById('ms-cwfabric-' + idx) || {}).value || ''
     });
   });
-
+  var styleObj = {
+    name: name,
+    materials:  document.getElementById('ms-materials').value.trim(),
+    fabricType: document.getElementById('ms-fabric').value.trim(),
+    kw:         document.getElementById('ms-kw').value,
+    hts:        document.getElementById('ms-hts').value.trim(),
+    baseTariff: document.getElementById('ms-bt').value,
+    colorways:  colorways
+  };
   if (editingMasterStyleId) {
-    const s = getMasterStyle(editingMasterStyleId);
-    Object.assign(s, { name, materials: document.getElementById('ms-materials').value.trim(),
-      fabricType: document.getElementById('ms-fabric').value.trim(),
-      kw: document.getElementById('ms-kw').value,
-      hts: document.getElementById('ms-hts').value.trim(),
-      baseTariff: document.getElementById('ms-bt').value,
-      colorways });
+    var existing = getMasterStyle(editingMasterStyleId);
+    Object.assign(existing, styleObj);
   } else {
-    data.master.push({ id: uid(), name,
-      materials: document.getElementById('ms-materials').value.trim(),
-      fabricType: document.getElementById('ms-fabric').value.trim(),
-      kw: document.getElementById('ms-kw').value,
-      hts: document.getElementById('ms-hts').value.trim(),
-      baseTariff: document.getElementById('ms-bt').value,
-      colorways });
+    styleObj.id = uid();
+    data.master.push(styleObj);
   }
   saveData();
   closeMasterStyleModal();
@@ -892,31 +742,28 @@ function saveMasterStyle() {
 }
 
 function deleteMasterStyle(id) {
-  const s = getMasterStyle(id);
-  if (!confirm('Delete "' + (s?.name||'this style') + '" from the master library? It will also be removed from any seasons.')) return;
-  data.master = data.master.filter(x => x.id !== id);
-  data.seasons.forEach(season => {
-    season.styles = season.styles.filter(ss => ss.masterStyleId !== id);
+  var s = getMasterStyle(id);
+  if (!confirm('Delete "' + ((s && s.name) || 'this style') + '" from master library? It will also be removed from any seasons.')) return;
+  data.master = data.master.filter(function(x) { return x.id !== id; });
+  data.seasons.forEach(function(season) {
+    season.styles = season.styles.filter(function(ss) { return ss.masterStyleId !== id; });
   });
   saveData();
   renderAll();
 }
 
-// ─────────────────────────────────────────────
-// SEASON STYLE MODAL
-// ─────────────────────────────────────────────
-let addingToSeasonCode = null;
-
+// ── SEASON STYLE MODAL ────────────────────────
 function openSeasonStyleModal(seasonCode) {
   addingToSeasonCode = seasonCode;
   document.getElementById('ssModalTitle').textContent = 'Add style to ' + seasonCode;
-  const sel = document.getElementById('ss-style');
-  const season = getSeason(seasonCode);
-  const existingIds = new Set((season?.styles||[]).map(ss => ss.masterStyleId));
-  sel.innerHTML = '<option value="">— select from master library —</option>' +
-    data.master.filter(s => !existingIds.has(s.id)).map(s =>
-      `<option value="${s.id}">${esc(s.name)}</option>`
-    ).join('');
+  var season = getSeason(seasonCode);
+  var existingIds = {};
+  (season ? season.styles : []).forEach(function(ss) { existingIds[ss.masterStyleId] = true; });
+  var opts = '<option value="">— select from master library —</option>';
+  data.master.forEach(function(s) {
+    if (!existingIds[s.id]) opts += '<option value="' + s.id + '">' + esc(s.name) + '</option>';
+  });
+  document.getElementById('ss-style').innerHTML = opts;
   document.getElementById('ss-freight').value = '';
   document.getElementById('ss-ws').value = '';
   document.getElementById('ss-msrp').value = '';
@@ -926,264 +773,170 @@ function openSeasonStyleModal(seasonCode) {
 }
 
 function populateColorwayPicker() {
-  const id = document.getElementById('ss-style').value;
-  const infoEl = document.getElementById('ss-style-info');
-  const pickerEl = document.getElementById('ss-cw-picker');
-  if (!id) { infoEl.style.display='none'; pickerEl.innerHTML='<span style="color:var(--text-3);font-size:13px">Select a style above.</span>'; return; }
-  const s = getMasterStyle(id);
+  var id = document.getElementById('ss-style').value;
+  var infoEl   = document.getElementById('ss-style-info');
+  var pickerEl = document.getElementById('ss-cw-picker');
+  if (!id) { infoEl.style.display = 'none'; pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">Select a style above.</span>'; return; }
+  var s = getMasterStyle(id);
   if (!s) return;
   infoEl.style.display = 'block';
-  infoEl.innerHTML = `<strong>${esc(s.name)}</strong> &nbsp;·&nbsp; ${esc(s.hts)} &nbsp;·&nbsp; Base tariff: ${s.baseTariff||0}% &nbsp;·&nbsp; ${esc(s.kw)} &nbsp;·&nbsp; ${esc(s.materials)}`;
+  infoEl.innerHTML = '<strong>' + esc(s.name) + '</strong> &nbsp;·&nbsp; ' + esc(s.hts) + ' &nbsp;·&nbsp; Base tariff: ' + (s.baseTariff || 0) + '% &nbsp;·&nbsp; ' + esc(s.kw) + ' &nbsp;·&nbsp; ' + esc(s.materials);
   if (!s.colorways || !s.colorways.length) {
-    pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">No colorways in master library for this style. Add them in the Master Library first.</span>';
+    pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">No colorways in master library for this style.</span>';
     return;
   }
-  pickerEl.innerHTML = `<div class="cw-pick-list">` +
-    s.colorways.map(c => `
-      <label class="cw-pick-item selected" id="cwpick-${c.id}">
-        <input type="checkbox" id="cwcheck-${c.id}" checked value="${c.id}">
-        <div><div class="cw-pick-label">${esc(c.color)}</div>${c.fabricType?`<div class="cw-pick-sub">${esc(c.fabricType)}</div>`:''}</div>
-      </label>`).join('') +
-    `</div>
-    <div style="font-size:11px;color:var(--text-3);margin-top:4px">Check the colorways you want in this season. You can add more later.</div>`;
-
-  // Toggle selected class
-  s.colorways.forEach(c => {
-    const cb = document.getElementById('cwcheck-'+c.id);
-    const lbl = document.getElementById('cwpick-'+c.id);
-    if (cb && lbl) cb.onchange = () => lbl.classList.toggle('selected', cb.checked);
+  var html = '<div class="cw-pick-list">';
+  s.colorways.forEach(function(c) {
+    html += '<label class="cw-pick-item selected" id="cwpick-' + c.id + '"><input type="checkbox" id="cwcheck-' + c.id + '" checked value="' + c.id + '"><div><div class="cw-pick-label">' + esc(c.color) + '</div>' + (c.fabricType ? '<div class="cw-pick-sub">' + esc(c.fabricType) + '</div>' : '') + '</div></label>';
+  });
+  html += '</div><div style="font-size:11px;color:var(--text-3);margin-top:4px">Check the colorways to include in this season.</div>';
+  pickerEl.innerHTML = html;
+  s.colorways.forEach(function(c) {
+    var cb  = document.getElementById('cwcheck-' + c.id);
+    var lbl = document.getElementById('cwpick-'  + c.id);
+    if (cb && lbl) cb.onchange = function() { lbl.classList.toggle('selected', cb.checked); };
   });
 }
 
 function closeSeasonStyleModal() { document.getElementById('seasonStyleModal').classList.remove('open'); }
 
 function saveSeasonStyle() {
-  const styleId = document.getElementById('ss-style').value;
+  var styleId = document.getElementById('ss-style').value;
   if (!styleId) { alert('Please select a style.'); return; }
-  const ms = getMasterStyle(styleId);
+  var ms = getMasterStyle(styleId);
   if (!ms) return;
-  const season = getSeason(addingToSeasonCode);
-
-  // Collect checked colorways
-  const colorways = [];
-  (ms.colorways || []).forEach(c => {
-    const cb = document.getElementById('cwcheck-'+c.id);
-    if (cb && cb.checked) {
-      colorways.push({ masterColorwayId: c.id, qty: '', supplierPrice: '' });
-    }
+  var season = getSeason(addingToSeasonCode);
+  var colorways = [];
+  (ms.colorways || []).forEach(function(c) {
+    var cb = document.getElementById('cwcheck-' + c.id);
+    if (cb && cb.checked) colorways.push({ masterColorwayId: c.id, qty: '', supplierPrice: '' });
   });
-
-  const tariffOverrides = {};
-  data.tariffs.forEach(t => { tariffOverrides[t.id] = true; });
-
+  var tariffOverrides = {};
+  data.tariffs.forEach(function(t) { tariffOverrides[t.id] = true; });
   season.styles.push({
     masterStyleId: styleId,
     freight: document.getElementById('ss-freight').value,
-    ws: document.getElementById('ss-ws').value,
-    msrp: document.getElementById('ss-msrp').value,
-    tariffOverrides,
-    colorways
+    ws:      document.getElementById('ss-ws').value,
+    msrp:    document.getElementById('ss-msrp').value,
+    tariffOverrides: tariffOverrides,
+    colorways: colorways
   });
-
   saveData();
   closeSeasonStyleModal();
   expanded[addingToSeasonCode + '_' + (season.styles.length - 1)] = true;
   renderAll();
 }
 
-// ─────────────────────────────────────────────
-// COLORWAY EDIT MODAL (season)
-// ─────────────────────────────────────────────
-function openCwEditModal(seasonCode, si, ci) {
-  cwEditContext = { seasonCode, si, ci };
-  const season = getSeason(seasonCode);
-  const ss = season.styles[si];
-  const ms = getMasterStyle(ss.masterStyleId);
-  const cw = ss.colorways[ci];
-  const mc = (ms.colorways||[]).find(x => x.id === cw.masterColorwayId) || {};
-
-  document.getElementById('cwEditTitle').textContent = 'Edit ' + (mc.color || 'colorway');
-  document.getElementById('cw-edit-info').textContent = ms.name + (mc.fabricType ? ' · ' + mc.fabricType : '');
-  document.getElementById('cwe-qty').value = cw.qty || '';
-  document.getElementById('cwe-sp').value  = cw.supplierPrice || '';
-  const sp = parseFloat(cw.supplierPrice) || 0;
-  document.getElementById('cwe-roy').value = sp ? '$' + (sp*0.15).toFixed(2) : '';
-
-  document.getElementById('cwe-sp').oninput = function() {
-    const v = parseFloat(this.value) || 0;
-    document.getElementById('cwe-roy').value = v ? '$' + (v*0.15).toFixed(2) : '';
-  };
-  document.getElementById('cwEditModal').classList.add('open');
-  setTimeout(() => document.getElementById('cwe-qty').focus(), 50);
-}
-
-function closeCwEditModal() { document.getElementById('cwEditModal').classList.remove('open'); }
-
-function saveCwEdit() {
-  const { seasonCode, si, ci } = cwEditContext;
-  const season = getSeason(seasonCode);
-  const cw = season.styles[si].colorways[ci];
-  cw.qty           = document.getElementById('cwe-qty').value;
-  cw.supplierPrice = document.getElementById('cwe-sp').value;
-  saveData();
-  closeCwEditModal();
-  renderSeasonView(seasonCode);
-}
-
-// ─────────────────────────────────────────────
-// INLINE STYLE FIELD UPDATE
-// ─────────────────────────────────────────────
-function updateStyleField(seasonCode, si, field, val) {
-  const season = getSeason(seasonCode);
-  season.styles[si][field] = val;
-  saveData();
-  // Recalculate margins without full re-render
-  const ss = season.styles[si];
-  const ms = getMasterStyle(ss.masterStyleId);
-  const wlc = styleWeightedLC(ss, ms, seasonCode);
-  const wsEl = document.getElementById('wsmargin-' + seasonCode + '-' + si);
-  const msrpEl = document.getElementById('msrpmargin-' + seasonCode + '-' + si);
-  if (wsEl) {
-    const wsV = parseFloat(ss.ws);
-    wsEl.textContent = (!isNaN(wlc) && wsV) ? (((wsV - wlc) / wsV * 100).toFixed(1) + '%') : '—';
-    wsEl.className = (!isNaN(wlc) && wsV) ? 'summary-lc' : 'muted';
-  }
-  if (msrpEl) {
-    const msrpV = parseFloat(ss.msrp);
-    msrpEl.textContent = (!isNaN(wlc) && msrpV) ? (((msrpV - wlc) / msrpV * 100).toFixed(1) + '%') : '—';
-    msrpEl.className = (!isNaN(wlc) && msrpV) ? 'summary-lc' : 'muted';
-  }
-  renderStats && renderSeasonStats(seasonCode);
-}
-
-// ─────────────────────────────────────────────
-// SEASON STYLE EDIT MODAL
-// ─────────────────────────────────────────────
-let seasonStyleEditCtx = null;
-
+// ── SEASON STYLE EDIT MODAL ───────────────────
 function openSeasonStyleEdit(seasonCode, si) {
-  seasonStyleEditCtx = { seasonCode, si };
-  const season = getSeason(seasonCode);
-  const ss = season.styles[si];
-  const ms = getMasterStyle(ss.masterStyleId);
-
-  // Build modal content dynamically
-  const modal = document.getElementById('seasonStyleEditModal');
+  seasonStyleEditCtx = { seasonCode: seasonCode, si: si };
+  var season = getSeason(seasonCode);
+  var ss = season.styles[si];
+  var ms = getMasterStyle(ss.masterStyleId);
   document.getElementById('sse-title').textContent = 'Edit ' + ms.name + ' — ' + seasonCode;
   document.getElementById('sse-freight').value = ss.freight || '';
-
-  // Colorway rows
-  const cwBody = document.getElementById('sse-cw-body');
-  cwBody.innerHTML = (ss.colorways || []).map((cw, ci) => {
-    const mc = (ms.colorways || []).find(x => x.id === cw.masterColorwayId) || {};
-    const sp = parseFloat(cw.supplierPrice) || 0;
-    const roy = sp ? '$' + (sp * 0.15).toFixed(2) : '—';
-    return `<tr>
-      <td style="font-size:13px;padding:8px 10px">${esc(mc.color || '—')}</td>
-      <td style="font-size:12px;color:var(--text-2);padding:8px 10px">${esc(mc.fabricType || '—')}</td>
-      <td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-${ci}" value="${cw.qty||''}" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>
-      <td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-${ci}" value="${cw.supplierPrice||''}" placeholder="0.00" oninput="updateSseRoy(${ci})" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>
-      <td style="padding:8px 10px;font-size:12px;color:var(--text-3);font-family:'DM Mono',monospace" id="sse-roy-${ci}">${roy}</td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="5" style="padding:12px;color:var(--text-3);font-size:13px">No colorways in this season.</td></tr>';
-
-  modal.classList.add('open');
-  setTimeout(() => document.getElementById('sse-freight').focus(), 50);
+  document.getElementById('sse-ws').value      = ss.ws     || '';
+  document.getElementById('sse-msrp').value    = ss.msrp   || '';
+  var cwHtml = '';
+  (ss.colorways || []).forEach(function(cw, ci) {
+    var mc  = (ms.colorways || []).find(function(x) { return x.id === cw.masterColorwayId; }) || {};
+    var sp  = parseFloat(cw.supplierPrice) || 0;
+    var roy = sp ? '$' + (sp * 0.15).toFixed(2) : '—';
+    cwHtml += '<tr>'
+      + '<td style="font-size:13px;padding:8px 10px">' + esc(mc.color || '—') + '</td>'
+      + '<td style="font-size:12px;color:var(--text-2);padding:8px 10px">' + esc(mc.fabricType || '—') + '</td>'
+      + '<td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-' + ci + '" value="' + (cw.qty || '') + '" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
+      + '<td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-' + ci + '" value="' + (cw.supplierPrice || '') + '" placeholder="0.00" oninput="updateSseRoy(' + ci + ')" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
+      + '<td style="padding:8px 10px;font-size:12px;color:var(--text-3);font-family:\'DM Mono\',monospace" id="sse-roy-' + ci + '">' + roy + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('sse-cw-body').innerHTML = cwHtml || '<tr><td colspan="5" style="padding:12px;color:var(--text-3);font-size:13px">No colorways in this season.</td></tr>';
+  document.getElementById('seasonStyleEditModal').classList.add('open');
+  setTimeout(function() { document.getElementById('sse-freight').focus(); }, 50);
 }
 
 function updateSseRoy(ci) {
-  const sp = parseFloat(document.getElementById('sse-sp-' + ci)?.value) || 0;
-  const el = document.getElementById('sse-roy-' + ci);
+  var sp = parseFloat((document.getElementById('sse-sp-' + ci) || {}).value) || 0;
+  var el = document.getElementById('sse-roy-' + ci);
   if (el) el.textContent = sp ? '$' + (sp * 0.15).toFixed(2) : '—';
 }
 
-function closeSeasonStyleEdit() {
-  document.getElementById('seasonStyleEditModal').classList.remove('open');
-}
+function closeSeasonStyleEdit() { document.getElementById('seasonStyleEditModal').classList.remove('open'); }
 
 function saveSeasonStyleEdit() {
-  const { seasonCode, si } = seasonStyleEditCtx;
-  const season = getSeason(seasonCode);
-  const ss = season.styles[si];
+  var ctx    = seasonStyleEditCtx;
+  var season = getSeason(ctx.seasonCode);
+  var ss     = season.styles[ctx.si];
   ss.freight = document.getElementById('sse-freight').value;
-  ss.colorways.forEach((cw, ci) => {
-    const qtyEl = document.getElementById('sse-qty-' + ci);
-    const spEl  = document.getElementById('sse-sp-' + ci);
-    if (qtyEl) cw.qty = qtyEl.value;
+  ss.ws      = document.getElementById('sse-ws').value;
+  ss.msrp    = document.getElementById('sse-msrp').value;
+  ss.colorways.forEach(function(cw, ci) {
+    var qtyEl = document.getElementById('sse-qty-' + ci);
+    var spEl  = document.getElementById('sse-sp-'  + ci);
+    if (qtyEl) cw.qty           = qtyEl.value;
     if (spEl)  cw.supplierPrice = spEl.value;
   });
   saveData();
   closeSeasonStyleEdit();
-  renderSeasonView(seasonCode);
-}
-
-function openSeasonStyleFreightEdit(seasonCode, si) {
-  openSeasonStyleEdit(seasonCode, si);
+  renderSeasonView(ctx.seasonCode);
 }
 
 function removeSeasonStyle(seasonCode, si) {
-  const season = getSeason(seasonCode);
-  const ms = getMasterStyle(season.styles[si].masterStyleId);
-  if (!confirm('Remove "' + (ms?.name||'this style') + '" from ' + seasonCode + '? Master library is unaffected.')) return;
+  var season = getSeason(seasonCode);
+  var ms = getMasterStyle(season.styles[si].masterStyleId);
+  if (!confirm('Remove "' + ((ms && ms.name) || 'this style') + '" from ' + seasonCode + '?')) return;
   season.styles.splice(si, 1);
   saveData();
   renderAll();
 }
 
-// ─────────────────────────────────────────────
-// ADD SEASON MODAL
-// ─────────────────────────────────────────────
+// ── ADD SEASON ────────────────────────────────
 function openAddSeasonModal() {
   document.getElementById('as-code').value = '';
   document.getElementById('addSeasonModal').classList.add('open');
-  setTimeout(() => document.getElementById('as-code').focus(), 50);
+  setTimeout(function() { document.getElementById('as-code').focus(); }, 50);
 }
 function closeAddSeasonModal() { document.getElementById('addSeasonModal').classList.remove('open'); }
 function saveNewSeason() {
-  const code = document.getElementById('as-code').value.trim().toUpperCase();
+  var code = document.getElementById('as-code').value.trim().toUpperCase();
   if (!code) { alert('Season code is required.'); return; }
-  if (data.seasons.find(s => s.code === code)) { alert('Season ' + code + ' already exists.'); return; }
-  data.seasons.push({ code, tariffRates: {}, styles: [] });
+  if (getSeason(code)) { alert('Season ' + code + ' already exists.'); return; }
+  data.seasons.push({ code: code, tariffRates: {}, styles: [] });
   saveData();
   closeAddSeasonModal();
   currentTab = code;
   renderAll();
 }
 
-// ─────────────────────────────────────────────
-// TARIFF MANAGER
-// ─────────────────────────────────────────────
+// ── TARIFF MANAGER ────────────────────────────
 function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
 function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
 function renderTariffList() {
-  document.getElementById('tariff-list').innerHTML = data.tariffs.map((t, i) => `
-    <div class="tariff-item">
-      <span style="font-size:13px">${t.name}</span>
-      <button class="tariff-del" onclick="deleteTariff(${i})" title="Remove"><i class="ti ti-trash" style="font-size:14px"></i></button>
-    </div>`).join('') || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
+  var html = data.tariffs.map(function(t, i) {
+    return '<div class="tariff-item"><span style="font-size:13px">' + esc(t.name) + '</span><button class="tariff-del" onclick="deleteTariff(' + i + ')"><i class="ti ti-trash" style="font-size:14px"></i></button></div>';
+  }).join('');
+  document.getElementById('tariff-list').innerHTML = html || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
 }
 function deleteTariff(i) {
   if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
   if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
-  const id = data.tariffs[i].id;
+  var id = data.tariffs[i].id;
   data.tariffs.splice(i, 1);
-  // Clean up season rates and style overrides
-  data.seasons.forEach(s => {
+  data.seasons.forEach(function(s) {
     delete s.tariffRates[id];
-    s.styles.forEach(ss => { if (ss.tariffOverrides) delete ss.tariffOverrides[id]; });
+    s.styles.forEach(function(ss) { if (ss.tariffOverrides) delete ss.tariffOverrides[id]; });
   });
   saveData();
   renderTariffList();
 }
 function addTariff() {
-  const inp = document.getElementById('new-tariff-name');
-  const name = inp.value.trim();
+  var inp  = document.getElementById('new-tariff-name');
+  var name = inp.value.trim();
   if (!name) return;
-  const id = uid();
-  data.tariffs.push({ id, name });
-  // Default new tariff to ON for all existing season styles
-  data.seasons.forEach(s => {
-    s.styles.forEach(ss => {
+  var id = uid();
+  data.tariffs.push({ id: id, name: name });
+  data.seasons.forEach(function(s) {
+    s.styles.forEach(function(ss) {
       if (!ss.tariffOverrides) ss.tariffOverrides = {};
       ss.tariffOverrides[id] = true;
     });
@@ -1193,20 +946,349 @@ function addTariff() {
   renderTariffList();
 }
 
-// ─────────────────────────────────────────────
-// BACKUP & RESTORE
-// ─────────────────────────────────────────────
-function backupData() {
-  const timestamp = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
-  const filename = 'skhoop-backup-' + timestamp + '.json';
-  const json = JSON.stringify(data, null, 2);
-  const a = document.createElement('a');
-  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
-  a.download = filename;
-  a.click();
+// ── FREIGHT CALCULATOR ────────────────────────
+function openFreightCalc() {
+  document.getElementById('fc-total').value = '';
+  document.getElementById('fc-units').value = '';
+  document.getElementById('fc-result').textContent = '—';
+  document.getElementById('freightModal').classList.add('open');
+  setTimeout(function() { document.getElementById('fc-total').focus(); }, 50);
+}
+function closeFreightCalc() { document.getElementById('freightModal').classList.remove('open'); }
+function calcFreight() {
+  var total = parseFloat(document.getElementById('fc-total').value) || 0;
+  var units = parseFloat(document.getElementById('fc-units').value) || 0;
+  document.getElementById('fc-result').textContent = (total > 0 && units > 0) ? '$' + (total / units).toFixed(4) : '—';
 }
 
-let restorePayload = null;
+// ── IMPORT ────────────────────────────────────
+var importPayload = null;
+
+function openImportModal() {
+  importPayload = null;
+  document.getElementById('import-file').value = '';
+  document.getElementById('import-preview').style.display = 'none';
+  document.getElementById('import-errors').style.display = 'none';
+  document.getElementById('import-confirm-btn').disabled = true;
+  document.getElementById('import-confirm-btn').style.opacity = '0.4';
+  document.getElementById('importModal').classList.add('open');
+}
+function closeImportModal() { document.getElementById('importModal').classList.remove('open'); }
+
+function downloadMasterTemplate() {
+  window.open('skhoop-master-library-template.xlsx', '_blank');
+}
+function downloadSeasonTemplate() {
+  window.open('skhoop-season-data-template.xlsx', '_blank');
+}
+
+function previewImport(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var preview  = document.getElementById('import-preview');
+  var errEl    = document.getElementById('import-errors');
+  var btn      = document.getElementById('import-confirm-btn');
+  preview.style.display = 'none';
+  errEl.style.display   = 'none';
+  importPayload = null;
+  btn.disabled = true;
+  btn.style.opacity = '0.4';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var rows = parseCSVorXLSX(e.target.result, file.name);
+      if (!rows || rows.length < 2) throw new Error('File appears empty or has no data rows.');
+      var type = document.getElementById('import-type').value;
+      var result = type === 'master' ? parseMasterRows(rows) : parseSeasonRows(rows);
+      if (result.errors.length) {
+        errEl.style.display = 'block';
+        errEl.innerHTML = '<strong>Issues found:</strong><br>' + result.errors.slice(0,8).map(function(e){return '· '+e;}).join('<br>');
+        if (result.errors.length > 8) errEl.innerHTML += '<br>· ... and ' + (result.errors.length-8) + ' more.';
+      }
+      if (result.data && (result.data.styles || result.data.rows) && !result.fatalError) {
+        importPayload = { type: type, data: result.data };
+        preview.style.display = 'block';
+        preview.innerHTML = result.summary;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    } catch(err) {
+      errEl.style.display = 'block';
+      errEl.innerHTML = 'Could not read file: ' + err.message;
+    }
+  };
+  // Always read as text for CSV; for xlsx use binary
+  if (file.name.toLowerCase().endsWith('.csv')) {
+    reader.readAsText(file);
+  } else {
+    reader.readAsBinaryString(file);
+  }
+}
+
+function parseCSVorXLSX(content, filename) {
+  if (filename.toLowerCase().endsWith('.csv')) {
+    return parseCSV(content);
+  } else {
+    // xlsx — require SheetJS loaded inline
+    throw new Error('Please save your template as CSV (.csv) before uploading. In Excel: File → Save As → CSV UTF-8. In Google Sheets: File → Download → CSV.');
+  }
+}
+
+function parseCSV(text) {
+  var lines = text.split(/
+?
+/);
+  var rows  = [];
+  lines.forEach(function(line) {
+    if (!line.trim()) return;
+    var row = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { row.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    row.push(cur.trim());
+    rows.push(row);
+  });
+  return rows;
+}
+
+function parseMasterRows(rows) {
+  // Skip notes row (row 0) if present, find header row
+  var headerIdx = 0;
+  for (var i = 0; i < Math.min(3, rows.length); i++) {
+    if (rows[i][0] && rows[i][0].toString().toLowerCase().indexOf('style') !== -1) { headerIdx = i; break; }
+  }
+  var headers = rows[headerIdx].map(function(h){ return h.toString().toLowerCase().trim(); });
+  var iName    = findCol(headers, ['style name','style']);
+  var iMat     = findCol(headers, ['materials']);
+  var iFab     = findCol(headers, ['fabric type']);
+  var iKW      = findCol(headers, ['knit or woven','knit/woven','kw']);
+  var iHTS     = findCol(headers, ['htsus code','htsus','hts']);
+  var iBT      = findCol(headers, ['base tariff %','base tariff','base tariff rate']);
+  var iColor   = findCol(headers, ['color']);
+  var iCWFab   = findCol(headers, ['colorway fabric type','colorway fabric']);
+
+  var errors = [], styleMap = {}, order = [];
+  for (var r = headerIdx + 1; r < rows.length; r++) {
+    var row = rows[r];
+    if (!row.join('').trim()) continue;
+    // Skip example rows (green rows) — detect by checking if first cell looks like an example
+    var name  = iName  >= 0 ? (row[iName]  || '').toString().trim() : '';
+    var color = iColor >= 0 ? (row[iColor] || '').toString().trim() : '';
+    if (!name) continue;
+    if (!color) { errors.push('Row ' + (r+1) + ': Color is required.'); continue; }
+    var key = name.toLowerCase();
+    if (!styleMap[key]) {
+      styleMap[key] = {
+        id: uid(),
+        name: name,
+        materials:  iMat  >= 0 ? (row[iMat]  || '').toString().trim() : '',
+        fabricType: iFab  >= 0 ? (row[iFab]  || '').toString().trim() : '',
+        kw:         iKW   >= 0 ? (row[iKW]   || '').toString().trim() : '',
+        hts:        iHTS  >= 0 ? (row[iHTS]  || '').toString().trim() : '',
+        baseTariff: iBT   >= 0 ? (row[iBT]   || '').toString().trim() : '',
+        colorways: []
+      };
+      order.push(key);
+    }
+    styleMap[key].colorways.push({
+      id: uid(),
+      color: color,
+      fabricType: iCWFab >= 0 ? (row[iCWFab] || '').toString().trim() : ''
+    });
+  }
+  var styles = order.map(function(k){ return styleMap[k]; });
+  return {
+    errors: errors,
+    fatalError: false,
+    data: { styles: styles },
+    summary: '<strong>' + styles.length + ' styles</strong> with ' + styles.reduce(function(a,s){return a+s.colorways.length;},0) + ' colorways ready to import into Master Library.'
+      + (errors.length ? '<br><span style="color:#a32d2d">'+errors.length+' row(s) skipped due to errors.</span>' : '')
+  };
+}
+
+function parseSeasonRows(rows) {
+  var headerIdx = 0;
+  for (var i = 0; i < Math.min(3, rows.length); i++) {
+    if (rows[i][0] && rows[i][0].toString().toLowerCase().indexOf('season') !== -1) { headerIdx = i; break; }
+  }
+  var headers  = rows[headerIdx].map(function(h){ return h.toString().toLowerCase().trim(); });
+  var iSeason  = findCol(headers, ['season code','season']);
+  var iStyle   = findCol(headers, ['style name','style']);
+  var iColor   = findCol(headers, ['color']);
+  var iQty     = findCol(headers, ['po qty','qty','quantity']);
+  var iSP      = findCol(headers, ['supplier price (usd)','supplier price','supplier']);
+  var iFreight = findCol(headers, ['freight per unit (usd)','freight per unit','freight']);
+  var iWS      = findCol(headers, ['ws$ (usd)','ws$','ws']);
+  var iMSRP    = findCol(headers, ['msrp (usd)','msrp']);
+
+  var errors = [], seasonMap = {};
+  for (var r = headerIdx + 1; r < rows.length; r++) {
+    var row = rows[r];
+    if (!row.join('').trim()) continue;
+    var seasonCode = iSeason >= 0 ? (row[iSeason] || '').toString().trim().toUpperCase() : '';
+    var styleName  = iStyle  >= 0 ? (row[iStyle]  || '').toString().trim() : '';
+    var color      = iColor  >= 0 ? (row[iColor]  || '').toString().trim() : '';
+    if (!seasonCode || !styleName || !color) {
+      if (seasonCode || styleName || color) errors.push('Row ' + (r+1) + ': Season, Style, and Color are all required.');
+      continue;
+    }
+    if (!seasonMap[seasonCode]) seasonMap[seasonCode] = {};
+    var sk = styleName.toLowerCase();
+    if (!seasonMap[seasonCode][sk]) {
+      seasonMap[seasonCode][sk] = {
+        styleName: styleName,
+        freight: iFreight >= 0 ? (row[iFreight] || '').toString().trim() : '',
+        ws:      iWS      >= 0 ? (row[iWS]      || '').toString().trim() : '',
+        msrp:    iMSRP    >= 0 ? (row[iMSRP]    || '').toString().trim() : '',
+        colorways: []
+      };
+    }
+    // Update style-level fields from latest row (freight, ws, msrp)
+    if (iFreight >= 0 && row[iFreight]) seasonMap[seasonCode][sk].freight = row[iFreight].toString().trim();
+    if (iWS      >= 0 && row[iWS])      seasonMap[seasonCode][sk].ws      = row[iWS].toString().trim();
+    if (iMSRP    >= 0 && row[iMSRP])    seasonMap[seasonCode][sk].msrp    = row[iMSRP].toString().trim();
+    seasonMap[seasonCode][sk].colorways.push({
+      color: color,
+      qty:           iQty >= 0 ? (row[iQty] || '').toString().trim() : '',
+      supplierPrice: iSP  >= 0 ? (row[iSP]  || '').toString().trim() : ''
+    });
+  }
+  var seasonCodes = Object.keys(seasonMap);
+  var totalStyles = 0, totalCW = 0;
+  seasonCodes.forEach(function(sc) {
+    var styles = Object.keys(seasonMap[sc]);
+    totalStyles += styles.length;
+    styles.forEach(function(sk){ totalCW += seasonMap[sc][sk].colorways.length; });
+  });
+  return {
+    errors: errors,
+    fatalError: false,
+    data: { seasonMap: seasonMap },
+    summary: '<strong>' + seasonCodes.length + ' season(s)</strong>, ' + totalStyles + ' styles, ' + totalCW + ' colorways ready to import.'
+      + '<br>Seasons: ' + seasonCodes.join(', ')
+      + (errors.length ? '<br><span style="color:#a32d2d">'+errors.length+' row(s) skipped.</span>' : '')
+  };
+}
+
+function findCol(headers, candidates) {
+  for (var i = 0; i < candidates.length; i++) {
+    var idx = headers.indexOf(candidates[i]);
+    if (idx >= 0) return idx;
+  }
+  return -1;
+}
+
+function confirmImport() {
+  if (!importPayload) return;
+  var type = importPayload.type;
+  var d    = importPayload.data;
+
+  if (type === 'master') {
+    var added = 0, updated = 0;
+    d.styles.forEach(function(s) {
+      var existing = data.master.find(function(m){ return m.name.toLowerCase() === s.name.toLowerCase(); });
+      if (existing) {
+        // Merge colorways — add new ones, keep existing
+        s.colorways.forEach(function(nc) {
+          var exists = existing.colorways.find(function(ec){ return ec.color.toLowerCase() === nc.color.toLowerCase(); });
+          if (!exists) existing.colorways.push(nc);
+        });
+        // Update non-colorway fields
+        existing.materials  = s.materials  || existing.materials;
+        existing.fabricType = s.fabricType || existing.fabricType;
+        existing.kw         = s.kw         || existing.kw;
+        existing.hts        = s.hts        || existing.hts;
+        existing.baseTariff = s.baseTariff || existing.baseTariff;
+        updated++;
+      } else {
+        data.master.push(s);
+        added++;
+      }
+    });
+    saveData();
+    closeImportModal();
+    currentTab = 'master';
+    renderAll();
+    alert('Import complete: ' + added + ' style(s) added, ' + updated + ' updated.');
+
+  } else {
+    // Season import
+    var sm = d.seasonMap;
+    var seasonCodes = Object.keys(sm);
+    var warnings = [];
+    seasonCodes.forEach(function(sc) {
+      var season = getSeason(sc);
+      if (!season) {
+        // Create season
+        data.seasons.push({ code: sc, tariffRates: {}, styles: [] });
+        season = getSeason(sc);
+      }
+      Object.keys(sm[sc]).forEach(function(sk) {
+        var importStyle = sm[sc][sk];
+        // Find master style
+        var ms = data.master.find(function(m){ return m.name.toLowerCase() === sk; });
+        if (!ms) { warnings.push('"' + importStyle.styleName + '" not found in Master Library — skipped.'); return; }
+        // Check if already in season
+        var existingSS = season.styles.find(function(ss){ return ss.masterStyleId === ms.id; });
+        if (existingSS) {
+          // Update freight/ws/msrp
+          if (importStyle.freight) existingSS.freight = importStyle.freight;
+          if (importStyle.ws)      existingSS.ws      = importStyle.ws;
+          if (importStyle.msrp)    existingSS.msrp    = importStyle.msrp;
+          // Merge colorways
+          importStyle.colorways.forEach(function(ic) {
+            var mc = ms.colorways.find(function(c){ return c.color.toLowerCase() === ic.color.toLowerCase(); });
+            if (!mc) { warnings.push('"' + ic.color + '" not in master colorways for ' + ms.name + ' — skipped.'); return; }
+            var existCW = existingSS.colorways.find(function(c){ return c.masterColorwayId === mc.id; });
+            if (existCW) { existCW.qty = ic.qty; existCW.supplierPrice = ic.supplierPrice; }
+            else { existingSS.colorways.push({ masterColorwayId: mc.id, qty: ic.qty, supplierPrice: ic.supplierPrice }); }
+          });
+        } else {
+          var tariffOverrides = {};
+          data.tariffs.forEach(function(t){ tariffOverrides[t.id] = true; });
+          var colorways = [];
+          importStyle.colorways.forEach(function(ic) {
+            var mc = ms.colorways.find(function(c){ return c.color.toLowerCase() === ic.color.toLowerCase(); });
+            if (!mc) { warnings.push('"' + ic.color + '" not in master colorways for ' + ms.name + ' — skipped.'); return; }
+            colorways.push({ masterColorwayId: mc.id, qty: ic.qty, supplierPrice: ic.supplierPrice });
+          });
+          season.styles.push({
+            masterStyleId: ms.id,
+            freight: importStyle.freight,
+            ws:      importStyle.ws,
+            msrp:    importStyle.msrp,
+            tariffOverrides: tariffOverrides,
+            colorways: colorways
+          });
+        }
+      });
+    });
+    saveData();
+    closeImportModal();
+    if (seasonCodes.length) currentTab = seasonCodes[0];
+    renderAll();
+    var msg = 'Import complete.';
+    if (warnings.length) msg += '
+
+Warnings:
+' + warnings.join('
+');
+    alert(msg);
+  }
+}
+
+// ── BACKUP & RESTORE ──────────────────────────
+function backupData() {
+  var ts  = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
+  var a   = document.createElement('a');
+  a.href  = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data, null, 2));
+  a.download = 'skhoop-backup-' + ts + '.json';
+  a.click();
+}
 
 function openRestoreModal() {
   restorePayload = null;
@@ -1216,39 +1298,30 @@ function openRestoreModal() {
   document.getElementById('restore-confirm-btn').style.opacity = '0.4';
   document.getElementById('restoreModal').classList.add('open');
 }
-
-function closeRestoreModal() {
-  document.getElementById('restoreModal').classList.remove('open');
-}
+function closeRestoreModal() { document.getElementById('restoreModal').classList.remove('open'); }
 
 function previewRestore(input) {
-  const file = input.files[0];
+  var file = input.files[0];
   if (!file) return;
-  const reader = new FileReader();
+  var reader = new FileReader();
   reader.onload = function(e) {
+    var preview = document.getElementById('restore-preview');
+    var btn     = document.getElementById('restore-confirm-btn');
     try {
-      const parsed = JSON.parse(e.target.result);
-      // Validate basic structure
-      if (!parsed.master || !parsed.seasons || !parsed.tariffs) {
-        throw new Error('Invalid backup file structure.');
-      }
+      var parsed = JSON.parse(e.target.result);
+      if (!parsed.master || !parsed.seasons || !parsed.tariffs) throw new Error('Invalid structure');
       restorePayload = parsed;
-      const preview = document.getElementById('restore-preview');
       preview.style.display = 'block';
-      preview.innerHTML = `
-        <strong>File looks good.</strong> This backup contains:<br>
-        <span style="margin-left:8px">· ${parsed.master.length} styles in master library</span><br>
-        <span style="margin-left:8px">· ${parsed.seasons.length} season(s): ${parsed.seasons.map(s=>s.code).join(', ')}</span><br>
-        <span style="margin-left:8px">· ${parsed.tariffs.length} tariff column(s)</span>`;
-      const btn = document.getElementById('restore-confirm-btn');
+      preview.innerHTML = '<strong>File looks good.</strong> This backup contains:<br>'
+        + '<span style="margin-left:8px">· ' + parsed.master.length + ' styles in master library</span><br>'
+        + '<span style="margin-left:8px">· ' + parsed.seasons.length + ' season(s): ' + parsed.seasons.map(function(s){return s.code;}).join(', ') + '</span><br>'
+        + '<span style="margin-left:8px">· ' + parsed.tariffs.length + ' tariff column(s)</span>';
       btn.disabled = false;
       btn.style.opacity = '1';
     } catch(err) {
       restorePayload = null;
-      const preview = document.getElementById('restore-preview');
       preview.style.display = 'block';
-      preview.innerHTML = '<span style="color:#a32d2d">⚠ Could not read this file. Make sure it's a SKHOOP backup .json file.</span>';
-      const btn = document.getElementById('restore-confirm-btn');
+      preview.innerHTML = '<span style="color:#a32d2d">Could not read this file. Make sure it\'s a SKHOOP backup .json file.</span>';
       btn.disabled = true;
       btn.style.opacity = '0.4';
     }
@@ -1266,86 +1339,65 @@ function confirmRestore() {
   renderAll();
 }
 
-// ─────────────────────────────────────────────
-// FREIGHT CALCULATOR
-// ─────────────────────────────────────────────
-function openFreightCalc() {
-  document.getElementById('fc-total').value = '';
-  document.getElementById('fc-units').value = '';
-  document.getElementById('fc-result').textContent = '—';
-  document.getElementById('freightModal').classList.add('open');
-  setTimeout(() => document.getElementById('fc-total').focus(), 50);
-}
-function closeFreightCalc() { document.getElementById('freightModal').classList.remove('open'); }
-function calcFreight() {
-  const total = parseFloat(document.getElementById('fc-total').value) || 0;
-  const units = parseFloat(document.getElementById('fc-units').value) || 0;
-  document.getElementById('fc-result').textContent = (total > 0 && units > 0) ? '$' + (total/units).toFixed(4) : '—';
-}
-
-// ─────────────────────────────────────────────
-// CSV EXPORT
-// ─────────────────────────────────────────────
+// ── CSV EXPORT ────────────────────────────────
 function exportCSV() {
   if (currentTab === 'master') {
-    const headers = ['Style', 'Materials', 'Fabric Type', 'Knit/Woven', 'HTSUS', 'Base Tariff %', 'Colorways'];
-    const rows = data.master.map(s => [
-      s.name, s.materials, s.fabricType, s.kw, s.hts, s.baseTariff,
-      (s.colorways||[]).map(c => c.color + (c.fabricType?' ('+c.fabricType+')':'')).join('; ')
-    ]);
+    var headers = ['Style','Materials','Fabric Type','Knit/Woven','HTSUS','Base Tariff %','Colorways'];
+    var rows = data.master.map(function(s) {
+      return [s.name, s.materials, s.fabricType, s.kw, s.hts, s.baseTariff,
+        (s.colorways||[]).map(function(c){return c.color+(c.fabricType?' ('+c.fabricType+')':'');}).join('; ')];
+    });
     downloadCSV('skhoop-master-library', headers, rows);
   } else {
-    const season = getSeason(currentTab);
+    var season = getSeason(currentTab);
     if (!season) return;
-    const headers = ['Season', 'Style', 'Color', 'Fabric Type', 'Knit/Woven', 'Qty', 'Supplier Price',
-      'HTSUS', 'Base Tariff %', 'Base Tariff / unit',
-      ...data.tariffs.map(t => t.name + ' %'),
-      ...data.tariffs.map(t => t.name + ' / unit'),
-      'Royalty / unit', 'Freight / unit', 'Landed Cost / unit', 'Total Landed Value'];
-    const rows = [];
-    season.styles.forEach(ss => {
-      const ms = getMasterStyle(ss.masterStyleId);
+    var headers = ['Season','Style','Color','Fabric Type','Knit/Woven','Qty','Supplier Price',
+      'HTSUS','Base Tariff %','Base Tariff / unit']
+      .concat(data.tariffs.map(function(t){return t.name+' %';}))
+      .concat(data.tariffs.map(function(t){return t.name+' / unit';}))
+      .concat(['Royalty / unit','Freight / unit','Landed Cost / unit','Total Landed Value','WS$','WS Margin %','MSRP','MSRP Margin %']);
+    var rows = [];
+    season.styles.forEach(function(ss) {
+      var ms = getMasterStyle(ss.masterStyleId);
       if (!ms) return;
-      ss.colorways.forEach(cw => {
-        const mc = (ms.colorways||[]).find(x=>x.id===cw.masterColorwayId)||{};
-        const sp = parseFloat(cw.supplierPrice)||0;
-        const lc = colorwayLC(cw, ss, ms, currentTab);
-        const qty = parseFloat(cw.qty)||0;
-        rows.push([
-          currentTab, ms.name, mc.color||'', mc.fabricType||'', ms.kw, cw.qty, cw.supplierPrice,
-          ms.hts, ms.baseTariff, (sp*((parseFloat(ms.baseTariff)||0)/100)).toFixed(2),
-          ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (season.tariffRates[t.id]||'') : 'OFF'),
-          ...data.tariffs.map(t => isTariffActive(ss,t.id) ? (sp*(getSeasonTariffRate(currentTab,t.id)/100)).toFixed(2) : '0.00'),
-          (sp*0.15).toFixed(2), ss.freight, lc.toFixed(2), (lc*qty).toFixed(2),
-          ss.ws || '', ss.ws ? (((parseFloat(ss.ws)-lc)/parseFloat(ss.ws)*100).toFixed(1)+'%') : '',
-          ss.msrp || '', ss.msrp ? (((parseFloat(ss.msrp)-lc)/parseFloat(ss.msrp)*100).toFixed(1)+'%') : ''
-        ]);
+      ss.colorways.forEach(function(cw) {
+        var mc  = (ms.colorways||[]).find(function(x){return x.id===cw.masterColorwayId;})||{};
+        var sp  = parseFloat(cw.supplierPrice)||0;
+        var lc  = colorwayLC(cw, ss, ms, currentTab);
+        var qty = parseFloat(cw.qty)||0;
+        var ws  = parseFloat(ss.ws);
+        var msrp= parseFloat(ss.msrp);
+        rows.push([currentTab, ms.name, mc.color||'', mc.fabricType||'', ms.kw, cw.qty, cw.supplierPrice,
+          ms.hts, ms.baseTariff, (sp*((parseFloat(ms.baseTariff)||0)/100)).toFixed(2)]
+          .concat(data.tariffs.map(function(t){return isTariffActive(ss,t.id)?(season.tariffRates[t.id]||''):'OFF';}))
+          .concat(data.tariffs.map(function(t){return isTariffActive(ss,t.id)?( sp*(getSeasonTariffRate(currentTab,t.id)/100)).toFixed(2):'0.00';}))
+          .concat([(sp*0.15).toFixed(2), ss.freight, lc.toFixed(2), (lc*qty).toFixed(2),
+            ss.ws||'', ws?(((ws-lc)/ws*100).toFixed(1)+'%'):'',
+            ss.msrp||'', msrp?(((msrp-lc)/msrp*100).toFixed(1)+'%'):'']));
       });
     });
-    downloadCSV('skhoop-'+currentTab, headers, rows);
+    downloadCSV('skhoop-' + currentTab, headers, rows);
   }
 }
 
 function downloadCSV(filename, headers, rows) {
-  const csv = [headers, ...rows].map(r => r.map(c => `"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
+  var csv = [headers].concat(rows).map(function(r) {
+    return r.map(function(c){ return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
   a.download = filename + '-' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
 }
 
-// ─────────────────────────────────────────────
-// BACKDROP CLOSE
-// ─────────────────────────────────────────────
-['masterStyleModal','seasonStyleModal','cwEditModal','addSeasonModal','tariffModal','freightModal','seasonStyleEditModal','restoreModal'].forEach(id => {
+// ── BACKDROP CLOSE ────────────────────────────
+['masterStyleModal','seasonStyleModal','seasonStyleEditModal','addSeasonModal','tariffModal','freightModal','restoreModal','importModal'].forEach(function(id) {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('open');
   });
 });
 
-// ─────────────────────────────────────────────
-// RENDER
-// ─────────────────────────────────────────────
+// ── RENDER ────────────────────────────────────
 function renderAll() {
   renderTabs();
   renderHeaderBtn();
@@ -1356,6 +1408,7 @@ function renderAll() {
   }
 }
 
+init();
 renderAll();
 </script>
 </body>
