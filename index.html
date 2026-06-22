@@ -47,6 +47,11 @@ header { display: flex; align-items: flex-start; justify-content: space-between;
 .tariff-rate-item label { font-size: 12px; color: var(--text-2); white-space: nowrap; }
 .tariff-rate-item input { width: 70px; font-size: 13px; font-family: 'DM Mono', monospace; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 4px 8px; background: var(--surface); color: var(--text); outline: none; }
 .tariff-rate-divider { width: 1px; height: 24px; background: var(--border-md); }
+.filter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.filter-bar-label { font-size: 12px; font-weight: 500; color: var(--text-2); }
+.pill { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; border: none; }
+.pill:hover { border-color: var(--accent); color: var(--text); }
+.pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { position: sticky; top: 0; z-index: 2; }
@@ -86,7 +91,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
 .modal.open { display: flex; }
 .modal-box { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; width: 460px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
-.modal-box.wide { width: 560px; }
+.modal-box.wide { width: 580px; }
 .modal-box h3 { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
 .field { margin-bottom: 12px; }
 .field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 5px; }
@@ -104,19 +109,20 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .cw-pick-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
 .cw-pick-label { font-size: 13px; flex: 1; }
 .cw-pick-sub { font-size: 11px; color: var(--text-3); }
-.tariff-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
-.tariff-item:last-child { border-bottom: none; }
-.tariff-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 15px; padding: 2px 4px; display: inline-flex; align-items: center; }
-.tariff-del:hover { color: #a32d2d; }
-.add-tariff-row { display: flex; gap: 8px; margin-top: 12px; }
-.add-tariff-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
+.list-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.list-item:last-child { border-bottom: none; }
+.list-item-del { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 15px; padding: 2px 4px; display: inline-flex; align-items: center; }
+.list-item-del:hover { color: #a32d2d; }
+.add-row { display: flex; gap: 8px; margin-top: 12px; }
+.add-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 6px 10px; background: var(--surface); color: var(--text); outline: none; }
 .calc-result { background: var(--surface2); border-radius: var(--radius); padding: 14px 16px; margin: 4px 0 16px; }
 .calc-result-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
 .calc-result-val { font-size: 28px; font-weight: 500; font-family: 'DM Mono', monospace; }
 .calc-result-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; }
-.toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-.toggle:hover { border-color: var(--accent); color: var(--text); }
-.toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.freight-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+.freight-table th { background: var(--surface2); color: var(--text-3); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; text-align: left; }
+.freight-table td { padding: 8px 12px; border-top: 1px solid var(--border); }
+.freight-table input { width: 130px; font-size: 13px; font-family: 'DM Mono', monospace; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 5px 8px; outline: none; }
 </style>
 </head>
 <body>
@@ -209,36 +215,19 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
     <div class="section-label">Colorway pricing and quantities</div>
     <div style="overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:4px">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <thead>
-          <tr style="background:var(--surface2)">
-            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Color</th>
-            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Fabric</th>
-            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">PO Qty</th>
-            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier price</th>
-            <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Royalty</th>
-          </tr>
-        </thead>
+        <thead><tr style="background:var(--surface2)">
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Color</th>
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Fabric</th>
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">PO Qty</th>
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier price</th>
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Royalty</th>
+        </tr></thead>
         <tbody id="sse-cw-body"></tbody>
       </table>
     </div>
     <div class="modal-actions">
       <button class="btn" onclick="closeSeasonStyleEdit()"><i class="ti ti-x"></i> Cancel</button>
       <button class="btn primary" onclick="saveSeasonStyleEdit()"><i class="ti ti-check"></i> Save changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- Supplier Manager Modal -->
-<div class="modal" id="supplierModal">
-  <div class="modal-box">
-    <h3>Manage suppliers</h3>
-    <div id="supplier-list"></div>
-    <div class="add-tariff-row">
-      <input id="new-supplier-name" type="text" placeholder="Supplier name">
-      <button class="btn" onclick="addSupplier()"><i class="ti ti-plus"></i> Add</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn primary" onclick="closeSupplierMgr()"><i class="ti ti-check"></i> Done</button>
     </div>
   </div>
 </div>
@@ -259,13 +248,28 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
+<!-- Supplier Manager Modal -->
+<div class="modal" id="supplierModal">
+  <div class="modal-box">
+    <h3>Manage suppliers</h3>
+    <div id="supplier-list"></div>
+    <div class="add-row">
+      <input id="new-supplier-name" type="text" placeholder="Supplier name">
+      <button class="btn" onclick="addSupplier()"><i class="ti ti-plus"></i> Add</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="closeSupplierMgr()"><i class="ti ti-check"></i> Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- Tariff Manager Modal -->
 <div class="modal" id="tariffModal">
   <div class="modal-box">
     <h3>Manage tariff columns</h3>
     <p style="font-size:12px;color:var(--text-3);margin-bottom:12px;">Add or remove additional tariff columns. Rates are set per season.</p>
     <div id="tariff-list"></div>
-    <div class="add-tariff-row">
+    <div class="add-row">
       <input id="new-tariff-name" type="text" placeholder="e.g. Section 232">
       <button class="btn" onclick="addTariff()"><i class="ti ti-plus"></i> Add</button>
     </div>
@@ -279,12 +283,12 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 <div class="modal" id="freightModal">
   <div class="modal-box wide">
     <h3>Freight calculator</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Enter the total freight invoice per supplier. The per-unit rate is calculated from units in the current season and auto-filled to all styles for that supplier.</p>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Enter the total freight invoice per supplier. Per-unit rates are calculated from units in the selected season and applied to all styles for that supplier.</p>
     <div class="field">
       <label>Season</label>
-      <select id="fc-season" onchange="updateFreightSuppliers()" style="font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:7px 10px;font-family:'DM Sans',sans-serif;outline:none;background:var(--surface);color:var(--text)"></select>
+      <select id="fc-season" onchange="updateFreightTable()" style="font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:7px 10px;font-family:'DM Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);width:auto"></select>
     </div>
-    <div id="fc-supplier-rows"></div>
+    <div id="fc-table-wrap"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeFreightCalc()"><i class="ti ti-x"></i> Cancel</button>
       <button class="btn primary" onclick="applyFreight()"><i class="ti ti-check"></i> Apply to season</button>
@@ -296,7 +300,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 <div class="modal" id="importModal">
   <div class="modal-box wide">
     <h3>Import from spreadsheet</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Upload a filled-in CSV export of the import template. Import Master Library first, then Season Data.</p>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Upload a CSV export of the import template. Import Master Library first, then Season Data.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
       <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 14px">
         <div style="font-size:12px;font-weight:500;margin-bottom:4px">Step 1 -- Master Library</div>
@@ -345,14 +349,13 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 
 <script>
 var STORE_KEY = 'skhoop_v4';
-var data, currentTab, expanded, editingMasterStyleId, seasonStyleEditCtx, addingToSeasonCode, masterCwFieldCount, restorePayload, importPayload;
+var data, currentTab, expanded, editingMasterStyleId, seasonStyleEditCtx, addingToSeasonCode, masterCwFieldCount, restorePayload, importPayload, supplierFilter;
 
-function uid() {
-  return 'id' + Math.random().toString(36).slice(2, 10);
-}
+function uid() { return 'id' + Math.random().toString(36).slice(2, 10); }
 
 function defaultData() {
   return {
+    suppliers: [],
     master: [],
     seasons: [
       { code: 'FW26', tariffRates: {}, styles: [] },
@@ -370,20 +373,22 @@ function loadData() {
     var raw = localStorage.getItem(STORE_KEY);
     if (raw) {
       var parsed = JSON.parse(raw);
-      if (parsed && parsed.master && parsed.seasons && parsed.tariffs) return parsed;
+      if (parsed && parsed.master && parsed.seasons && parsed.tariffs) {
+        if (!parsed.suppliers) parsed.suppliers = [];
+        return parsed;
+      }
     }
   } catch(e) {}
   return defaultData();
 }
 
-function saveData() {
-  localStorage.setItem(STORE_KEY, JSON.stringify(data));
-}
+function saveData() { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
 
 function init() {
   data = loadData();
   currentTab = 'master';
   expanded = {};
+  supplierFilter = {};
   editingMasterStyleId = null;
   seasonStyleEditCtx = null;
   addingToSeasonCode = null;
@@ -393,24 +398,17 @@ function init() {
 }
 
 function getMasterStyle(id) {
-  for (var i = 0; i < data.master.length; i++) {
-    if (data.master[i].id === id) return data.master[i];
-  }
+  for (var i = 0; i < data.master.length; i++) if (data.master[i].id === id) return data.master[i];
   return null;
 }
-
 function getSeason(code) {
-  for (var i = 0; i < data.seasons.length; i++) {
-    if (data.seasons[i].code === code) return data.seasons[i];
-  }
+  for (var i = 0; i < data.seasons.length; i++) if (data.seasons[i].code === code) return data.seasons[i];
   return null;
 }
-
 function getSeasonTariffRate(seasonCode, tariffId) {
   var s = getSeason(seasonCode);
   return s ? (parseFloat(s.tariffRates[tariffId]) || 0) : 0;
 }
-
 function isTariffActive(ss, tariffId) {
   if (!ss.tariffOverrides) return true;
   if (ss.tariffOverrides[tariffId] === false) return false;
@@ -418,55 +416,51 @@ function isTariffActive(ss, tariffId) {
 }
 
 function colorwayLC(cw, ss, ms, seasonCode) {
-  var sp      = parseFloat(cw.supplierPrice) || 0;
-  var bt      = (parseFloat(ms.baseTariff) || 0) / 100;
-  var roy     = 0.15;
+  var sp = parseFloat(cw.supplierPrice) || 0;
+  var bt = (parseFloat(ms.baseTariff) || 0) / 100;
+  var roy = 0.15;
   var freight = parseFloat(ss.freight) || 0;
-  var addT    = 0;
+  var addT = 0;
   for (var i = 0; i < data.tariffs.length; i++) {
-    var t = data.tariffs[i];
-    if (isTariffActive(ss, t.id)) addT += getSeasonTariffRate(seasonCode, t.id) / 100;
+    if (isTariffActive(ss, data.tariffs[i].id)) addT += getSeasonTariffRate(seasonCode, data.tariffs[i].id) / 100;
   }
   return sp * (1 + bt + addT + roy) + freight;
 }
 
 function styleWeightedLC(ss, ms, seasonCode) {
-  var cws = ss.colorways || [];
-  var totalQty = 0;
+  var cws = ss.colorways || [], totalQty = 0, sum = 0;
   for (var i = 0; i < cws.length; i++) totalQty += parseFloat(cws[i].qty) || 0;
   if (!totalQty) return NaN;
-  var sum = 0;
   for (var i = 0; i < cws.length; i++) sum += colorwayLC(cws[i], ss, ms, seasonCode) * (parseFloat(cws[i].qty) || 0);
   return sum / totalQty;
 }
 
 function styleTotalUnits(ss) {
-  var cws = ss.colorways || [], t = 0;
-  for (var i = 0; i < cws.length; i++) t += parseFloat(cws[i].qty) || 0;
+  var t = 0;
+  for (var i = 0; i < (ss.colorways || []).length; i++) t += parseFloat(ss.colorways[i].qty) || 0;
   return t;
 }
 
 function styleTotalLV(ss, ms, seasonCode) {
-  var cws = ss.colorways || [], t = 0;
-  for (var i = 0; i < cws.length; i++) t += colorwayLC(cws[i], ss, ms, seasonCode) * (parseFloat(cws[i].qty) || 0);
+  var t = 0;
+  for (var i = 0; i < (ss.colorways || []).length; i++) t += colorwayLC(ss.colorways[i], ss, ms, seasonCode) * (parseFloat(ss.colorways[i].qty) || 0);
   return t;
 }
 
-function fmt(n)    { return (isNaN(n) || !isFinite(n)) ? '--' : '$' + n.toFixed(2); }
+function fmt(n) { return (isNaN(n) || !isFinite(n)) ? '--' : '$' + n.toFixed(2); }
 function fmtPct(n) { return (isNaN(n) || !isFinite(n)) ? '--' : n.toFixed(1) + '%'; }
 function fmtBig(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-
 function esc(s) {
   if (s === null || s === undefined) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// TABS
+// ── TABS ──
 function renderTabs() {
   var html = '<button class="tab' + (currentTab === 'master' ? ' active' : '') + '" onclick="switchTab(\'master\')"><i class="ti ti-books" style="font-size:13px;margin-right:4px"></i>Master Library</button>';
   for (var i = 0; i < data.seasons.length; i++) {
-    var s = data.seasons[i];
-    html += '<button class="tab' + (currentTab === s.code ? ' active' : '') + '" onclick="switchTab(\'' + s.code + '\')" ondblclick="confirmDeleteSeason(\'' + s.code + '\')">' + esc(s.code) + '</button>';
+    var code = data.seasons[i].code;
+    html += '<button class="tab' + (currentTab === code ? ' active' : '') + '" onclick="switchTab(\'' + code + '\')" ondblclick="confirmDeleteSeason(\'' + code + '\')">' + esc(code) + '</button>';
   }
   html += '<button class="tab-add" onclick="openAddSeasonModal()"><i class="ti ti-plus"></i> Season</button>';
   document.getElementById('tabs-bar').innerHTML = html;
@@ -475,12 +469,10 @@ function renderTabs() {
 function switchTab(tab) { currentTab = tab; renderAll(); }
 
 function confirmDeleteSeason(code) {
-  if (confirm('Delete season ' + code + '? Master library styles are unaffected.')) {
-    var newSeasons = [];
-    for (var i = 0; i < data.seasons.length; i++) {
-      if (data.seasons[i].code !== code) newSeasons.push(data.seasons[i]);
-    }
-    data.seasons = newSeasons;
+  if (confirm('Delete season ' + code + '? Master library is unaffected.')) {
+    var ns = [];
+    for (var i = 0; i < data.seasons.length; i++) if (data.seasons[i].code !== code) ns.push(data.seasons[i]);
+    data.seasons = ns;
     if (currentTab === code) currentTab = 'master';
     saveData(); renderAll();
   }
@@ -495,15 +487,17 @@ function renderHeaderBtn() {
   }
 }
 
-// MASTER VIEW
+// ── MASTER VIEW ──
 function renderMasterView() {
-  var styles = data.master;
-  var html = '<div class="tbl-wrap"><table><thead><tr><th>Style name</th><th>Materials</th><th>Fabric type</th><th>Knit/Woven</th><th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th></tr></thead><tbody>';
-  if (!styles.length) {
+  var html = '<div class="tbl-wrap"><table><thead><tr>'
+    + '<th>Style name</th><th>Supplier</th><th>Materials</th><th>Fabric type</th>'
+    + '<th>Knit/Woven</th><th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th>'
+    + '</tr></thead><tbody>';
+  if (!data.master.length) {
     html += '<tr class="empty-row"><td colspan="9">No styles yet -- click Add Style to get started.</td></tr>';
   } else {
-    for (var i = 0; i < styles.length; i++) {
-      var s = styles[i];
+    for (var i = 0; i < data.master.length; i++) {
+      var s = data.master[i];
       var cwChips = '';
       for (var j = 0; j < (s.colorways || []).length; j++) {
         var c = s.colorways[j];
@@ -511,13 +505,13 @@ function renderMasterView() {
       }
       html += '<tr>'
         + '<td style="font-weight:500">' + esc(s.name) + '</td>'
-        + '<td style="font-size:12px">' + esc(s.supplier || '--') + '</td>'
+        + '<td style="font-size:12px;color:var(--text-2)">' + esc(s.supplier || '--') + '</td>'
         + '<td style="font-size:12px;color:var(--text-2)">' + esc(s.materials) + '</td>'
         + '<td style="font-size:12px">' + esc(s.fabricType) + '</td>'
         + '<td style="font-size:12px">' + esc(s.kw) + '</td>'
         + '<td class="mono">' + esc(s.hts) + '</td>'
         + '<td class="mono">' + (s.baseTariff || '--') + '%</td>'
-        + '<td style="max-width:280px">' + (cwChips || '<span style="color:var(--text-3);font-size:12px">None</span>') + '</td>'
+        + '<td style="max-width:260px">' + (cwChips || '<span style="color:var(--text-3);font-size:12px">None</span>') + '</td>'
         + '<td><div style="display:flex;gap:4px">'
         + '<button class="icon-btn edit" onclick="openMasterStyleModal(\'' + s.id + '\')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>'
         + '<button class="icon-btn" onclick="deleteMasterStyle(\'' + s.id + '\')" title="Delete"><i class="ti ti-trash" style="font-size:15px"></i></button>'
@@ -528,108 +522,108 @@ function renderMasterView() {
   document.getElementById('main-content').innerHTML = html;
 }
 
-// SEASON VIEW
+// ── SEASON VIEW ──
+function getFilteredStyles(season, seasonCode) {
+  var filter = supplierFilter[seasonCode] || 'all';
+  var result = [];
+  for (var i = 0; i < season.styles.length; i++) {
+    var ms = getMasterStyle(season.styles[i].masterStyleId);
+    if (filter === 'all' || (ms && ms.supplier === filter)) {
+      result.push({ ss: season.styles[i], si: i, ms: ms });
+    }
+  }
+  return result;
+}
+
 function renderSeasonView(seasonCode) {
   var season = getSeason(seasonCode);
   if (!season) return;
+
+  var filtered = getFilteredStyles(season, seasonCode);
+
+  // Stats from filtered styles
   var totalUnits = 0, totalLV = 0, allWLC = [];
   var wsNum = 0, wsDen = 0, msrpNum = 0, msrpDen = 0;
-  var filteredStyles = [];
-  for (var i = 0; i < season.styles.length; i++) {
-    var ms_check = getMasterStyle(season.styles[i].masterStyleId);
-    if (!window._supplierFilter || !window._supplierFilter[seasonCode] || window._supplierFilter[seasonCode] === 'all' || (ms_check && ms_check.supplier === window._supplierFilter[seasonCode])) {
-      filteredStyles.push(season.styles[i]);
-    }
-  }
-  for (var i = 0; i < filteredStyles.length; i++) {
-    var ss = filteredStyles[i];
-    var ms = getMasterStyle(ss.masterStyleId);
+  var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0;
+  for (var i = 0; i < filtered.length; i++) {
+    var ss = filtered[i].ss, ms = filtered[i].ms;
     if (!ms) continue;
     var units = styleTotalUnits(ss);
     totalUnits += units;
     totalLV += styleTotalLV(ss, ms, seasonCode);
     var wlc = styleWeightedLC(ss, ms, seasonCode);
     if (!isNaN(wlc)) allWLC.push(wlc);
-    if (units) {
-      var ws = parseFloat(ss.ws);
-      var msrp = parseFloat(ss.msrp);
-      if (ws && !isNaN(wlc))   { wsNum   += ((ws   - wlc) / ws)   * units; wsDen   += units; }
-      if (msrp && !isNaN(wlc)) { msrpNum += ((msrp - wlc) / msrp) * units; msrpDen += units; }
-    }
-  }
-  var avgLC = allWLC.length ? allWLC.reduce(function(a,n){return a+n;},0) / allWLC.length : NaN;
-  var wtdWSMargin   = wsDen   ? (wsNum   / wsDen   * 100) : NaN;
-  var wtdMSRPMargin = msrpDen ? (msrpNum / msrpDen * 100) : NaN;
-
-  // Totals for freight, royalties, tariffs across all units
-  var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0;
-  for (var i = 0; i < filteredStyles.length; i++) {
-    var ss2 = filteredStyles[i];
-    var ms2 = getMasterStyle(ss2.masterStyleId);
-    if (!ms2) continue;
-    var freight2 = parseFloat(ss2.freight) || 0;
-    var bt2 = (parseFloat(ms2.baseTariff) || 0) / 100;
+    var ws = parseFloat(ss.ws), msrp = parseFloat(ss.msrp);
+    if (units && ws && !isNaN(wlc))   { wsNum   += ((ws   - wlc) / ws)   * units; wsDen   += units; }
+    if (units && msrp && !isNaN(wlc)) { msrpNum += ((msrp - wlc) / msrp) * units; msrpDen += units; }
+    var freight2 = parseFloat(ss.freight) || 0;
+    var bt2 = (parseFloat(ms.baseTariff) || 0) / 100;
     var addT2 = 0;
-    for (var ti2 = 0; ti2 < data.tariffs.length; ti2++) {
-      var t2 = data.tariffs[ti2];
-      if (isTariffActive(ss2, t2.id)) addT2 += getSeasonTariffRate(seasonCode, t2.id) / 100;
+    for (var ti = 0; ti < data.tariffs.length; ti++) {
+      if (isTariffActive(ss, data.tariffs[ti].id)) addT2 += getSeasonTariffRate(seasonCode, data.tariffs[ti].id) / 100;
     }
-    for (var ci2 = 0; ci2 < (ss2.colorways || []).length; ci2++) {
-      var cw2 = ss2.colorways[ci2];
-      var sp2 = parseFloat(cw2.supplierPrice) || 0;
-      var qty2 = parseFloat(cw2.qty) || 0;
-      totalFreight  += freight2 * qty2;
-      totalRoyalty  += sp2 * 0.15 * qty2;
-      totalTariffs  += sp2 * (bt2 + addT2) * qty2;
+    for (var ci = 0; ci < (ss.colorways || []).length; ci++) {
+      var cw = ss.colorways[ci];
+      var sp = parseFloat(cw.supplierPrice) || 0, qty = parseFloat(cw.qty) || 0;
+      totalFreight += freight2 * qty;
+      totalRoyalty += sp * 0.15 * qty;
+      totalTariffs += sp * (bt2 + addT2) * qty;
     }
   }
+  var avgLC = allWLC.length ? allWLC.reduce(function(a,n){return a+n;},0)/allWLC.length : NaN;
+  var wtdWSMargin   = wsDen   ? wsNum   / wsDen   * 100 : NaN;
+  var wtdMSRPMargin = msrpDen ? msrpNum / msrpDen * 100 : NaN;
 
   var html = '<div class="stats">'
-    + '<div class="stat"><div class="stat-label">Styles</div><div class="stat-val">' + season.styles.length + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Total units</div><div class="stat-val">' + totalUnits.toLocaleString() + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Avg landed cost / unit</div><div class="stat-val">' + fmt(avgLC) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Total landed value</div><div class="stat-val">' + fmtBig(totalLV) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Wtd avg WS margin</div><div class="stat-val" style="color:' + (!isNaN(wtdWSMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdWSMargin) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Wtd avg MSRP margin</div><div class="stat-val" style="color:' + (!isNaN(wtdMSRPMargin) ? 'var(--green)' : 'inherit') + '">' + fmtPct(wtdMSRPMargin) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Total freight</div><div class="stat-val">' + fmtBig(totalFreight) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Total royalties</div><div class="stat-val">' + fmtBig(totalRoyalty) + '</div></div>'
-    + '<div class="stat"><div class="stat-label">Total tariffs</div><div class="stat-val">' + fmtBig(totalTariffs) + '</div></div>'
+    + stat('Styles', filtered.length)
+    + stat('Total units', totalUnits.toLocaleString())
+    + stat('Avg landed cost / unit', fmt(avgLC))
+    + stat('Total landed value', fmtBig(totalLV))
+    + stat('Wtd avg WS margin', fmtPct(wtdWSMargin), !isNaN(wtdWSMargin))
+    + stat('Wtd avg MSRP margin', fmtPct(wtdMSRPMargin), !isNaN(wtdMSRPMargin))
+    + stat('Total freight', fmtBig(totalFreight))
+    + stat('Total royalties', fmtBig(totalRoyalty))
+    + stat('Total tariffs', fmtBig(totalTariffs))
     + '</div>';
+
+  // Supplier filter pills
+  var suppliersInSeason = [];
+  for (var i = 0; i < season.styles.length; i++) {
+    var ms2 = getMasterStyle(season.styles[i].masterStyleId);
+    var sup = ms2 ? (ms2.supplier || '') : '';
+    if (sup) {
+      var found = false;
+      for (var j = 0; j < suppliersInSeason.length; j++) if (suppliersInSeason[j] === sup) { found = true; break; }
+      if (!found) suppliersInSeason.push(sup);
+    }
+  }
+  if (suppliersInSeason.length > 1) {
+    var activeFilter = supplierFilter[seasonCode] || 'all';
+    html += '<div class="filter-bar"><span class="filter-bar-label">Filter by supplier:</span>'
+      + '<button class="pill' + (activeFilter === 'all' ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'all\')">All</button>';
+    for (var i = 0; i < suppliersInSeason.length; i++) {
+      var sup = suppliersInSeason[i];
+      var safeId = 'sf_' + i;
+      html += '<button class="pill' + (activeFilter === sup ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'' + safeId + '\')" id="' + safeId + '-btn">' + esc(sup) + '</button>';
+    }
+    html += '</div>';
+    // Store supplier names for safe lookup
+    window._seasonSuppliers = window._seasonSuppliers || {};
+    window._seasonSuppliers[seasonCode] = suppliersInSeason;
+  }
 
   // Tariff rate bar
   html += '<div class="season-tariff-bar"><span class="season-tariff-bar-label">' + esc(seasonCode) + ' tariff rates:</span>';
   for (var i = 0; i < data.tariffs.length; i++) {
     var t = data.tariffs[i];
-    var val = season.tariffRates[t.id] || '';
     html += '<div class="tariff-rate-item"><label>' + esc(t.name) + '</label>'
-      + '<input type="number" min="0" step="0.1" value="' + esc(val) + '" placeholder="0.0" onchange="updateSeasonTariffRate(\'' + seasonCode + '\',\'' + t.id + '\',this.value)">'
+      + '<input type="number" min="0" step="0.1" value="' + esc(season.tariffRates[t.id] || '') + '" placeholder="0.0" onchange="updateSeasonTariffRate(\'' + seasonCode + '\',\'' + t.id + '\',this.value)">'
       + '<span>%</span></div>';
     if (i < data.tariffs.length - 1) html += '<div class="tariff-rate-divider"></div>';
   }
   html += '</div>';
 
-  // Table
-  // Supplier filter
-  var activeSupplierFilter = window._supplierFilter && window._supplierFilter[seasonCode] ? window._supplierFilter[seasonCode] : 'all';
-  var suppliersInSeason = [];
-  for (var i = 0; i < season.styles.length; i++) {
-    var ms0 = getMasterStyle(season.styles[i].masterStyleId);
-    if (ms0 && ms0.supplier) {
-      var found0 = false;
-      for (var si0 = 0; si0 < suppliersInSeason.length; si0++) { if (suppliersInSeason[si0] === ms0.supplier) { found0 = true; break; } }
-      if (!found0) suppliersInSeason.push(ms0.supplier);
-    }
-  }
-  if (suppliersInSeason.length > 1) {
-    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">'
-      + '<span style="font-size:12px;font-weight:500;color:var(--text-2)">Filter by supplier:</span>'
-      + '<button class="toggle' + (activeSupplierFilter === 'all' ? ' on' : '') + '" onclick="setSupplierFilter('' + seasonCode + '','all')">All</button>';
-    for (var fi = 0; fi < suppliersInSeason.length; fi++) {
-      html += '<button class="toggle' + (activeSupplierFilter === suppliersInSeason[fi] ? ' on' : '') + '" onclick="setSupplierFilter('' + seasonCode + '','' + suppliersInSeason[fi].replace(/'/g, '\'') + '')">' + esc(suppliersInSeason[fi]) + '</button>';
-    }
-    html += '</div>';
-  }
-
+  // Table header
   var tariffTH = '';
   for (var i = 0; i < data.tariffs.length; i++) tariffTH += '<th>' + esc(data.tariffs[i].name) + '</th>';
   html += '<div class="tbl-wrap"><table><thead><tr>'
@@ -640,101 +634,76 @@ function renderSeasonView(seasonCode) {
     + '<th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>'
     + '</tr></thead><tbody>';
 
-  // Apply supplier filter to styles list for rendering
-  var stylesToRender = [];
-  for (var i = 0; i < season.styles.length; i++) {
-    var ms_f = getMasterStyle(season.styles[i].masterStyleId);
-    if (activeSupplierFilter === 'all' || (ms_f && ms_f.supplier === activeSupplierFilter)) {
-      stylesToRender.push({ ss: season.styles[i], si: i });
-    }
-  }
-
-  if (!stylesToRender.length) {
+  if (!filtered.length) {
     var colspan = 12 + data.tariffs.length;
-    html += '<tr class="empty-row"><td colspan="' + colspan + '">' + (activeSupplierFilter !== 'all' ? 'No styles for this supplier.' : 'No styles in ' + esc(seasonCode) + ' yet -- click Add Style to ' + esc(seasonCode) + '.') + '</td></tr>';
+    html += '<tr class="empty-row"><td colspan="' + colspan + '">'
+      + ((supplierFilter[seasonCode] && supplierFilter[seasonCode] !== 'all') ? 'No styles for this supplier.' : 'No styles yet -- click Add Style to ' + esc(seasonCode) + '.')
+      + '</td></tr>';
   } else {
-    for (var ri = 0; ri < stylesToRender.length; ri++) {
-      var ss = stylesToRender[ri].ss;
-      var si = stylesToRender[ri].si;
-      var ms = getMasterStyle(ss.masterStyleId);
+    for (var ri = 0; ri < filtered.length; ri++) {
+      var ss = filtered[ri].ss, si = filtered[ri].si, ms = filtered[ri].ms;
       if (!ms) continue;
-      var isOpen  = !!expanded[seasonCode + '_' + si];
-      var wlc     = styleWeightedLC(ss, ms, seasonCode);
-      var totalU  = styleTotalUnits(ss);
+      var isOpen = !!expanded[seasonCode + '_' + si];
+      var wlc = styleWeightedLC(ss, ms, seasonCode);
+      var totalU = styleTotalUnits(ss);
       var freight = parseFloat(ss.freight) || 0;
-      var wsV     = parseFloat(ss.ws);
-      var msrpV   = parseFloat(ss.msrp);
-      var wsMargin   = (!isNaN(wlc) && wsV)   ? ((wsV   - wlc) / wsV   * 100) : NaN;
-      var msrpMargin = (!isNaN(wlc) && msrpV) ? ((msrpV - wlc) / msrpV * 100) : NaN;
+      var wsV = parseFloat(ss.ws), msrpV = parseFloat(ss.msrp);
+      var wsMargin   = (!isNaN(wlc) && wsV)   ? (wsV   - wlc) / wsV   * 100 : NaN;
+      var msrpMargin = (!isNaN(wlc) && msrpV) ? (msrpV - wlc) / msrpV * 100 : NaN;
 
       // Weighted avg SP
       var cws2 = ss.colorways || [], totalQ2 = 0, spSum = 0;
-      for (var k = 0; k < cws2.length; k++) {
-        var q = parseFloat(cws2[k].qty) || 0;
-        totalQ2 += q;
-        spSum += (parseFloat(cws2[k].supplierPrice) || 0) * q;
-      }
-      var avgSP = totalQ2 ? spSum / totalQ2 : 0;
-      var wRoy  = avgSP * 0.15;
+      for (var k = 0; k < cws2.length; k++) { var q = parseFloat(cws2[k].qty)||0; totalQ2+=q; spSum+=(parseFloat(cws2[k].supplierPrice)||0)*q; }
+      var avgSP = totalQ2 ? spSum/totalQ2 : 0;
 
       // Tariff pills
-      var tariffStyleCols = '';
+      var tariffCols = '';
       for (var ti = 0; ti < data.tariffs.length; ti++) {
-        var t   = data.tariffs[ti];
-        var on  = isTariffActive(ss, t.id);
-        var rate= getSeasonTariffRate(seasonCode, t.id);
-        var cost= on ? fmt(avgSP * (rate / 100)) : '--';
-        var pill= '<span class="tariff-pill ' + (on ? 'on' : 'off') + '" onclick="toggleStyleTariff(\'' + seasonCode + '\',' + si + ',\'' + t.id + '\')">'
-          + esc(t.name) + (rate ? ' ' + rate + '%' : '') + '</span>';
-        tariffStyleCols += '<td class="summary-num">' + pill + '<br><span style="font-size:11px;color:var(--text-3)">' + cost + ' avg</span></td>';
+        var t = data.tariffs[ti];
+        var on = isTariffActive(ss, t.id);
+        var rate = getSeasonTariffRate(seasonCode, t.id);
+        var cost = on ? fmt(avgSP * (rate/100)) : '--';
+        tariffCols += '<td class="summary-num"><span class="tariff-pill ' + (on?'on':'off') + '" onclick="toggleStyleTariff(\'' + seasonCode + '\',' + si + ',\'' + t.id + '\')">' + esc(t.name) + (rate ? ' ' + rate + '%' : '') + '</span><br><span style="font-size:11px;color:var(--text-3)">' + cost + ' avg</span></td>';
       }
 
       html += '<tr class="style-row">'
-        + '<td><button class="style-toggle' + (isOpen ? ' open' : '') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>' + esc(ms.name) + '<br><span style="font-size:11px;color:var(--text-3);font-weight:400">' + esc(ms.supplier || '') + '</span></td>'
+        + '<td><button class="style-toggle' + (isOpen?' open':'') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>'
+        + esc(ms.name) + '<br><span style="font-size:11px;color:var(--text-3);font-weight:400">' + esc(ms.supplier || '') + '</span></td>'
         + '<td class="muted">' + esc(ms.fabricType) + '</td>'
         + '<td class="muted">' + esc(ms.kw) + '</td>'
         + '<td class="summary-num">' + totalU.toLocaleString() + '</td>'
         + '<td class="muted">--</td>'
         + '<td class="summary-num" style="font-size:11px">' + esc(ms.hts) + '</td>'
-        + '<td class="summary-num">' + (ms.baseTariff || '--') + '%</td>'
-        + tariffStyleCols
-        + '<td class="summary-num">' + fmt(wRoy) + '</td>'
+        + '<td class="summary-num">' + (ms.baseTariff||'--') + '%</td>'
+        + tariffCols
+        + '<td class="summary-num">' + fmt(avgSP*0.15) + '</td>'
         + '<td class="summary-num">' + fmt(freight) + '</td>'
         + '<td class="summary-lc">' + fmt(wlc) + '</td>'
-        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.ws || '') + '" placeholder="--" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'ws\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
-        + '<td class="' + (!isNaN(wsMargin) ? 'summary-lc' : 'muted') + '" id="wsm-' + seasonCode + '-' + si + '">' + fmtPct(wsMargin) + '</td>'
-        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.msrp || '') + '" placeholder="--" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'msrp\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
-        + '<td class="' + (!isNaN(msrpMargin) ? 'summary-lc' : 'muted') + '" id="msrpm-' + seasonCode + '-' + si + '">' + fmtPct(msrpMargin) + '</td>'
+        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.ws||'') + '" placeholder="--" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'ws\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
+        + '<td class="' + (!isNaN(wsMargin)?'summary-lc':'muted') + '" id="wsm-' + seasonCode + '-' + si + '">' + fmtPct(wsMargin) + '</td>'
+        + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.msrp||'') + '" placeholder="--" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'msrp\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
+        + '<td class="' + (!isNaN(msrpMargin)?'summary-lc':'muted') + '" id="msrpm-' + seasonCode + '-' + si + '">' + fmtPct(msrpMargin) + '</td>'
         + '<td><div style="display:flex;gap:4px">'
         + '<button class="icon-btn edit" onclick="openSeasonStyleEdit(\'' + seasonCode + '\',' + si + ')" title="Edit"><i class="ti ti-edit" style="font-size:15px"></i></button>'
         + '<button class="icon-btn" onclick="removeSeasonStyle(\'' + seasonCode + '\',' + si + ')" title="Remove"><i class="ti ti-trash" style="font-size:15px"></i></button>'
         + '</div></td></tr>';
 
       // Colorway rows
-      var cws = ss.colorways || [];
-      for (var ci = 0; ci < cws.length; ci++) {
-        var cw  = cws[ci];
-        var mc  = null;
-        for (var m = 0; m < (ms.colorways || []).length; m++) {
-          if (ms.colorways[m].id === cw.masterColorwayId) { mc = ms.colorways[m]; break; }
-        }
+      for (var ci = 0; ci < (ss.colorways||[]).length; ci++) {
+        var cw = ss.colorways[ci], mc = null;
+        for (var m = 0; m < (ms.colorways||[]).length; m++) if (ms.colorways[m].id === cw.masterColorwayId) { mc = ms.colorways[m]; break; }
         if (!mc) mc = {};
-        var sp  = parseFloat(cw.supplierPrice) || 0;
-        var lc  = colorwayLC(cw, ss, ms, seasonCode);
-        var roy = sp * 0.15;
-        var bt  = sp * ((parseFloat(ms.baseTariff) || 0) / 100);
+        var sp = parseFloat(cw.supplierPrice)||0, lc = colorwayLC(cw,ss,ms,seasonCode), roy = sp*0.15, bt = sp*((parseFloat(ms.baseTariff)||0)/100);
         var tariffCwCols = '';
         for (var ti = 0; ti < data.tariffs.length; ti++) {
-          var t    = data.tariffs[ti];
-          var on   = isTariffActive(ss, t.id);
-          var rate = getSeasonTariffRate(seasonCode, t.id);
-          tariffCwCols += '<td class="mono">' + (on ? fmt(sp * (rate / 100)) : '<span style="color:var(--text-3)">off</span>') + '</td>';
+          var on = isTariffActive(ss, data.tariffs[ti].id), rate = getSeasonTariffRate(seasonCode, data.tariffs[ti].id);
+          tariffCwCols += '<td class="mono">' + (on ? fmt(sp*(rate/100)) : '<span style="color:var(--text-3)">off</span>') + '</td>';
         }
-        html += '<tr class="colorway-row' + (isOpen ? '' : ' hidden') + '">'
-          + '<td style="color:var(--text-2)">' + esc(mc.color || '--') + '</td>'
+        html += '<tr class="colorway-row' + (isOpen?'':' hidden') + '">'
+          + '<td style="color:var(--text-2)">' + esc(mc.color||'--') + '</td>'
           + '<td class="muted">' + esc(mc.fabricType) + '</td>'
           + '<td class="muted">--</td>'
-          + '<td class="mono">' + (parseFloat(cw.qty) || 0).toLocaleString() + '</td>'
+          + '<td class="mono">' + (parseFloat(cw.qty)||0).toLocaleString() + '</td>'
           + '<td class="mono">' + fmt(sp) + '</td>'
           + '<td class="muted">--</td>'
           + '<td class="mono">' + fmt(bt) + '</td>'
@@ -751,66 +720,70 @@ function renderSeasonView(seasonCode) {
   document.getElementById('main-content').innerHTML = html;
 }
 
+function stat(label, val, green) {
+  return '<div class="stat"><div class="stat-label">' + label + '</div><div class="stat-val"' + (green ? ' style="color:var(--green)"' : '') + '>' + val + '</div></div>';
+}
+
+function setSupplierFilter(seasonCode, val) {
+  // val is either 'all' or a safeId like 'sf_0'
+  if (val === 'all') {
+    supplierFilter[seasonCode] = 'all';
+  } else {
+    // look up actual supplier name from stored list
+    var idx = parseInt(val.replace('sf_', ''));
+    var sup = (window._seasonSuppliers && window._seasonSuppliers[seasonCode]) ? window._seasonSuppliers[seasonCode][idx] : null;
+    supplierFilter[seasonCode] = sup || 'all';
+  }
+  renderSeasonView(seasonCode);
+}
+
 function toggleExpand(seasonCode, si) {
   expanded[seasonCode + '_' + si] = !expanded[seasonCode + '_' + si];
   renderSeasonView(seasonCode);
 }
 
 function updateSeasonTariffRate(seasonCode, tariffId, val) {
-  var season = getSeason(seasonCode);
-  if (season) { season.tariffRates[tariffId] = val; saveData(); renderSeasonView(seasonCode); }
+  var s = getSeason(seasonCode);
+  if (s) { s.tariffRates[tariffId] = val; saveData(); renderSeasonView(seasonCode); }
 }
 
 function toggleStyleTariff(seasonCode, si, tariffId) {
-  var season = getSeason(seasonCode);
-  if (!season) return;
-  var ss = season.styles[si];
+  var s = getSeason(seasonCode);
+  if (!s) return;
+  var ss = s.styles[si];
   if (!ss.tariffOverrides) ss.tariffOverrides = {};
   ss.tariffOverrides[tariffId] = !isTariffActive(ss, tariffId);
   saveData(); renderSeasonView(seasonCode);
 }
 
 function updateStyleField(seasonCode, si, field, val) {
-  var season = getSeason(seasonCode);
-  if (!season) return;
-  season.styles[si][field] = val;
+  var s = getSeason(seasonCode);
+  if (!s) return;
+  s.styles[si][field] = val;
   saveData();
-  var ss  = season.styles[si];
-  var ms  = getMasterStyle(ss.masterStyleId);
+  var ss = s.styles[si], ms = getMasterStyle(ss.masterStyleId);
   var wlc = styleWeightedLC(ss, ms, seasonCode);
-  var wsEl   = document.getElementById('wsm-'   + seasonCode + '-' + si);
+  var wsEl = document.getElementById('wsm-' + seasonCode + '-' + si);
   var msrpEl = document.getElementById('msrpm-' + seasonCode + '-' + si);
-  if (wsEl) {
-    var wv = parseFloat(ss.ws);
-    var wm = (!isNaN(wlc) && wv) ? ((wv - wlc) / wv * 100) : NaN;
-    wsEl.textContent = fmtPct(wm);
-    wsEl.className   = !isNaN(wm) ? 'summary-lc' : 'muted';
-  }
-  if (msrpEl) {
-    var mv = parseFloat(ss.msrp);
-    var mm = (!isNaN(wlc) && mv) ? ((mv - wlc) / mv * 100) : NaN;
-    msrpEl.textContent = fmtPct(mm);
-    msrpEl.className   = !isNaN(mm) ? 'summary-lc' : 'muted';
-  }
+  if (wsEl) { var wv = parseFloat(ss.ws), wm = (!isNaN(wlc)&&wv)?((wv-wlc)/wv*100):NaN; wsEl.textContent=fmtPct(wm); wsEl.className=!isNaN(wm)?'summary-lc':'muted'; }
+  if (msrpEl) { var mv = parseFloat(ss.msrp), mm = (!isNaN(wlc)&&mv)?((mv-wlc)/mv*100):NaN; msrpEl.textContent=fmtPct(mm); msrpEl.className=!isNaN(mm)?'summary-lc':'muted'; }
 }
 
-// MASTER STYLE MODAL
+// ── MASTER STYLE MODAL ──
 function openMasterStyleModal(id) {
   editingMasterStyleId = id || null;
   var s = id ? getMasterStyle(id) : null;
   if (!s) s = {};
   document.getElementById('msModalTitle').textContent = id ? 'Edit style' : 'Add style to library';
   document.getElementById('msModalSave').textContent  = id ? 'Save changes' : 'Save style';
-  // Populate supplier dropdown
-  var msSel = document.getElementById('ms-supplier');
-  var suppliers = data.suppliers || [];
-  msSel.innerHTML = '<option value="">-- select supplier --</option>';
-  for (var si_s = 0; si_s < suppliers.length; si_s++) {
-    var opt_s = document.createElement('option');
-    opt_s.value = suppliers[si_s];
-    opt_s.textContent = suppliers[si_s];
-    if (suppliers[si_s] === (s.supplier || '')) opt_s.selected = true;
-    msSel.appendChild(opt_s);
+  // Supplier dropdown
+  var sel = document.getElementById('ms-supplier');
+  sel.innerHTML = '<option value="">-- select supplier --</option>';
+  for (var i = 0; i < (data.suppliers||[]).length; i++) {
+    var opt = document.createElement('option');
+    opt.value = data.suppliers[i]; opt.textContent = data.suppliers[i];
+    if (data.suppliers[i] === (s.supplier||'')) opt.selected = true;
+    sel.appendChild(opt);
   }
   document.getElementById('ms-name').value      = s.name || '';
   document.getElementById('ms-materials').value = s.materials || '';
@@ -820,14 +793,13 @@ function openMasterStyleModal(id) {
   document.getElementById('ms-bt').value        = s.baseTariff || '';
   masterCwFieldCount = 0;
   document.getElementById('ms-cw-list').innerHTML = '';
-  var cws = s.colorways || [];
-  for (var i = 0; i < cws.length; i++) addMasterColorwayField(cws[i].color, cws[i].fabricType, cws[i].id);
+  for (var i = 0; i < (s.colorways||[]).length; i++) addMasterColorwayField(s.colorways[i].color, s.colorways[i].fabricType, s.colorways[i].id);
   document.getElementById('masterStyleModal').classList.add('open');
   setTimeout(function(){ document.getElementById('ms-name').focus(); }, 50);
 }
 
 function addMasterColorwayField(color, fabricType, existingId) {
-  color = color || ''; fabricType = fabricType || ''; existingId = existingId || '';
+  color=color||''; fabricType=fabricType||''; existingId=existingId||'';
   masterCwFieldCount++;
   var idx = masterCwFieldCount;
   var div = document.createElement('div');
@@ -836,15 +808,11 @@ function addMasterColorwayField(color, fabricType, existingId) {
   div.innerHTML = '<input type="hidden" id="ms-cwid-' + idx + '" value="' + esc(existingId) + '">'
     + '<input type="text" id="ms-cwcolor-' + idx + '" placeholder="Color name" value="' + esc(color) + '" style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:\'DM Sans\',sans-serif;outline:none">'
     + '<input type="text" id="ms-cwfabric-' + idx + '" placeholder="Fabric type" value="' + esc(fabricType) + '" style="flex:1;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:6px 10px;font-family:\'DM Sans\',sans-serif;outline:none">'
-    + '<button class="icon-btn" onclick="removeCwField(' + idx + ')" title="Remove"><i class="ti ti-x"></i></button>';
+    + '<button class="icon-btn" onclick="removeCwField(' + idx + ')"><i class="ti ti-x"></i></button>';
   document.getElementById('ms-cw-list').appendChild(div);
 }
 
-function removeCwField(idx) {
-  var el = document.getElementById('ms-cw-' + idx);
-  if (el) el.parentNode.removeChild(el);
-}
-
+function removeCwField(idx) { var el = document.getElementById('ms-cw-' + idx); if (el) el.parentNode.removeChild(el); }
 function closeMasterStyleModal() { document.getElementById('masterStyleModal').classList.remove('open'); }
 
 function saveMasterStyle() {
@@ -856,68 +824,33 @@ function saveMasterStyle() {
     if (!colorEl) continue;
     var color = colorEl.value.trim();
     if (!color) continue;
-    var idEl = document.getElementById('ms-cwid-' + idx);
-    var fabEl = document.getElementById('ms-cwfabric-' + idx);
-    colorways.push({
-      id: (idEl && idEl.value) ? idEl.value : uid(),
-      color: color,
-      fabricType: fabEl ? fabEl.value.trim() : ''
-    });
+    var idEl = document.getElementById('ms-cwid-' + idx), fabEl = document.getElementById('ms-cwfabric-' + idx);
+    colorways.push({ id: (idEl&&idEl.value)?idEl.value:uid(), color:color, fabricType:fabEl?fabEl.value.trim():'' });
   }
-  var supplierVal = document.getElementById('ms-supplier').value;
-  var styleObj = {
-    name: name,
-    supplier: supplierVal,
-    materials:  document.getElementById('ms-materials').value.trim(),
-    fabricType: document.getElementById('ms-fabric').value.trim(),
-    kw:         document.getElementById('ms-kw').value,
-    hts:        document.getElementById('ms-hts').value.trim(),
-    baseTariff: document.getElementById('ms-bt').value,
-    colorways:  colorways
-  };
+  var styleObj = { name:name, supplier:document.getElementById('ms-supplier').value, materials:document.getElementById('ms-materials').value.trim(), fabricType:document.getElementById('ms-fabric').value.trim(), kw:document.getElementById('ms-kw').value, hts:document.getElementById('ms-hts').value.trim(), baseTariff:document.getElementById('ms-bt').value, colorways:colorways };
   if (editingMasterStyleId) {
-    var existing = getMasterStyle(editingMasterStyleId);
-    if (existing) {
-      existing.name = styleObj.name; existing.supplier = styleObj.supplier; existing.materials = styleObj.materials;
-      existing.fabricType = styleObj.fabricType; existing.kw = styleObj.kw;
-      existing.hts = styleObj.hts; existing.baseTariff = styleObj.baseTariff;
-      existing.colorways = styleObj.colorways;
-    }
-  } else {
-    styleObj.id = uid();
-    data.master.push(styleObj);
-  }
+    var ex = getMasterStyle(editingMasterStyleId);
+    if (ex) { ex.name=styleObj.name; ex.supplier=styleObj.supplier; ex.materials=styleObj.materials; ex.fabricType=styleObj.fabricType; ex.kw=styleObj.kw; ex.hts=styleObj.hts; ex.baseTariff=styleObj.baseTariff; ex.colorways=styleObj.colorways; }
+  } else { styleObj.id = uid(); data.master.push(styleObj); }
   saveData(); closeMasterStyleModal(); renderAll();
 }
 
 function deleteMasterStyle(id) {
   var s = getMasterStyle(id);
-  if (!confirm('Delete "' + ((s && s.name) || 'this style') + '" from master library?')) return;
-  var newMaster = [];
-  for (var i = 0; i < data.master.length; i++) if (data.master[i].id !== id) newMaster.push(data.master[i]);
-  data.master = newMaster;
-  for (var i = 0; i < data.seasons.length; i++) {
-    var newStyles = [];
-    for (var j = 0; j < data.seasons[i].styles.length; j++) {
-      if (data.seasons[i].styles[j].masterStyleId !== id) newStyles.push(data.seasons[i].styles[j]);
-    }
-    data.seasons[i].styles = newStyles;
-  }
+  if (!confirm('Delete "' + ((s&&s.name)||'this style') + '" from master library?')) return;
+  data.master = data.master.filter(function(x){ return x.id !== id; });
+  for (var i = 0; i < data.seasons.length; i++) data.seasons[i].styles = data.seasons[i].styles.filter(function(ss){ return ss.masterStyleId !== id; });
   saveData(); renderAll();
 }
 
-// SEASON STYLE MODAL
+// ── SEASON STYLE MODAL ──
 function openSeasonStyleModal(seasonCode) {
   addingToSeasonCode = seasonCode;
   document.getElementById('ssModalTitle').textContent = 'Add style to ' + seasonCode;
-  var season = getSeason(seasonCode);
-  var existingIds = {};
+  var season = getSeason(seasonCode), existingIds = {};
   if (season) for (var i = 0; i < season.styles.length; i++) existingIds[season.styles[i].masterStyleId] = true;
   var opts = '<option value="">-- select from master library --</option>';
-  for (var i = 0; i < data.master.length; i++) {
-    var s = data.master[i];
-    if (!existingIds[s.id]) opts += '<option value="' + s.id + '">' + esc(s.name) + '</option>';
-  }
+  for (var i = 0; i < data.master.length; i++) if (!existingIds[data.master[i].id]) opts += '<option value="' + data.master[i].id + '">' + esc(data.master[i].name) + '</option>';
   document.getElementById('ss-style').innerHTML = opts;
   document.getElementById('ss-freight').value = '';
   document.getElementById('ss-ws').value = '';
@@ -929,30 +862,22 @@ function openSeasonStyleModal(seasonCode) {
 
 function populateColorwayPicker() {
   var id = document.getElementById('ss-style').value;
-  var infoEl = document.getElementById('ss-style-info');
-  var pickerEl = document.getElementById('ss-cw-picker');
-  if (!id) { infoEl.style.display = 'none'; pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">Select a style above.</span>'; return; }
+  var infoEl = document.getElementById('ss-style-info'), pickerEl = document.getElementById('ss-cw-picker');
+  if (!id) { infoEl.style.display='none'; pickerEl.innerHTML='<span style="color:var(--text-3);font-size:13px">Select a style above.</span>'; return; }
   var s = getMasterStyle(id);
   if (!s) return;
-  infoEl.style.display = 'block';
-  infoEl.innerHTML = '<strong>' + esc(s.name) + '</strong> &nbsp;&middot;&nbsp; ' + esc(s.hts) + ' &nbsp;&middot;&nbsp; Base tariff: ' + (s.baseTariff || 0) + '% &nbsp;&middot;&nbsp; ' + esc(s.kw) + ' &nbsp;&middot;&nbsp; ' + esc(s.materials);
-  if (!s.colorways || !s.colorways.length) {
-    pickerEl.innerHTML = '<span style="color:var(--text-3);font-size:13px">No colorways in master library for this style.</span>';
-    return;
-  }
+  infoEl.style.display='block';
+  infoEl.innerHTML='<strong>' + esc(s.name) + '</strong> &nbsp;&middot;&nbsp; ' + esc(s.supplier||'') + ' &nbsp;&middot;&nbsp; ' + esc(s.hts) + ' &nbsp;&middot;&nbsp; Base tariff: ' + (s.baseTariff||0) + '%';
+  if (!s.colorways||!s.colorways.length) { pickerEl.innerHTML='<span style="color:var(--text-3);font-size:13px">No colorways in master library for this style.</span>'; return; }
   var html = '<div class="cw-pick-list">';
   for (var i = 0; i < s.colorways.length; i++) {
     var c = s.colorways[i];
-    html += '<label class="cw-pick-item selected" id="cwpick-' + c.id + '"><input type="checkbox" id="cwcheck-' + c.id + '" checked value="' + c.id + '"><div><div class="cw-pick-label">' + esc(c.color) + '</div>' + (c.fabricType ? '<div class="cw-pick-sub">' + esc(c.fabricType) + '</div>' : '') + '</div></label>';
+    html += '<label class="cw-pick-item selected" id="cwpick-' + c.id + '"><input type="checkbox" id="cwcheck-' + c.id + '" checked value="' + c.id + '"><div><div class="cw-pick-label">' + esc(c.color) + '</div>' + (c.fabricType?'<div class="cw-pick-sub">'+esc(c.fabricType)+'</div>':'') + '</div></label>';
   }
-  html += '</div><div style="font-size:11px;color:var(--text-3);margin-top:4px">Check the colorways to include in this season.</div>';
+  html += '</div><div style="font-size:11px;color:var(--text-3);margin-top:4px">Check colorways to include in this season.</div>';
   pickerEl.innerHTML = html;
   for (var i = 0; i < s.colorways.length; i++) {
-    (function(cid) {
-      var cb  = document.getElementById('cwcheck-' + cid);
-      var lbl = document.getElementById('cwpick-'  + cid);
-      if (cb && lbl) cb.onchange = function() { lbl.classList.toggle('selected', cb.checked); };
-    })(s.colorways[i].id);
+    (function(cid){ var cb=document.getElementById('cwcheck-'+cid), lbl=document.getElementById('cwpick-'+cid); if(cb&&lbl) cb.onchange=function(){ lbl.classList.toggle('selected',cb.checked); }; })(s.colorways[i].id);
   }
 }
 
@@ -965,51 +890,37 @@ function saveSeasonStyle() {
   if (!ms) return;
   var season = getSeason(addingToSeasonCode);
   var colorways = [];
-  for (var i = 0; i < (ms.colorways || []).length; i++) {
-    var c = ms.colorways[i];
-    var cb = document.getElementById('cwcheck-' + c.id);
-    if (cb && cb.checked) colorways.push({ masterColorwayId: c.id, qty: '', supplierPrice: '' });
+  for (var i = 0; i < (ms.colorways||[]).length; i++) {
+    var c = ms.colorways[i], cb = document.getElementById('cwcheck-' + c.id);
+    if (cb&&cb.checked) colorways.push({ masterColorwayId:c.id, qty:'', supplierPrice:'' });
   }
   var tariffOverrides = {};
   for (var i = 0; i < data.tariffs.length; i++) tariffOverrides[data.tariffs[i].id] = true;
-  season.styles.push({
-    masterStyleId: styleId,
-    freight: document.getElementById('ss-freight').value,
-    ws:      document.getElementById('ss-ws').value,
-    msrp:    document.getElementById('ss-msrp').value,
-    tariffOverrides: tariffOverrides,
-    colorways: colorways
-  });
+  season.styles.push({ masterStyleId:styleId, freight:document.getElementById('ss-freight').value, ws:document.getElementById('ss-ws').value, msrp:document.getElementById('ss-msrp').value, tariffOverrides:tariffOverrides, colorways:colorways });
   saveData(); closeSeasonStyleModal();
-  expanded[addingToSeasonCode + '_' + (season.styles.length - 1)] = true;
+  expanded[addingToSeasonCode + '_' + (season.styles.length-1)] = true;
   renderAll();
 }
 
-// SEASON STYLE EDIT MODAL
+// ── SEASON STYLE EDIT ──
 function openSeasonStyleEdit(seasonCode, si) {
-  seasonStyleEditCtx = { seasonCode: seasonCode, si: si };
-  var season = getSeason(seasonCode);
-  var ss = season.styles[si];
-  var ms = getMasterStyle(ss.masterStyleId);
+  seasonStyleEditCtx = { seasonCode:seasonCode, si:si };
+  var season = getSeason(seasonCode), ss = season.styles[si], ms = getMasterStyle(ss.masterStyleId);
   document.getElementById('sse-title').textContent = 'Edit ' + ms.name + ' -- ' + seasonCode;
-  document.getElementById('sse-freight').value = ss.freight || '';
-  document.getElementById('sse-ws').value      = ss.ws     || '';
-  document.getElementById('sse-msrp').value    = ss.msrp   || '';
+  document.getElementById('sse-freight').value = ss.freight||'';
+  document.getElementById('sse-ws').value = ss.ws||'';
+  document.getElementById('sse-msrp').value = ss.msrp||'';
   var cwHtml = '';
-  for (var ci = 0; ci < (ss.colorways || []).length; ci++) {
-    var cw = ss.colorways[ci];
-    var mc = null;
-    for (var m = 0; m < (ms.colorways || []).length; m++) {
-      if (ms.colorways[m].id === cw.masterColorwayId) { mc = ms.colorways[m]; break; }
-    }
-    if (!mc) mc = {};
-    var sp  = parseFloat(cw.supplierPrice) || 0;
-    var roy = sp ? '$' + (sp * 0.15).toFixed(2) : '--';
+  for (var ci = 0; ci < (ss.colorways||[]).length; ci++) {
+    var cw = ss.colorways[ci], mc = null;
+    for (var m = 0; m < (ms.colorways||[]).length; m++) if (ms.colorways[m].id===cw.masterColorwayId) { mc=ms.colorways[m]; break; }
+    if (!mc) mc={};
+    var sp = parseFloat(cw.supplierPrice)||0, roy = sp?'$'+(sp*0.15).toFixed(2):'--';
     cwHtml += '<tr>'
-      + '<td style="font-size:13px;padding:8px 10px">' + esc(mc.color || '--') + '</td>'
-      + '<td style="font-size:12px;color:var(--text-2);padding:8px 10px">' + esc(mc.fabricType || '--') + '</td>'
-      + '<td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-' + ci + '" value="' + (cw.qty || '') + '" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
-      + '<td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-' + ci + '" value="' + (cw.supplierPrice || '') + '" placeholder="0.00" oninput="updateSseRoy(' + ci + ')" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
+      + '<td style="font-size:13px;padding:8px 10px">' + esc(mc.color||'--') + '</td>'
+      + '<td style="font-size:12px;color:var(--text-2);padding:8px 10px">' + esc(mc.fabricType||'--') + '</td>'
+      + '<td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-' + ci + '" value="' + (cw.qty||'') + '" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
+      + '<td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-' + ci + '" value="' + (cw.supplierPrice||'') + '" placeholder="0.00" oninput="updateSseRoy(' + ci + ')" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
       + '<td style="padding:8px 10px;font-size:12px;color:var(--text-3);font-family:\'DM Mono\',monospace" id="sse-roy-' + ci + '">' + roy + '</td>'
       + '</tr>';
   }
@@ -1019,161 +930,178 @@ function openSeasonStyleEdit(seasonCode, si) {
 }
 
 function updateSseRoy(ci) {
-  var el = document.getElementById('sse-sp-' + ci);
-  var royEl = document.getElementById('sse-roy-' + ci);
-  if (!el || !royEl) return;
-  var sp = parseFloat(el.value) || 0;
-  royEl.textContent = sp ? '$' + (sp * 0.15).toFixed(2) : '--';
+  var el = document.getElementById('sse-sp-'+ci), royEl = document.getElementById('sse-roy-'+ci);
+  if (!el||!royEl) return;
+  var sp = parseFloat(el.value)||0;
+  royEl.textContent = sp ? '$'+(sp*0.15).toFixed(2) : '--';
 }
 
 function closeSeasonStyleEdit() { document.getElementById('seasonStyleEditModal').classList.remove('open'); }
 
 function saveSeasonStyleEdit() {
-  var ctx = seasonStyleEditCtx;
-  var season = getSeason(ctx.seasonCode);
-  var ss = season.styles[ctx.si];
+  var ctx = seasonStyleEditCtx, season = getSeason(ctx.seasonCode), ss = season.styles[ctx.si];
   ss.freight = document.getElementById('sse-freight').value;
   ss.ws      = document.getElementById('sse-ws').value;
   ss.msrp    = document.getElementById('sse-msrp').value;
   for (var ci = 0; ci < ss.colorways.length; ci++) {
-    var qtyEl = document.getElementById('sse-qty-' + ci);
-    var spEl  = document.getElementById('sse-sp-'  + ci);
-    if (qtyEl) ss.colorways[ci].qty           = qtyEl.value;
-    if (spEl)  ss.colorways[ci].supplierPrice = spEl.value;
+    var qEl = document.getElementById('sse-qty-'+ci), spEl = document.getElementById('sse-sp-'+ci);
+    if (qEl)  ss.colorways[ci].qty           = qEl.value;
+    if (spEl) ss.colorways[ci].supplierPrice = spEl.value;
   }
   saveData(); closeSeasonStyleEdit(); renderSeasonView(ctx.seasonCode);
 }
 
 function removeSeasonStyle(seasonCode, si) {
-  var season = getSeason(seasonCode);
-  var ms = getMasterStyle(season.styles[si].masterStyleId);
-  if (!confirm('Remove "' + ((ms && ms.name) || 'this style') + '" from ' + seasonCode + '?')) return;
+  var season = getSeason(seasonCode), ms = getMasterStyle(season.styles[si].masterStyleId);
+  if (!confirm('Remove "' + ((ms&&ms.name)||'this style') + '" from ' + seasonCode + '?')) return;
   season.styles.splice(si, 1);
   saveData(); renderAll();
 }
 
-// ADD SEASON
-function openAddSeasonModal() {
-  document.getElementById('as-code').value = '';
-  document.getElementById('addSeasonModal').classList.add('open');
-  setTimeout(function(){ document.getElementById('as-code').focus(); }, 50);
-}
+// ── ADD SEASON ──
+function openAddSeasonModal() { document.getElementById('as-code').value=''; document.getElementById('addSeasonModal').classList.add('open'); setTimeout(function(){document.getElementById('as-code').focus();},50); }
 function closeAddSeasonModal() { document.getElementById('addSeasonModal').classList.remove('open'); }
 function saveNewSeason() {
   var code = document.getElementById('as-code').value.trim().toUpperCase();
-  if (!code) { alert('Season code is required.'); return; }
+  if (!code) { alert('Season code required.'); return; }
   if (getSeason(code)) { alert('Season ' + code + ' already exists.'); return; }
-  data.seasons.push({ code: code, tariffRates: {}, styles: [] });
-  saveData(); closeAddSeasonModal(); currentTab = code; renderAll();
+  data.seasons.push({ code:code, tariffRates:{}, styles:[] });
+  saveData(); closeAddSeasonModal(); currentTab=code; renderAll();
 }
 
-// TARIFF MANAGER
+// ── SUPPLIER MANAGER ──
+function openSupplierMgr() { renderSupplierList(); document.getElementById('supplierModal').classList.add('open'); }
+function closeSupplierMgr() { document.getElementById('supplierModal').classList.remove('open'); }
+function renderSupplierList() {
+  var html = '';
+  for (var i = 0; i < (data.suppliers||[]).length; i++) {
+    html += '<div class="list-item"><span style="font-size:13px">' + esc(data.suppliers[i]) + '</span><button class="list-item-del" onclick="deleteSupplier(' + i + ')"><i class="ti ti-trash" style="font-size:14px"></i></button></div>';
+  }
+  document.getElementById('supplier-list').innerHTML = html || '<p style="font-size:13px;color:var(--text-3)">No suppliers yet.</p>';
+}
+function addSupplier() {
+  var inp = document.getElementById('new-supplier-name'), name = inp.value.trim();
+  if (!name) return;
+  if (!data.suppliers) data.suppliers = [];
+  data.suppliers.push(name); inp.value='';
+  saveData(); renderSupplierList();
+}
+function deleteSupplier(i) {
+  if (!confirm('Remove "' + data.suppliers[i] + '"?')) return;
+  data.suppliers.splice(i,1); saveData(); renderSupplierList();
+}
+
+// ── TARIFF MANAGER ──
 function openTariffMgr() { renderTariffList(); document.getElementById('tariffModal').classList.add('open'); }
 function closeTariffMgr() { document.getElementById('tariffModal').classList.remove('open'); renderAll(); }
 function renderTariffList() {
   var html = '';
-  for (var i = 0; i < data.tariffs.length; i++) {
-    html += '<div class="tariff-item"><span style="font-size:13px">' + esc(data.tariffs[i].name) + '</span><button class="tariff-del" onclick="deleteTariff(' + i + ')"><i class="ti ti-trash" style="font-size:14px"></i></button></div>';
-  }
+  for (var i = 0; i < data.tariffs.length; i++) html += '<div class="list-item"><span style="font-size:13px">' + esc(data.tariffs[i].name) + '</span><button class="list-item-del" onclick="deleteTariff(' + i + ')"><i class="ti ti-trash" style="font-size:14px"></i></button></div>';
   document.getElementById('tariff-list').innerHTML = html || '<p style="font-size:13px;color:var(--text-3)">No tariff columns yet.</p>';
 }
 function deleteTariff(i) {
-  if (data.tariffs.length <= 1) { alert('Keep at least one tariff column.'); return; }
+  if (data.tariffs.length<=1) { alert('Keep at least one tariff column.'); return; }
   if (!confirm('Remove "' + data.tariffs[i].name + '"?')) return;
-  var id = data.tariffs[i].id;
-  data.tariffs.splice(i, 1);
-  for (var j = 0; j < data.seasons.length; j++) {
-    delete data.seasons[j].tariffRates[id];
-    for (var k = 0; k < data.seasons[j].styles.length; k++) {
-      if (data.seasons[j].styles[k].tariffOverrides) delete data.seasons[j].styles[k].tariffOverrides[id];
-    }
-  }
+  var id = data.tariffs[i].id; data.tariffs.splice(i,1);
+  for (var j = 0; j < data.seasons.length; j++) { delete data.seasons[j].tariffRates[id]; for (var k = 0; k < data.seasons[j].styles.length; k++) { if (data.seasons[j].styles[k].tariffOverrides) delete data.seasons[j].styles[k].tariffOverrides[id]; } }
   saveData(); renderTariffList();
 }
 function addTariff() {
-  var inp = document.getElementById('new-tariff-name');
-  var name = inp.value.trim();
+  var inp = document.getElementById('new-tariff-name'), name = inp.value.trim();
   if (!name) return;
-  var id = uid();
-  data.tariffs.push({ id: id, name: name });
-  for (var i = 0; i < data.seasons.length; i++) {
-    for (var j = 0; j < data.seasons[i].styles.length; j++) {
-      var ss = data.seasons[i].styles[j];
-      if (!ss.tariffOverrides) ss.tariffOverrides = {};
-      ss.tariffOverrides[id] = true;
-    }
-  }
-  inp.value = ''; saveData(); renderTariffList();
+  var id = uid(); data.tariffs.push({ id:id, name:name });
+  for (var i = 0; i < data.seasons.length; i++) for (var j = 0; j < data.seasons[i].styles.length; j++) { if (!data.seasons[i].styles[j].tariffOverrides) data.seasons[i].styles[j].tariffOverrides={}; data.seasons[i].styles[j].tariffOverrides[id]=true; }
+  inp.value=''; saveData(); renderTariffList();
 }
 
-// FREIGHT CALCULATOR
+// ── FREIGHT CALCULATOR ──
 function openFreightCalc() {
-  // Populate season selector
   var sel = document.getElementById('fc-season');
   sel.innerHTML = '';
   for (var i = 0; i < data.seasons.length; i++) {
     var opt = document.createElement('option');
-    opt.value = data.seasons[i].code;
-    opt.textContent = data.seasons[i].code;
+    opt.value = data.seasons[i].code; opt.textContent = data.seasons[i].code;
     if (data.seasons[i].code === currentTab) opt.selected = true;
     sel.appendChild(opt);
   }
-  updateFreightSuppliers();
+  updateFreightTable();
   document.getElementById('freightModal').classList.add('open');
 }
 function closeFreightCalc() { document.getElementById('freightModal').classList.remove('open'); }
 
-function updateFreightSuppliers() {
+function updateFreightTable() {
   var seasonCode = document.getElementById('fc-season').value;
   var season = getSeason(seasonCode);
   if (!season) return;
-
-  // Group units by supplier
-  var supplierUnits = {};
-  var supplierNames = [];
+  var supplierUnits = {}, supplierNames = [];
   for (var i = 0; i < season.styles.length; i++) {
-    var ss = season.styles[i];
-    var ms = getMasterStyle(ss.masterStyleId);
-    if (!ms) continue;
-    var sup = ms.supplier || 'Unknown Supplier';
+    var ms = getMasterStyle(season.styles[i].masterStyleId);
+    var sup = ms ? (ms.supplier || 'Unknown Supplier') : 'Unknown Supplier';
     if (!supplierUnits[sup]) { supplierUnits[sup] = 0; supplierNames.push(sup); }
-    supplierUnits[sup] += styleTotalUnits(ss);
+    supplierUnits[sup] += styleTotalUnits(season.styles[i]);
   }
-
   var html = '';
   if (!supplierNames.length) {
-    html = '<p style="font-size:13px;color:var(--text-3);margin-bottom:12px">No styles in this season yet.</p>';
+    html = '<p style="font-size:13px;color:var(--text-3);padding:12px 0">No styles in this season yet.</p>';
   } else {
-    html += '<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:4px">';
-    html += '<table style="width:100%;border-collapse:collapse;font-size:13px">';
-    html += '<thead><tr style="background:var(--surface2)">'
-      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier</th>'
-      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Units in season</th>'
-      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Total freight invoice (USD)</th>'
-      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Per unit</th>'
-      + '</tr></thead><tbody>';
+    html = '<table class="freight-table"><thead><tr><th>Supplier</th><th>Units in season</th><th>Total freight invoice (USD)</th><th>Per unit</th></tr></thead><tbody>';
     for (var i = 0; i < supplierNames.length; i++) {
-      var sup = supplierNames[i];
-      var units = supplierUnits[sup];
+      var sup = supplierNames[i], units = supplierUnits[sup];
       html += '<tr>'
-        + '<td style="padding:8px 12px;font-weight:500">' + esc(sup) + '</td>'
-        + '<td style="padding:8px 12px;font-family:'DM Mono',monospace">' + units.toLocaleString() + '</td>'
-        + '<td style="padding:8px 12px"><input type="number" min="0" step="0.01" placeholder="0.00" id="fc-inv-' + i + '" data-supplier="' + esc(sup) + '" data-units="' + units + '" oninput="calcFreightRow(' + i + ')" style="width:140px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>'
-        + '<td style="padding:8px 12px;font-family:'DM Mono',monospace;color:var(--green)" id="fc-pu-' + i + '">--</td>'
+        + '<td style="font-weight:500">' + esc(sup) + '</td>'
+        + '<td style="font-family:\'DM Mono\',monospace">' + units.toLocaleString() + '</td>'
+        + '<td><input type="number" min="0" step="0.01" placeholder="0.00" id="fc-inv-' + i + '" data-units="' + units + '" data-supplier="' + esc(sup) + '" oninput="calcFreightRow(' + i + ')"></td>'
+        + '<td style="font-family:\'DM Mono\',monospace;color:var(--green)" id="fc-pu-' + i + '">--</td>'
         + '</tr>';
     }
-    html += '</tbody></table></div>';
-    html += '<p style="font-size:11px;color:var(--text-3);margin-top:6px;margin-bottom:4px">Clicking Apply will fill the freight field on every style for each supplier in this season.</p>';
+    html += '</tbody></table><p style="font-size:11px;color:var(--text-3);margin-top:8px">Clicking Apply fills the freight field on every style for each supplier in this season.</p>';
   }
-  document.getElementById('fc-supplier-rows').innerHTML = html;
+  document.getElementById('fc-table-wrap').innerHTML = html;
 }
 
 function calcFreightRow(i) {
-  var inv = parseFloat(document.getElementById('fc-inv-' + i).value) || 0;
-  var units = parseFloat(document.getElementById('fc-inv-' + i).getAttribute('data-units')) || 0;
+  var el = document.getElementById('fc-inv-' + i);
   var puEl = document.getElementById('fc-pu-' + i);
-  if (puEl) puEl.textContent = (inv > 0 && units > 0) ? '$' + (inv / units).toFixed(4) : '--';
+  if (!el || !puEl) return;
+  var inv = parseFloat(el.value)||0, units = parseFloat(el.getAttribute('data-units'))||0;
+  puEl.textContent = (inv>0&&units>0) ? '$'+(inv/units).toFixed(4) : '--';
 }
+
+function applyFreight() {
+  var seasonCode = document.getElementById('fc-season').value;
+  var season = getSeason(seasonCode);
+  if (!season) return;
+  var i = 0;
+  while (document.getElementById('fc-inv-' + i)) {
+    var el = document.getElementById('fc-inv-' + i);
+    var sup = el.getAttribute('data-supplier');
+    var units = parseFloat(el.getAttribute('data-units'))||0;
+    var inv = parseFloat(el.value)||0;
+    if (inv>0 && units>0) {
+      var perUnit = (inv/units).toFixed(4);
+      for (var j = 0; j < season.styles.length; j++) {
+        var ms = getMasterStyle(season.styles[j].masterStyleId);
+        if (ms && (ms.supplier||'Unknown Supplier') === sup) season.styles[j].freight = perUnit;
+      }
+    }
+    i++;
+  }
+  saveData(); closeFreightCalc();
+  if (currentTab === seasonCode) renderSeasonView(seasonCode);
+  alert('Freight applied to all styles in ' + seasonCode + '.');
+}
+
+// ── IMPORT ──
+function openImportModal() {
+  importPayload=null;
+  document.getElementById('import-file').value='';
+  document.getElementById('import-preview').style.display='none';
+  document.getElementById('import-errors').style.display='none';
+  document.getElementById('import-confirm-btn').disabled=true;
+  document.getElementById('import-confirm-btn').style.opacity='0.4';
+  document.getElementById('importModal').classList.add('open');
+}
+function closeImportModal() { document.getElementById('importModal').classList.remove('open'); }
 
 function applyFreight() {
   var seasonCode = document.getElementById('fc-season').value;
