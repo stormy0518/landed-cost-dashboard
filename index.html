@@ -725,15 +725,7 @@ function stat(label, val, green) {
 }
 
 function setSupplierFilter(seasonCode, val) {
-  // val is either 'all' or a safeId like 'sf_0'
-  if (val === 'all') {
-    supplierFilter[seasonCode] = 'all';
-  } else {
-    // look up actual supplier name from stored list
-    var idx = parseInt(val.replace('sf_', ''));
-    var sup = (window._seasonSuppliers && window._seasonSuppliers[seasonCode]) ? window._seasonSuppliers[seasonCode][idx] : null;
-    supplierFilter[seasonCode] = sup || 'all';
-  }
+  supplierFilter[seasonCode] = val;
   renderSeasonView(seasonCode);
 }
 
@@ -1128,13 +1120,6 @@ function applyFreight() {
   closeFreightCalc();
   if (currentTab === seasonCode) renderSeasonView(seasonCode);
   alert('Freight applied to all styles in ' + seasonCode + '.');
-}
-
-// SUPPLIER FILTER
-function setSupplierFilter(seasonCode, supplier) {
-  if (!window._supplierFilter) window._supplierFilter = {};
-  window._supplierFilter[seasonCode] = supplier;
-  renderSeasonView(seasonCode);
 }
 
 // SUPPLIER MANAGER
