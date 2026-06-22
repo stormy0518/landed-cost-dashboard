@@ -114,6 +114,9 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .calc-result-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
 .calc-result-val { font-size: 28px; font-weight: 500; font-family: 'DM Mono', monospace; }
 .calc-result-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.toggle { font-size: 12px; font-weight: 500; padding: 4px 11px; border: 1px solid var(--border-md); border-radius: 20px; background: var(--surface); color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.toggle:hover { border-color: var(--accent); color: var(--text); }
+.toggle.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -125,6 +128,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
     </div>
     <div class="header-actions">
       <button class="btn" onclick="openFreightCalc()"><i class="ti ti-calculator"></i> Freight Calculator</button>
+      <button class="btn" onclick="openSupplierMgr()"><i class="ti ti-building-warehouse"></i> Manage Suppliers</button>
       <button class="btn" onclick="openTariffMgr()"><i class="ti ti-adjustments-horizontal"></i> Manage Tariffs</button>
       <button class="btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export CSV</button>
       <button class="btn" onclick="openImportModal()"><i class="ti ti-file-import"></i> Import</button>
@@ -142,6 +146,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   <div class="modal-box">
     <h3 id="msModalTitle">Add style to library</h3>
     <div class="field"><label>Style name</label><input id="ms-name" type="text" placeholder="e.g. Alpine Pant"></div>
+    <div class="field"><label>Supplier</label><select id="ms-supplier"><option value="">-- select supplier --</option></select></div>
     <div class="field"><label>Materials</label><input id="ms-materials" type="text" placeholder="e.g. 85% nylon, 15% elastane"></div>
     <div class="field-row">
       <div class="field"><label>Fabric type</label><input id="ms-fabric" type="text" placeholder="e.g. Ripstop, Fleece"></div>
@@ -223,6 +228,21 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
   </div>
 </div>
 
+<!-- Supplier Manager Modal -->
+<div class="modal" id="supplierModal">
+  <div class="modal-box">
+    <h3>Manage suppliers</h3>
+    <div id="supplier-list"></div>
+    <div class="add-tariff-row">
+      <input id="new-supplier-name" type="text" placeholder="Supplier name">
+      <button class="btn" onclick="addSupplier()"><i class="ti ti-plus"></i> Add</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="closeSupplierMgr()"><i class="ti ti-check"></i> Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- Add Season Modal -->
 <div class="modal" id="addSeasonModal">
   <div class="modal-box">
@@ -257,18 +277,17 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 
 <!-- Freight Calculator Modal -->
 <div class="modal" id="freightModal">
-  <div class="modal-box">
+  <div class="modal-box wide">
     <h3>Freight calculator</h3>
-    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Include all charges: ocean/air, destination fees, brokerage, drayage, and inland trucking.</p>
-    <div class="field"><label>Total freight cost (USD)</label><input id="fc-total" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcFreight()"></div>
-    <div class="field"><label>Total units in shipment</label><input id="fc-units" type="number" min="0" placeholder="0" oninput="calcFreight()"></div>
-    <div class="calc-result">
-      <div class="calc-result-label">Freight per unit</div>
-      <div class="calc-result-val" id="fc-result">--</div>
-      <div class="calc-result-hint">Enter this in the Freight field for each style in this shipment.</div>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Enter the total freight invoice per supplier. The per-unit rate is calculated from units in the current season and auto-filled to all styles for that supplier.</p>
+    <div class="field">
+      <label>Season</label>
+      <select id="fc-season" onchange="updateFreightSuppliers()" style="font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:7px 10px;font-family:'DM Sans',sans-serif;outline:none;background:var(--surface);color:var(--text)"></select>
     </div>
+    <div id="fc-supplier-rows"></div>
     <div class="modal-actions">
-      <button class="btn primary" onclick="closeFreightCalc()"><i class="ti ti-check"></i> Done</button>
+      <button class="btn" onclick="closeFreightCalc()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="applyFreight()"><i class="ti ti-check"></i> Apply to season</button>
     </div>
   </div>
 </div>
@@ -481,7 +500,7 @@ function renderMasterView() {
   var styles = data.master;
   var html = '<div class="tbl-wrap"><table><thead><tr><th>Style name</th><th>Materials</th><th>Fabric type</th><th>Knit/Woven</th><th>HTSUS</th><th>Base tariff %</th><th>Colorways</th><th></th></tr></thead><tbody>';
   if (!styles.length) {
-    html += '<tr class="empty-row"><td colspan="8">No styles yet -- click Add Style to get started.</td></tr>';
+    html += '<tr class="empty-row"><td colspan="9">No styles yet -- click Add Style to get started.</td></tr>';
   } else {
     for (var i = 0; i < styles.length; i++) {
       var s = styles[i];
@@ -492,6 +511,7 @@ function renderMasterView() {
       }
       html += '<tr>'
         + '<td style="font-weight:500">' + esc(s.name) + '</td>'
+        + '<td style="font-size:12px">' + esc(s.supplier || '--') + '</td>'
         + '<td style="font-size:12px;color:var(--text-2)">' + esc(s.materials) + '</td>'
         + '<td style="font-size:12px">' + esc(s.fabricType) + '</td>'
         + '<td style="font-size:12px">' + esc(s.kw) + '</td>'
@@ -514,8 +534,15 @@ function renderSeasonView(seasonCode) {
   if (!season) return;
   var totalUnits = 0, totalLV = 0, allWLC = [];
   var wsNum = 0, wsDen = 0, msrpNum = 0, msrpDen = 0;
+  var filteredStyles = [];
   for (var i = 0; i < season.styles.length; i++) {
-    var ss = season.styles[i];
+    var ms_check = getMasterStyle(season.styles[i].masterStyleId);
+    if (!window._supplierFilter || !window._supplierFilter[seasonCode] || window._supplierFilter[seasonCode] === 'all' || (ms_check && ms_check.supplier === window._supplierFilter[seasonCode])) {
+      filteredStyles.push(season.styles[i]);
+    }
+  }
+  for (var i = 0; i < filteredStyles.length; i++) {
+    var ss = filteredStyles[i];
     var ms = getMasterStyle(ss.masterStyleId);
     if (!ms) continue;
     var units = styleTotalUnits(ss);
@@ -536,8 +563,8 @@ function renderSeasonView(seasonCode) {
 
   // Totals for freight, royalties, tariffs across all units
   var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0;
-  for (var i = 0; i < season.styles.length; i++) {
-    var ss2 = season.styles[i];
+  for (var i = 0; i < filteredStyles.length; i++) {
+    var ss2 = filteredStyles[i];
     var ms2 = getMasterStyle(ss2.masterStyleId);
     if (!ms2) continue;
     var freight2 = parseFloat(ss2.freight) || 0;
@@ -582,6 +609,27 @@ function renderSeasonView(seasonCode) {
   html += '</div>';
 
   // Table
+  // Supplier filter
+  var activeSupplierFilter = window._supplierFilter && window._supplierFilter[seasonCode] ? window._supplierFilter[seasonCode] : 'all';
+  var suppliersInSeason = [];
+  for (var i = 0; i < season.styles.length; i++) {
+    var ms0 = getMasterStyle(season.styles[i].masterStyleId);
+    if (ms0 && ms0.supplier) {
+      var found0 = false;
+      for (var si0 = 0; si0 < suppliersInSeason.length; si0++) { if (suppliersInSeason[si0] === ms0.supplier) { found0 = true; break; } }
+      if (!found0) suppliersInSeason.push(ms0.supplier);
+    }
+  }
+  if (suppliersInSeason.length > 1) {
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">'
+      + '<span style="font-size:12px;font-weight:500;color:var(--text-2)">Filter by supplier:</span>'
+      + '<button class="toggle' + (activeSupplierFilter === 'all' ? ' on' : '') + '" onclick="setSupplierFilter('' + seasonCode + '','all')">All</button>';
+    for (var fi = 0; fi < suppliersInSeason.length; fi++) {
+      html += '<button class="toggle' + (activeSupplierFilter === suppliersInSeason[fi] ? ' on' : '') + '" onclick="setSupplierFilter('' + seasonCode + '','' + suppliersInSeason[fi].replace(/'/g, '\'') + '')">' + esc(suppliersInSeason[fi]) + '</button>';
+    }
+    html += '</div>';
+  }
+
   var tariffTH = '';
   for (var i = 0; i < data.tariffs.length; i++) tariffTH += '<th>' + esc(data.tariffs[i].name) + '</th>';
   html += '<div class="tbl-wrap"><table><thead><tr>'
@@ -592,12 +640,22 @@ function renderSeasonView(seasonCode) {
     + '<th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>'
     + '</tr></thead><tbody>';
 
-  if (!season.styles.length) {
+  // Apply supplier filter to styles list for rendering
+  var stylesToRender = [];
+  for (var i = 0; i < season.styles.length; i++) {
+    var ms_f = getMasterStyle(season.styles[i].masterStyleId);
+    if (activeSupplierFilter === 'all' || (ms_f && ms_f.supplier === activeSupplierFilter)) {
+      stylesToRender.push({ ss: season.styles[i], si: i });
+    }
+  }
+
+  if (!stylesToRender.length) {
     var colspan = 12 + data.tariffs.length;
-    html += '<tr class="empty-row"><td colspan="' + colspan + '">No styles in ' + esc(seasonCode) + ' yet -- click Add Style to ' + esc(seasonCode) + '.</td></tr>';
+    html += '<tr class="empty-row"><td colspan="' + colspan + '">' + (activeSupplierFilter !== 'all' ? 'No styles for this supplier.' : 'No styles in ' + esc(seasonCode) + ' yet -- click Add Style to ' + esc(seasonCode) + '.') + '</td></tr>';
   } else {
-    for (var si = 0; si < season.styles.length; si++) {
-      var ss = season.styles[si];
+    for (var ri = 0; ri < stylesToRender.length; ri++) {
+      var ss = stylesToRender[ri].ss;
+      var si = stylesToRender[ri].si;
       var ms = getMasterStyle(ss.masterStyleId);
       if (!ms) continue;
       var isOpen  = !!expanded[seasonCode + '_' + si];
@@ -632,7 +690,7 @@ function renderSeasonView(seasonCode) {
       }
 
       html += '<tr class="style-row">'
-        + '<td><button class="style-toggle' + (isOpen ? ' open' : '') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>' + esc(ms.name) + '</td>'
+        + '<td><button class="style-toggle' + (isOpen ? ' open' : '') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>' + esc(ms.name) + '<br><span style="font-size:11px;color:var(--text-3);font-weight:400">' + esc(ms.supplier || '') + '</span></td>'
         + '<td class="muted">' + esc(ms.fabricType) + '</td>'
         + '<td class="muted">' + esc(ms.kw) + '</td>'
         + '<td class="summary-num">' + totalU.toLocaleString() + '</td>'
@@ -743,6 +801,17 @@ function openMasterStyleModal(id) {
   if (!s) s = {};
   document.getElementById('msModalTitle').textContent = id ? 'Edit style' : 'Add style to library';
   document.getElementById('msModalSave').textContent  = id ? 'Save changes' : 'Save style';
+  // Populate supplier dropdown
+  var msSel = document.getElementById('ms-supplier');
+  var suppliers = data.suppliers || [];
+  msSel.innerHTML = '<option value="">-- select supplier --</option>';
+  for (var si_s = 0; si_s < suppliers.length; si_s++) {
+    var opt_s = document.createElement('option');
+    opt_s.value = suppliers[si_s];
+    opt_s.textContent = suppliers[si_s];
+    if (suppliers[si_s] === (s.supplier || '')) opt_s.selected = true;
+    msSel.appendChild(opt_s);
+  }
   document.getElementById('ms-name').value      = s.name || '';
   document.getElementById('ms-materials').value = s.materials || '';
   document.getElementById('ms-fabric').value    = s.fabricType || '';
@@ -795,8 +864,10 @@ function saveMasterStyle() {
       fabricType: fabEl ? fabEl.value.trim() : ''
     });
   }
+  var supplierVal = document.getElementById('ms-supplier').value;
   var styleObj = {
     name: name,
+    supplier: supplierVal,
     materials:  document.getElementById('ms-materials').value.trim(),
     fabricType: document.getElementById('ms-fabric').value.trim(),
     kw:         document.getElementById('ms-kw').value,
@@ -807,7 +878,7 @@ function saveMasterStyle() {
   if (editingMasterStyleId) {
     var existing = getMasterStyle(editingMasterStyleId);
     if (existing) {
-      existing.name = styleObj.name; existing.materials = styleObj.materials;
+      existing.name = styleObj.name; existing.supplier = styleObj.supplier; existing.materials = styleObj.materials;
       existing.fabricType = styleObj.fabricType; existing.kw = styleObj.kw;
       existing.hts = styleObj.hts; existing.baseTariff = styleObj.baseTariff;
       existing.colorways = styleObj.colorways;
@@ -1037,17 +1108,155 @@ function addTariff() {
 
 // FREIGHT CALCULATOR
 function openFreightCalc() {
-  document.getElementById('fc-total').value = '';
-  document.getElementById('fc-units').value = '';
-  document.getElementById('fc-result').textContent = '--';
+  // Populate season selector
+  var sel = document.getElementById('fc-season');
+  sel.innerHTML = '';
+  for (var i = 0; i < data.seasons.length; i++) {
+    var opt = document.createElement('option');
+    opt.value = data.seasons[i].code;
+    opt.textContent = data.seasons[i].code;
+    if (data.seasons[i].code === currentTab) opt.selected = true;
+    sel.appendChild(opt);
+  }
+  updateFreightSuppliers();
   document.getElementById('freightModal').classList.add('open');
-  setTimeout(function(){ document.getElementById('fc-total').focus(); }, 50);
 }
 function closeFreightCalc() { document.getElementById('freightModal').classList.remove('open'); }
-function calcFreight() {
-  var total = parseFloat(document.getElementById('fc-total').value) || 0;
-  var units = parseFloat(document.getElementById('fc-units').value) || 0;
-  document.getElementById('fc-result').textContent = (total > 0 && units > 0) ? '$' + (total / units).toFixed(4) : '--';
+
+function updateFreightSuppliers() {
+  var seasonCode = document.getElementById('fc-season').value;
+  var season = getSeason(seasonCode);
+  if (!season) return;
+
+  // Group units by supplier
+  var supplierUnits = {};
+  var supplierNames = [];
+  for (var i = 0; i < season.styles.length; i++) {
+    var ss = season.styles[i];
+    var ms = getMasterStyle(ss.masterStyleId);
+    if (!ms) continue;
+    var sup = ms.supplier || 'Unknown Supplier';
+    if (!supplierUnits[sup]) { supplierUnits[sup] = 0; supplierNames.push(sup); }
+    supplierUnits[sup] += styleTotalUnits(ss);
+  }
+
+  var html = '';
+  if (!supplierNames.length) {
+    html = '<p style="font-size:13px;color:var(--text-3);margin-bottom:12px">No styles in this season yet.</p>';
+  } else {
+    html += '<div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:4px">';
+    html += '<table style="width:100%;border-collapse:collapse;font-size:13px">';
+    html += '<thead><tr style="background:var(--surface2)">'
+      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier</th>'
+      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Units in season</th>'
+      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Total freight invoice (USD)</th>'
+      + '<th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Per unit</th>'
+      + '</tr></thead><tbody>';
+    for (var i = 0; i < supplierNames.length; i++) {
+      var sup = supplierNames[i];
+      var units = supplierUnits[sup];
+      html += '<tr>'
+        + '<td style="padding:8px 12px;font-weight:500">' + esc(sup) + '</td>'
+        + '<td style="padding:8px 12px;font-family:'DM Mono',monospace">' + units.toLocaleString() + '</td>'
+        + '<td style="padding:8px 12px"><input type="number" min="0" step="0.01" placeholder="0.00" id="fc-inv-' + i + '" data-supplier="' + esc(sup) + '" data-units="' + units + '" oninput="calcFreightRow(' + i + ')" style="width:140px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:'DM Mono',monospace;outline:none"></td>'
+        + '<td style="padding:8px 12px;font-family:'DM Mono',monospace;color:var(--green)" id="fc-pu-' + i + '">--</td>'
+        + '</tr>';
+    }
+    html += '</tbody></table></div>';
+    html += '<p style="font-size:11px;color:var(--text-3);margin-top:6px;margin-bottom:4px">Clicking Apply will fill the freight field on every style for each supplier in this season.</p>';
+  }
+  document.getElementById('fc-supplier-rows').innerHTML = html;
+}
+
+function calcFreightRow(i) {
+  var inv = parseFloat(document.getElementById('fc-inv-' + i).value) || 0;
+  var units = parseFloat(document.getElementById('fc-inv-' + i).getAttribute('data-units')) || 0;
+  var puEl = document.getElementById('fc-pu-' + i);
+  if (puEl) puEl.textContent = (inv > 0 && units > 0) ? '$' + (inv / units).toFixed(4) : '--';
+}
+
+function applyFreight() {
+  var seasonCode = document.getElementById('fc-season').value;
+  var season = getSeason(seasonCode);
+  if (!season) return;
+  var i = 0;
+  while (document.getElementById('fc-inv-' + i)) {
+    var el = document.getElementById('fc-inv-' + i);
+    var sup = el.getAttribute('data-supplier');
+    var units = parseFloat(el.getAttribute('data-units')) || 0;
+    var inv = parseFloat(el.value) || 0;
+    if (inv > 0 && units > 0) {
+      var perUnit = (inv / units).toFixed(4);
+      for (var j = 0; j < season.styles.length; j++) {
+        var ms = getMasterStyle(season.styles[j].masterStyleId);
+        if (ms && (ms.supplier || 'Unknown Supplier') === sup) {
+          season.styles[j].freight = perUnit;
+        }
+      }
+    }
+    i++;
+  }
+  saveData();
+  closeFreightCalc();
+  if (currentTab === seasonCode) renderSeasonView(seasonCode);
+  alert('Freight applied to all styles in ' + seasonCode + '.');
+}
+
+// SUPPLIER FILTER
+function setSupplierFilter(seasonCode, supplier) {
+  if (!window._supplierFilter) window._supplierFilter = {};
+  window._supplierFilter[seasonCode] = supplier;
+  renderSeasonView(seasonCode);
+}
+
+// SUPPLIER MANAGER
+function openSupplierMgr() {
+  renderSupplierList();
+  document.getElementById('supplierModal').classList.add('open');
+}
+function closeSupplierMgr() {
+  document.getElementById('supplierModal').classList.remove('open');
+}
+function renderSupplierList() {
+  var suppliers = data.suppliers || [];
+  var html = '';
+  for (var i = 0; i < suppliers.length; i++) {
+    html += '<div class="tariff-item"><span style="font-size:13px">' + esc(suppliers[i]) + '</span>'
+      + '<button class="tariff-del" onclick="deleteSupplier(' + i + ')"><i class="ti ti-trash" style="font-size:14px"></i></button></div>';
+  }
+  document.getElementById('supplier-list').innerHTML = html || '<p style="font-size:13px;color:var(--text-3)">No suppliers yet.</p>';
+}
+function addSupplier() {
+  var inp = document.getElementById('new-supplier-name');
+  var name = inp.value.trim();
+  if (!name) return;
+  if (!data.suppliers) data.suppliers = [];
+  data.suppliers.push(name);
+  inp.value = '';
+  saveData();
+  renderSupplierList();
+  // Refresh any open master style modal supplier dropdowns
+  refreshSupplierDropdown();
+}
+function deleteSupplier(i) {
+  if (!confirm('Remove "' + data.suppliers[i] + '"?')) return;
+  data.suppliers.splice(i, 1);
+  saveData();
+  renderSupplierList();
+}
+function refreshSupplierDropdown() {
+  var sel = document.getElementById('ms-supplier');
+  if (!sel) return;
+  var current = sel.value;
+  var suppliers = data.suppliers || [];
+  sel.innerHTML = '<option value="">-- select supplier --</option>';
+  for (var i = 0; i < suppliers.length; i++) {
+    var opt = document.createElement('option');
+    opt.value = suppliers[i];
+    opt.textContent = suppliers[i];
+    if (suppliers[i] === current) opt.selected = true;
+    sel.appendChild(opt);
+  }
 }
 
 // IMPORT
@@ -1470,7 +1679,7 @@ function downloadCSV(filename, headers, rows) {
 }
 
 // BACKDROP CLOSE
-var modalIds = ['masterStyleModal','seasonStyleModal','seasonStyleEditModal','addSeasonModal','tariffModal','freightModal','importModal','restoreModal'];
+var modalIds = ['masterStyleModal','seasonStyleModal','seasonStyleEditModal','addSeasonModal','tariffModal','freightModal','importModal','restoreModal','supplierModal'];
 for (var mi = 0; mi < modalIds.length; mi++) {
   (function(id) {
     document.getElementById(id).addEventListener('click', function(e) {
