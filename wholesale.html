@@ -225,15 +225,76 @@ function showTab(t){
 }
 function handleSearch(val){
   S.searchQ=val;
-  const activeInput=document.activeElement;
-  const activeId=activeInput?activeInput.id:null;
-  const pos=activeInput&&activeInput.selectionStart!==undefined?activeInput.selectionStart:null;
-  render();
-  if(activeId){
-    const el=document.getElementById(activeId);
-    if(el){el.focus();if(pos!==null&&el.setSelectionRange)el.setSelectionRange(pos,pos);}
+  // Only re-render the table body, not the whole page (preserves input focus)
+  const tbody=document.getElementById('main-tbody');
+  if(tbody){
+    if(S.tab==='orders') tbody.innerHTML=renderOrderRows();
+    else if(S.tab==='products') tbody.innerHTML=renderProductRows();
+    else if(S.tab==='retailers') tbody.innerHTML=renderRetailerRows();
+    else render();
+  } else {
+    render();
   }
 }
+function renderOrderRows(){
+  const q=S.searchQ.toLowerCase();
+  const list=S.orders.filter(o=>{
+    const r=getR(o.retailerId);
+    return(!q||(o.orderId||'').toLowerCase().includes(q)||(r&&r.name.toLowerCase().includes(q))||(o.season||'').toLowerCase().includes(q))
+      &&(S.filterStatus==='all'||o.status===S.filterStatus)
+      &&(S.filterSeason==='all'||(o.season||'')===S.filterSeason);
+  });
+  return list.length?list.map(o=>{const r=getR(o.retailerId);return`
+      <tr class="clickable" onclick="S.sel=${o.id};S.view='detail';render()">
+        <td style="font-weight:500">${o.orderId||o.id}</td>
+        <td>${r?r.name:'—'}</td>
+        <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
+        <td>${o.lines.reduce((a,l)=>a+l.qty,0)}</td>
+        <td>${fmt(orderRevenue(o))}</td>
+        <td><span class="commission-badge">${o.commRate}%</span></td>
+        <td style="color:var(--teal-tx);font-weight:500">${fmt(orderProfit(o))}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+      </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No orders match your search</td></tr>';
+}
+
+function renderProductRows(){
+  const cats=[...new Set(S.products.map(p=>p.category))].sort();
+  const q=S.searchQ.toLowerCase();
+  const list=S.products.filter(p=>
+    (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.color.toLowerCase().includes(q))
+    &&(S.filterStatus==='all'||p.category===S.filterStatus)
+    &&(S.filterSeason==='all'||(p.season||'')===S.filterSeason));
+  return list.length?list.map(p=>{
+    const margin=p.wholesale>0?((p.wholesale-p.landed)/p.wholesale*100):0;
+    return`<tr>
+      <td style="font-family:var(--mono);font-size:11px">${p.sku}</td>
+      <td style="font-weight:500">${p.name}</td>
+      <td><span class="badge bg-gray">${p.category}</span></td>
+      <td>${p.color}</td><td>${p.size}</td><td>${p.season||'—'}</td>
+      <td style="font-family:var(--mono);font-size:11px">${p.upc||'—'}</td>
+      <td>${fmt(p.wholesale)}</td>
+      <td>${fmt(p.msrp)}</td>
+      <td style="color:var(--muted)">${p.landed?fmt(p.landed):'—'}</td>
+      <td style="color:var(--teal-tx);font-weight:500">${p.landed?Math.round(margin)+'%':'—'}</td>
+    </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No products match your search</td></tr>';
+}
+
+function renderRetailerRows(){
+  const q=S.searchQ.toLowerCase();
+  const list=S.retailers.filter(r=>(!q||r.name.toLowerCase().includes(q)||r.city.toLowerCase().includes(q))&&(S.filterStatus==='all'||r.status===S.filterStatus));
+  return list.length?list.map(r=>`
+    <tr class="clickable" onclick="S.sel=${r.id};S.view='detail';render()">
+      <td style="font-weight:500">${r.name}</td>
+      <td>${r.city||'—'}, ${r.state||'—'}</td>
+      <td>${r.contact||'—'}</td>
+      <td>${r.email||'—'}</td>
+      <td>${r.phone||'—'}</td>
+      <td>${S.orders.filter(o=>(r.orders||[]).includes(o.id)).length}</td>
+      <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+    </tr>`).join(''):'<tr><td colspan="7" class="empty-td">No retailers match your search</td></tr>';
+}
+
 function render(){
   const el=$('main-content');
   if(S.tab==='retailers') el.innerHTML=S.view==='detail'&&S.sel?renderRetailerDetail():renderRetailers();
@@ -382,7 +443,7 @@ function renderOrders(){
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Order ID</th><th>Retailer</th><th>Date</th><th>Ship date</th><th>Season</th><th>Units</th><th>Revenue</th><th>Commission</th><th>Net profit</th><th>Status</th><th></th></tr></thead>
-    <tbody>${list.length?list.map(o=>{const r=getR(o.retailerId);return`
+    <tbody id="main-tbody">${list.length?list.map(o=>{const r=getR(o.retailerId);return`
       <tr class="clickable" onclick="S.sel=${o.id};S.view='detail';render()">
         <td style="font-weight:500">${o.orderId||o.id}</td>
         <td>${r?r.name:'—'}</td>
@@ -702,7 +763,7 @@ function renderProducts(){
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>SKU</th><th>Product name</th><th>Category</th><th>Color</th><th>Size</th><th>UPC</th><th>WS $</th><th>MSRP $</th><th>Landed cost</th><th>Margin</th></tr></thead>
-    <tbody>${list.length?list.map(p=>{
+    <tbody id="main-tbody">${list.length?list.map(p=>{
       const margin=p.wholesale>0?((p.wholesale-p.landed)/p.wholesale*100):0;
       return`<tr>
         <td style="font-family:var(--mono);font-size:11px">${p.sku}</td>
