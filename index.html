@@ -722,6 +722,13 @@ function stat(label, val, green) {
   return '<div class="stat"><div class="stat-label">' + label + '</div><div class="stat-val"' + (green ? ' style="color:var(--green)"' : '') + '>' + val + '</div></div>';
 }
 
+function handleSupplierPill(btn) {
+  var seasonCode = btn.getAttribute('data-season');
+  var sup = btn.getAttribute('data-sup');
+  supplierFilter[seasonCode] = sup;
+  renderSeasonView(seasonCode);
+}
+
 function setSupplierFilter(seasonCode, val) {
   supplierFilter[seasonCode] = val.trim();
   renderSeasonView(seasonCode);
