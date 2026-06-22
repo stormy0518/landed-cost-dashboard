@@ -223,6 +223,17 @@ function showTab(t){
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['retailers','orders','products','reps'][i]===t));
   render();
 }
+function handleSearch(val){
+  S.searchQ=val;
+  const activeInput=document.activeElement;
+  const activeId=activeInput?activeInput.id:null;
+  const pos=activeInput&&activeInput.selectionStart!==undefined?activeInput.selectionStart:null;
+  render();
+  if(activeId){
+    const el=document.getElementById(activeId);
+    if(el){el.focus();if(pos!==null&&el.setSelectionRange)el.setSelectionRange(pos,pos);}
+  }
+}
 function render(){
   const el=$('main-content');
   if(S.tab==='retailers') el.innerHTML=S.view==='detail'&&S.sel?renderRetailerDetail():renderRetailers();
@@ -259,7 +270,7 @@ function renderRetailers(){
   </div>
   <div class="section-header"><span class="section-title">Retailers</span></div>
   <div class="search-row">
-    <input type="text" placeholder="Search by name or city..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <input type="text" id="search-input" placeholder="Search by name or city..." value="${S.searchQ}" oninput="handleSearch(this.value)">
     <select onchange="S.filterStatus=this.value;render()">
       <option value="all">All statuses</option>
       <option value="active" ${S.filterStatus==='active'?'selected':''}>Active</option>
@@ -356,7 +367,7 @@ function renderOrders(){
   return`
   <div class="section-header"><span class="section-title">All orders</span></div>
   <div class="search-row">
-    <input type="text" placeholder="Search by retailer, order ID, or season..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <input type="text" id="search-input" placeholder="Search by retailer, order ID, or season..." value="${S.searchQ}" oninput="handleSearch(this.value)">
     <select onchange="S.filterStatus=this.value;render()">
       <option value="all">All statuses</option>
       <option value="pending" ${S.filterStatus==='pending'?'selected':''}>Pending</option>
@@ -679,7 +690,7 @@ function renderProducts(){
     </div>
   </div>
   <div class="search-row">
-    <input type="text" placeholder="Search by name, SKU, or color..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <input type="text" id="search-input" placeholder="Search by name, SKU, or color..." value="${S.searchQ}" oninput="handleSearch(this.value)">
     <select onchange="S.filterStatus=this.value;render()">
       <option value="all">All categories</option>
       ${cats.map(c=>`<option value="${c}" ${S.filterStatus===c?'selected':''}>${c}</option>`).join('')}
