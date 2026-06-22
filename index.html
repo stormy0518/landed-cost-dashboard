@@ -604,13 +604,10 @@ function renderSeasonView(seasonCode) {
       + '<button class="pill' + (activeFilter === 'all' ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'all\')">All</button>';
     for (var i = 0; i < suppliersInSeason.length; i++) {
       var sup = suppliersInSeason[i];
-      var safeId = 'sf_' + i;
-      html += '<button class="pill' + (activeFilter === sup ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'' + safeId + '\')" id="' + safeId + '-btn">' + esc(sup) + '</button>';
+      var escapedSup = sup.replace(/'/g, "\\'");
+      html += '<button class="pill' + (activeFilter === sup ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'' + escapedSup + '\'">' + esc(sup) + '</button>';
     }
     html += '</div>';
-    // Store supplier names for safe lookup
-    window._seasonSuppliers = window._seasonSuppliers || {};
-    window._seasonSuppliers[seasonCode] = suppliersInSeason;
   }
 
   // Tariff rate bar
