@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKHOOP USA — Wholesale Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f8f7f5;--bg3:#f2f1ee;
+  --text:#1a1a1a;--muted:#6b6b68;--hint:#9b9b97;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.2);
+  --r:6px;--rm:8px;--rl:12px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'SF Mono','Fira Code',monospace;
+  --green-bg:#EAF3DE;--green-tx:#3B6D11;
+  --amber-bg:#FAEEDA;--amber-tx:#854F0B;
+  --blue-bg:#E6F1FB;--blue-tx:#185FA5;
+  --gray-bg:#F1EFE8;--gray-tx:#5F5E5A;
+  --red-bg:#FCEBEB;--red-tx:#A32D2D;
+  --purple-bg:#EEEDFE;--purple-tx:#534AB7;
+  --teal-bg:#E1F5EE;--teal-tx:#0F6E56;
+}
+body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg3);min-height:100vh}
+.shell{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;position:sticky;top:0;z-index:50;gap:12px}
+.brand{font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:var(--rm);padding:3px}
+.tab{padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--muted);border:none;background:transparent;font-family:var(--font);transition:all .12s;white-space:nowrap}
+.tab.active{background:var(--bg);color:var(--text);font-weight:500;box-shadow:0 0 0 0.5px var(--border)}
+.tab:hover:not(.active){color:var(--text);background:rgba(0,0,0,0.04)}
+.topbar-actions{display:flex;gap:6px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:var(--rm);font-size:13px;cursor:pointer;font-family:var(--font);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);transition:background .1s;white-space:nowrap}
+.btn:hover{background:var(--bg2)}
+.btn.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.btn.primary:hover{background:#2d2d2d}
+.btn.sm{padding:5px 10px;font-size:12px}
+.btn i{font-size:15px}
+.content{padding:24px;max-width:1300px;margin:0 auto;width:100%;flex:1}
+.metric-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+.metric{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:16px 18px}
+.metric-label{font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.metric-value{font-size:22px;font-weight:500}
+.metric-sub{font-size:11px;color:var(--hint);margin-top:3px}
+.metric.highlight{border-color:var(--teal-tx);background:var(--teal-bg)}
+.metric.highlight .metric-label{color:var(--teal-tx)}
+.metric.highlight .metric-value{color:var(--teal-tx)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:15px;font-weight:500}
+.search-row{display:flex;gap:8px;margin-bottom:14px}
+.search-row input,.search-row select{padding:8px 12px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;font-family:var(--font)}
+.search-row input{flex:1}
+.search-row input:focus,.search-row select:focus{outline:none;border-color:#888}
+.table-wrap{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:9px 14px;text-align:left;font-weight:500;color:var(--muted);background:var(--bg2);border-bottom:0.5px solid var(--border);font-size:11px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.clickable{cursor:pointer}
+tr.clickable:hover td{background:var(--bg2)}
+.empty-td{text-align:center;padding:36px;color:var(--hint);font-size:13px}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.bg-green{background:var(--green-bg);color:var(--green-tx)}
+.bg-amber{background:var(--amber-bg);color:var(--amber-tx)}
+.bg-blue{background:var(--blue-bg);color:var(--blue-tx)}
+.bg-gray{background:var(--gray-bg);color:var(--gray-tx)}
+.bg-red{background:var(--red-bg);color:var(--red-tx)}
+.bg-purple{background:var(--purple-bg);color:var(--purple-tx)}
+.back-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:5px;font-family:var(--font);padding:0;margin-bottom:14px}
+.back-btn:hover{color:var(--text)}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:24px;margin-bottom:20px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:18px;border-bottom:0.5px solid var(--border)}
+.card-title{font-size:19px;font-weight:500;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted)}
+.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.info-item label{font-size:11px;color:var(--hint);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:3px}
+.info-item span{font-size:13px}
+.sub-section{margin-bottom:18px}
+.sub-title{font-size:13px;font-weight:500;margin-bottom:10px}
+.order-totals{display:flex;justify-content:flex-end;padding-top:14px}
+.totals-block{text-align:right}
+.totals-line{font-size:13px;color:var(--muted);margin-bottom:4px}
+.totals-amount{font-size:20px;font-weight:500}
+.profit-block{background:var(--teal-bg);border-radius:var(--rm);padding:12px 16px;margin-top:14px;display:flex;justify-content:flex-between;align-items:center;gap:24px}
+.profit-item{text-align:right}
+.profit-item label{font-size:11px;color:var(--teal-tx);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
+.profit-item span{font-size:15px;font-weight:500;color:var(--teal-tx)}
+.status-select{padding:5px 10px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:12px;font-family:var(--font);cursor:pointer}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:200;overflow-y:auto}
+.modal{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--border);padding:28px;width:560px;max-width:100%;margin-bottom:40px}
+.modal-title{font-size:16px;font-weight:500;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.form-row{margin-bottom:13px}
+.form-row label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:8px 12px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:13px;font-family:var(--font)}
+.form-row input:focus,.form-row select:focus{outline:none;border-color:#888;background:var(--bg)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.drop-zone{border:1.5px dashed var(--border2);border-radius:var(--rl);padding:26px;text-align:center;cursor:pointer;color:var(--muted);margin-bottom:12px;transition:all .15s}
+.drop-zone:hover{border-color:#888;color:var(--text);background:var(--bg2)}
+.drop-zone i{font-size:26px;display:block;margin-bottom:8px}
+.preview-wrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--rm);margin-bottom:12px;max-height:200px;overflow-y:auto}
+.preview-table{width:100%;border-collapse:collapse;font-size:12px}
+.preview-table th{background:var(--bg2);padding:7px 10px;font-weight:500;border-bottom:0.5px solid var(--border);white-space:nowrap;position:sticky;top:0}
+.preview-table td{padding:5px 10px;border-bottom:0.5px solid var(--border);white-space:nowrap}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;padding:12px 18px;border-radius:var(--rm);font-size:13px;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:slideUp .2s ease}
+@keyframes slideUp{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.col-hint{font-size:12px;color:var(--muted);background:var(--bg2);border-radius:var(--rm);padding:10px 14px;margin-bottom:12px;line-height:1.6}
+.comm-row{display:flex;align-items:center;gap:8px;font-size:13px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.comm-row:last-child{border-bottom:none}
+.commission-badge{background:var(--purple-bg);color:var(--purple-tx);padding:3px 8px;border-radius:4px;font-size:12px;font-weight:500}
+@media(max-width:900px){.metric-row{grid-template-columns:repeat(3,1fr)}.info-grid{grid-template-columns:1fr 1fr}.topbar{flex-wrap:wrap;height:auto;padding:12px 16px;gap:8px}.content{padding:16px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <span class="brand">SKHOOP USA — Wholesale</span>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('retailers')">Retailers</button>
+      <button class="tab" onclick="showTab('orders')">Orders</button>
+      <button class="tab" onclick="showTab('products')">Products</button>
+      <button class="tab" onclick="showTab('reps')">Sales Reps</button>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn" onclick="showImportModal()"><i class="ti ti-upload"></i> Import CSV</button>
+      <button class="btn" onclick="backupData()"><i class="ti ti-database-export"></i> Backup</button>
+      <button class="btn" onclick="showRestoreModal()"><i class="ti ti-database-import"></i> Restore</button>
+      <button class="btn" onclick="showResetModal()" style="color:var(--red-tx);border-color:var(--red-tx)"><i class="ti ti-trash"></i> Reset</button>
+      <button class="btn primary" onclick="showAddModal()"><i class="ti ti-plus"></i> Add New</button>
+    </div>
+  </div>
+  <div class="content" id="main-content"></div>
+</div>
+
+<script>
+const SK='skhoop_wholesale_v1';
+function loadState(){try{const s=localStorage.getItem(SK);if(s)return JSON.parse(s)}catch(e){}return null}
+function saveState(){try{localStorage.setItem(SK,JSON.stringify({retailers:S.retailers,orders:S.orders,products:S.products,reps:S.reps}))}catch(e){toast('Storage error','warn')}}
+function persist(msg){saveState();if(msg)toast(msg)}
+
+const seed={
+  reps:[
+    {id:1,name:'Jamie Carlson',email:'jamie@rep.com',phone:'720-555-0101',territory:'Mountain West',rate:10,status:'active',retailers:[1,3]},
+    {id:2,name:'Dana Park',email:'dana@rep.com',phone:'503-555-0204',territory:'Pacific Northwest',rate:10,status:'active',retailers:[2]},
+  ],
+  retailers:[
+    {id:1,name:'Alpine Gear Co.',contact:'Sarah Hill',email:'sarah@alpinegear.com',phone:'303-555-0182',city:'Denver',state:'CO',address:'',terms:'Net 30',status:'active',repId:1,orders:[101,103]},
+    {id:2,name:'Nordic Threads',contact:'Erik Larsen',email:'erik@nordicthreads.com',phone:'612-555-0291',city:'Minneapolis',state:'MN',address:'',terms:'Net 30',status:'active',repId:2,orders:[102]},
+    {id:3,name:'Summit Sports',contact:'Jenna Park',email:'jenna@summitsports.com',phone:'208-555-0167',city:'Boise',state:'ID',address:'',terms:'Net 60',status:'active',repId:1,orders:[104]},
+  ],
+  orders:[
+    {id:101,retailerId:1,orderId:'ORD-4421',date:'2025-01-15',shipDate:'2025-02-01',season:'Spring 2025',status:'confirmed',commRate:10,lines:[
+      {sku:'SK-J01-BLK-S',name:'Delta Jacket',color:'Black',size:'S',qty:3,wholesale:89.00,upc:'0123456789001'},
+      {sku:'SK-J01-BLK-M',name:'Delta Jacket',color:'Black',size:'M',qty:5,wholesale:89.00,upc:'0123456789002'},
+      {sku:'SK-P02-BLK-M',name:'Summit Pants',color:'Black',size:'M',qty:6,wholesale:72.00,upc:'0123456789010'},
+    ]},
+    {id:102,retailerId:2,orderId:'ORD-7731',date:'2025-01-18',shipDate:'2025-02-05',season:'Spring 2025',status:'shipped',commRate:10,lines:[
+      {sku:'SK-V01-RED-XS',name:'Vertex Vest',color:'Red',size:'XS',qty:4,wholesale:54.00,upc:'0123456789020'},
+      {sku:'SK-V01-RED-S',name:'Vertex Vest',color:'Red',size:'S',qty:6,wholesale:54.00,upc:'0123456789021'},
+    ]},
+    {id:104,retailerId:3,orderId:'ORD-9912',date:'2025-02-10',shipDate:'2025-03-01',season:'Spring 2025',status:'confirmed',commRate:10,lines:[
+      {sku:'SK-J01-BLK-L',name:'Delta Jacket',color:'Black',size:'L',qty:5,wholesale:89.00,upc:'0123456789004'},
+      {sku:'SK-P02-CHR-M',name:'Summit Pants',color:'Charcoal',size:'M',qty:6,wholesale:72.00,upc:'0123456789012'},
+    ]},
+  ],
+  products:[
+    {sku:'SK-J01-BLK-S',name:'Delta Jacket',color:'Black',size:'S',wholesale:89.00,msrp:178.00,landed:42.00,upc:'0123456789001',category:'Jackets'},
+    {sku:'SK-J01-BLK-M',name:'Delta Jacket',color:'Black',size:'M',wholesale:89.00,msrp:178.00,landed:42.00,upc:'0123456789002',category:'Jackets'},
+    {sku:'SK-J01-BLK-L',name:'Delta Jacket',color:'Black',size:'L',wholesale:89.00,msrp:178.00,landed:42.00,upc:'0123456789004',category:'Jackets'},
+    {sku:'SK-P02-BLK-M',name:'Summit Pants',color:'Black',size:'M',wholesale:72.00,msrp:148.00,landed:34.00,upc:'0123456789010',category:'Bottoms'},
+    {sku:'SK-P02-CHR-M',name:'Summit Pants',color:'Charcoal',size:'M',wholesale:72.00,msrp:148.00,landed:34.00,upc:'0123456789012',category:'Bottoms'},
+    {sku:'SK-V01-RED-XS',name:'Vertex Vest',color:'Red',size:'XS',wholesale:54.00,msrp:108.00,landed:26.00,upc:'0123456789020',category:'Vests'},
+    {sku:'SK-V01-RED-S',name:'Vertex Vest',color:'Red',size:'S',wholesale:54.00,msrp:108.00,landed:26.00,upc:'0123456789021',category:'Vests'},
+  ]
+};
+
+const saved=loadState();
+const S={
+  tab:'retailers',view:'list',sel:null,searchQ:'',filterStatus:'all',
+  reps:saved?saved.reps:seed.reps,
+  retailers:saved?saved.retailers:seed.retailers,
+  orders:saved?saved.orders:seed.orders,
+  products:saved?saved.products:seed.products,
+};
+
+// Ensure commRate exists on old orders
+S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10});
+
+const $=id=>document.getElementById(id);
+const fmt=n=>'$'+Number(n).toFixed(2);
+const fmtN=n=>Number(n).toFixed(2);
+const getR=id=>S.retailers.find(r=>r.id===id);
+const getO=id=>S.orders.find(o=>o.id===id);
+const getRep=id=>S.reps.find(r=>r.id===id);
+
+function orderRevenue(o){return o.lines.reduce((a,l)=>a+l.qty*l.wholesale,0)}
+function orderLandedCost(o){return o.lines.reduce((a,l)=>{const p=S.products.find(x=>x.sku===l.sku);return a+l.qty*(p&&p.landed?p.landed:0)},0)}
+function orderCommission(o){return orderRevenue(o)*(o.commRate||0)/100}
+function orderProfit(o){return orderRevenue(o)-orderLandedCost(o)-orderCommission(o)}
+
+function totalRevenue(){return S.orders.reduce((a,o)=>a+orderRevenue(o),0)}
+function totalProfit(){return S.orders.reduce((a,o)=>a+orderProfit(o),0)}
+function totalCommissions(){return S.orders.reduce((a,o)=>a+orderCommission(o),0)}
+
+function statusBadge(s){
+  const m={active:'bg-green',inactive:'bg-gray',confirmed:'bg-blue',shipped:'bg-green',pending:'bg-amber',cancelled:'bg-red'};
+  return`<span class="badge ${m[s]||'bg-gray'}">${s}</span>`;
+}
+
+function toast(msg,type){
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML=`<i class="ti ti-${type==='warn'?'alert-triangle':'circle-check'}"></i> ${msg}`;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),3800);
+}
+
+/* ─── Routing ─── */
+function showTab(t){
+  S.tab=t;S.view='list';S.sel=null;S.searchQ='';S.filterStatus='all';
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['retailers','orders','products','reps'][i]===t));
+  render();
+}
+function render(){
+  const el=$('main-content');
+  if(S.tab==='retailers') el.innerHTML=S.view==='detail'&&S.sel?renderRetailerDetail():renderRetailers();
+  else if(S.tab==='orders') el.innerHTML=S.view==='detail'&&S.sel?renderOrderDetail():renderOrders();
+  else if(S.tab==='products') el.innerHTML=renderProducts();
+  else el.innerHTML=S.view==='detail'&&S.sel?renderRepDetail():renderReps();
+}
+
+/* ─── Dashboard metrics ─── */
+function dashMetrics(orders,label4,label5,val4,val5,highlight5){
+  const rev=orders.reduce((a,o)=>a+orderRevenue(o),0);
+  const profit=orders.reduce((a,o)=>a+orderProfit(o),0);
+  return`<div class="metric-row">
+    <div class="metric"><div class="metric-label">Total orders</div><div class="metric-value">${orders.length}</div></div>
+    <div class="metric"><div class="metric-label">Total units</div><div class="metric-value">${orders.reduce((a,o)=>a+o.lines.reduce((b,l)=>b+l.qty,0),0)}</div></div>
+    <div class="metric"><div class="metric-label">Revenue</div><div class="metric-value">$${Math.round(rev).toLocaleString()}</div><div class="metric-sub">wholesale</div></div>
+    <div class="metric"><div class="metric-label">${label4}</div><div class="metric-value">${val4}</div></div>
+    <div class="metric${highlight5?' highlight':''}"><div class="metric-label">${label5}</div><div class="metric-value">${val5}</div><div class="metric-sub">after landed cost & commissions</div></div>
+  </div>`;
+}
+
+/* ─── Retailers ─── */
+function renderRetailers(){
+  const q=S.searchQ.toLowerCase();
+  const list=S.retailers.filter(r=>(!q||r.name.toLowerCase().includes(q)||r.city.toLowerCase().includes(q))&&(S.filterStatus==='all'||r.status===S.filterStatus));
+  const rev=totalRevenue(),profit=totalProfit(),comms=totalCommissions();
+  return`
+  <div class="metric-row">
+    <div class="metric"><div class="metric-label">Retailers</div><div class="metric-value">${S.retailers.filter(r=>r.status==='active').length} active</div></div>
+    <div class="metric"><div class="metric-label">Total orders</div><div class="metric-value">${S.orders.length}</div></div>
+    <div class="metric"><div class="metric-label">Season revenue</div><div class="metric-value">$${Math.round(rev).toLocaleString()}</div></div>
+    <div class="metric"><div class="metric-label">Total commissions</div><div class="metric-value">$${Math.round(comms).toLocaleString()}</div></div>
+    <div class="metric highlight"><div class="metric-label">Net operating profit</div><div class="metric-value">$${Math.round(profit).toLocaleString()}</div><div class="metric-sub">after landed cost & commissions</div></div>
+  </div>
+  <div class="section-header"><span class="section-title">Retailers</span></div>
+  <div class="search-row">
+    <input type="text" placeholder="Search by name or city..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <select onchange="S.filterStatus=this.value;render()">
+      <option value="all">All statuses</option>
+      <option value="active" ${S.filterStatus==='active'?'selected':''}>Active</option>
+      <option value="inactive" ${S.filterStatus==='inactive'?'selected':''}>Inactive</option>
+    </select>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Retailer</th><th>Location</th><th>Sales rep</th><th>Terms</th><th>Orders</th><th>Revenue</th><th>Net profit</th><th>Status</th><th></th></tr></thead>
+    <tbody>${list.length?list.map(r=>{
+      const rOrders=S.orders.filter(o=>(r.orders||[]).includes(o.id));
+      const rev=rOrders.reduce((a,o)=>a+orderRevenue(o),0);
+      const profit=rOrders.reduce((a,o)=>a+orderProfit(o),0);
+      const rep=getRep(r.repId);
+      return`<tr class="clickable" onclick="openRetailer(${r.id})">
+        <td style="font-weight:500">${r.name}</td>
+        <td>${[r.city,r.state].filter(Boolean).join(', ')||'—'}</td>
+        <td>${rep?rep.name:'<span style="color:var(--hint)">Unassigned</span>'}</td>
+        <td>${r.terms}</td>
+        <td>${(r.orders||[]).length}</td>
+        <td>${fmt(rev)}</td>
+        <td style="color:var(--teal-tx);font-weight:500">${fmt(profit)}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+      </tr>`;}).join(''):'<tr><td colspan="9" class="empty-td">No retailers yet</td></tr>'}
+    </tbody>
+  </table></div>`;
+}
+
+function openRetailer(id){S.sel=id;S.view='detail';render()}
+
+function renderRetailerDetail(){
+  const r=getR(S.sel);
+  const rOrders=S.orders.filter(o=>(r.orders||[]).includes(o.id));
+  const rev=rOrders.reduce((a,o)=>a+orderRevenue(o),0);
+  const profit=rOrders.reduce((a,o)=>a+orderProfit(o),0);
+  const comms=rOrders.reduce((a,o)=>a+orderCommission(o),0);
+  const units=rOrders.reduce((a,o)=>a+o.lines.reduce((b,l)=>b+l.qty,0),0);
+  const rep=getRep(r.repId);
+  return`
+  <button class="back-btn" onclick="S.view='list';render()"><i class="ti ti-arrow-left"></i> All retailers</button>
+  <div class="card">
+    <div class="card-header">
+      <div><div class="card-title">${r.name}</div><div class="card-sub">${[r.city,r.state,r.zip].filter(Boolean).join(', ')||''} &middot; ${r.terms}</div></div>
+      <div class="card-actions">${statusBadge(r.status)}<button class="btn sm" onclick="showEditRetailerModal(${r.id})"><i class="ti ti-edit"></i> Edit</button></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><label>Contact</label><span>${r.contact||'—'}</span></div>
+      <div class="info-item"><label>Email</label><span>${r.email||'—'}</span></div>
+      <div class="info-item"><label>Phone</label><span>${r.phone||'—'}</span></div>
+      <div class="info-item"><label>Shipping address</label><span>${r.address||'—'}</span></div>
+      <div class="info-item"><label>City / State / Zip</label><span>${[r.city,r.state,r.zip].filter(Boolean).join(', ')||'—'}</span></div>
+      <div class="info-item"><label>Sales rep</label><span>${rep?rep.name:'<span style="color:var(--hint)">Unassigned</span>'}</span></div>
+    </div>
+    ${r.notes?`<div style="background:var(--amber-bg);border-radius:var(--rm);padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--amber-tx)"><span style="font-weight:500;margin-right:8px"><i class="ti ti-notes"></i> Notes</span>${r.notes.replace(/\n/g,'<br>')}</div>`:''}
+    <div class="metric-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:22px">
+      <div class="metric"><div class="metric-label">Orders</div><div class="metric-value">${rOrders.length}</div></div>
+      <div class="metric"><div class="metric-label">Units</div><div class="metric-value">${units}</div></div>
+      <div class="metric"><div class="metric-label">Revenue</div><div class="metric-value">$${Math.round(rev).toLocaleString()}</div></div>
+      <div class="metric"><div class="metric-label">Commissions</div><div class="metric-value">$${Math.round(comms).toLocaleString()}</div></div>
+      <div class="metric highlight"><div class="metric-label">Net profit</div><div class="metric-value">$${Math.round(profit).toLocaleString()}</div></div>
+    </div>
+    <div class="section-header"><span class="sub-title">Orders</span>
+      <button class="btn sm primary" onclick="showAddOrderModal(${r.id})"><i class="ti ti-plus"></i> New order</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Order ID</th><th>Date</th><th>Ship date</th><th>Season</th><th>Units</th><th>Revenue</th><th>Commission</th><th>Net profit</th><th>Status</th><th></th></tr></thead>
+      <tbody>${rOrders.length?rOrders.map(o=>`
+        <tr class="clickable" onclick="goToOrder(${o.id})">
+          <td style="font-weight:500">${o.orderId||o.id}</td>
+          <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
+          <td>${o.lines.reduce((a,l)=>a+l.qty,0)}</td>
+          <td>${fmt(orderRevenue(o))}</td>
+          <td><span class="commission-badge">${o.commRate}% — ${fmt(orderCommission(o))}</span></td>
+          <td style="color:var(--teal-tx);font-weight:500">${fmt(orderProfit(o))}</td>
+          <td>${statusBadge(o.status)}</td>
+          <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+        </tr>`).join(''):'<tr><td colspan="10" class="empty-td">No orders yet</td></tr>'}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function goToOrder(id){S.tab='orders';S.sel=id;S.view='detail';document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===1));render()}
+
+/* ─── Orders ─── */
+function renderOrders(){
+  const q=S.searchQ.toLowerCase();
+  const list=S.orders.filter(o=>{
+    const r=getR(o.retailerId);
+    return(!q||(o.orderId||'').toLowerCase().includes(q)||(r&&r.name.toLowerCase().includes(q))||(o.season||'').toLowerCase().includes(q))
+      &&(S.filterStatus==='all'||o.status===S.filterStatus);
+  });
+  return`
+  <div class="section-header"><span class="section-title">All orders</span></div>
+  <div class="search-row">
+    <input type="text" placeholder="Search by retailer, order ID, or season..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <select onchange="S.filterStatus=this.value;render()">
+      <option value="all">All statuses</option>
+      <option value="pending" ${S.filterStatus==='pending'?'selected':''}>Pending</option>
+      <option value="confirmed" ${S.filterStatus==='confirmed'?'selected':''}>Confirmed</option>
+      <option value="shipped" ${S.filterStatus==='shipped'?'selected':''}>Shipped</option>
+      <option value="cancelled" ${S.filterStatus==='cancelled'?'selected':''}>Cancelled</option>
+    </select>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Order ID</th><th>Retailer</th><th>Date</th><th>Ship date</th><th>Season</th><th>Units</th><th>Revenue</th><th>Commission</th><th>Net profit</th><th>Status</th><th></th></tr></thead>
+    <tbody>${list.length?list.map(o=>{const r=getR(o.retailerId);return`
+      <tr class="clickable" onclick="S.sel=${o.id};S.view='detail';render()">
+        <td style="font-weight:500">${o.orderId||o.id}</td>
+        <td>${r?r.name:'—'}</td>
+        <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
+        <td>${o.lines.reduce((a,l)=>a+l.qty,0)}</td>
+        <td>${fmt(orderRevenue(o))}</td>
+        <td><span class="commission-badge">${o.commRate}%</span></td>
+        <td style="color:var(--teal-tx);font-weight:500">${fmt(orderProfit(o))}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+      </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No orders — import a CSV to get started</td></tr>'}
+    </tbody>
+  </table></div>`;
+}
+
+function renderOrderDetail(){
+  const o=getO(S.sel);if(!o)return'';
+  const r=getR(o.retailerId);
+  const rev=orderRevenue(o),lc=orderLandedCost(o),comm=orderCommission(o),profit=orderProfit(o);
+  const units=o.lines.reduce((a,l)=>a+l.qty,0);
+  const rep=r?getRep(r.repId):null;
+  return`
+  <button class="back-btn" onclick="S.view='list';S.sel=null;render()"><i class="ti ti-arrow-left"></i> All orders</button>
+  <div class="card">
+    <div class="card-header">
+      <div><div class="card-title">${o.orderId||o.id}</div>
+      <div class="card-sub">${r?r.name:'—'} &middot; ${o.season} &middot; Ship: ${o.shipDate||'TBD'}${rep?' &middot; Rep: '+rep.name:''}</div></div>
+      <div class="card-actions">
+        ${statusBadge(o.status)}
+        <select class="status-select" onchange="updateStatus(${o.id},this.value)">
+          <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+          <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Confirmed</option>
+          <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+          <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+        </select>
+        <button class="btn sm" onclick="showEditOrderModal(${o.id})"><i class="ti ti-edit"></i> Edit order</button>
+        <button class="btn sm" onclick="resyncOrderFromCatalog(${o.id})"><i class="ti ti-refresh"></i> Re-sync from catalog</button>
+        <button class="btn sm" onclick="confirmDeleteOrder(${o.id})" style="color:var(--red-tx);border-color:var(--red-tx)"><i class="ti ti-trash"></i> Delete</button>
+        <button class="btn sm primary" onclick="exportOrderCSV(${o.id})"><i class="ti ti-download"></i> Export order sheet</button>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin-bottom:0"><table>
+      <thead><tr><th>SKU</th><th>Product name</th><th>Color</th><th>Size</th><th>UPC</th><th>Qty</th><th>WS $</th><th>MSRP $</th><th>Line total</th><th></th></tr></thead>
+      <tbody>${o.lines.map((l,li)=>{const p=S.products.find(x=>x.sku===l.sku);return`
+        <tr>
+          <td style="font-family:var(--mono);font-size:11px">${l.sku}</td>
+          <td><input type="text" value="${l.name||''}" style="width:120px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'name',this.value)"></td>
+          <td><input type="text" value="${l.color||''}" style="width:70px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'color',this.value)"></td>
+          <td><input type="text" value="${l.size||''}" style="width:44px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'size',this.value)"></td>
+          <td><input type="text" value="${l.upc||''}" style="width:110px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font);font-family:var(--mono)" onchange="updateLineField(${o.id},${li},'upc',this.value)"></td>
+          <td><input type="number" value="${l.qty}" min="0" step="1" style="width:52px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineQty(${o.id},${li},this.value)"></td>
+          <td><input type="number" value="${l.wholesale.toFixed(2)}" min="0" step="0.01" style="width:68px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLinePrice(${o.id},${li},this.value)"></td>
+          <td>${p?fmt(p.msrp):'—'}</td>
+          <td style="font-weight:500" id="line-total-${o.id}-${li}">${fmt(l.qty*l.wholesale)}</td>
+          <td><button onclick="deleteOrderLine(${o.id},${li})" style="background:none;border:none;cursor:pointer;color:var(--hint);padding:2px 4px;font-size:14px" title="Remove line"><i class="ti ti-x"></i></button></td>
+        </tr>`;}).join('')}
+      </tbody>
+    </table></div>
+    <div style="padding:10px 0 4px">
+      <button class="btn sm" onclick="showAddLineModal(${o.id})"><i class="ti ti-plus"></i> Add line item</button>
+    </div>
+    <div style="display:flex;justify-content:flex-end;padding-top:16px;gap:24px;align-items:flex-end">
+      <div style="text-align:right">
+        <div class="totals-line">${units} units &nbsp;&middot;&nbsp; Terms: ${o.terms||(r?r.terms:'Net 30')}</div>
+        <div class="totals-amount">Revenue: ${fmt(rev)}</div>
+      </div>
+    </div>
+    <div class="profit-block" style="margin-top:16px">
+      <div class="profit-item" style="flex:1;text-align:left"><label>Landed cost</label><span>${fmt(lc)}</span></div>
+      <div class="profit-item" style="flex:1"><label>Commission (${o.commRate}%)</label><span>${fmt(comm)}</span></div>
+      <div class="profit-item" style="flex:1"><label>Total deductions</label><span>${fmt(lc+comm)}</span></div>
+      <div class="profit-item" style="flex:1;text-align:right"><label>Net operating profit</label><span style="font-size:18px">${fmt(profit)}</span></div>
+    </div>
+  ${o.notes?`<div style="background:var(--amber-bg);border-radius:var(--rm);padding:12px 16px;margin-top:14px;font-size:13px;color:var(--amber-tx)"><span style="font-weight:500;margin-right:8px"><i class="ti ti-notes"></i> Notes</span>${o.notes.replace(/\n/g,'<br>')}</div>`:''}
+  </div>`;
+}
+
+function updateStatus(id,s){const o=getO(id);if(o){o.status=s;persist('Status updated');render()}}
+
+function showEditOrderModal(id){
+  const o=getO(id);
+  const rOpts=S.retailers.filter(r=>r.status==='active').map(r=>`<option value="${r.id}" ${r.id===o.retailerId?'selected':''}>${r.name}</option>`).join('');
+  showModal(`
+    <div class="modal-title">Edit order</div>
+    <div class="two-col">
+      <div class="form-row"><label>Order ID</label><input id="eo-id" type="text" value="${o.orderId||''}"></div>
+      <div class="form-row"><label>Retailer</label><select id="eo-retailer">${rOpts}</select></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Order date</label><input id="eo-date" type="date" value="${o.date||''}"></div>
+      <div class="form-row"><label>Ship date</label><input id="eo-ship" type="date" value="${o.shipDate||''}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Season</label><input id="eo-season" type="text" value="${o.season||''}"></div>
+      <div class="form-row"><label>Commission rate (%)</label><input id="eo-comm" type="number" step="0.5" min="0" max="100" value="${o.commRate||10}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Status</label>
+        <select id="eo-status">
+          <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+          <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Confirmed</option>
+          <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+          <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Payment terms <span style="font-weight:400;color:var(--hint)">(overrides retailer default)</span></label>
+        <select id="eo-terms">
+          <option value="" ${!o.terms?'selected':''}>— Use retailer default —</option>
+          ${['Terms pending','Prepay','Net 30','Net 60','3%45 Net 60'].map(t=>`<option value="${t}" ${o.terms===t?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><label>Notes <span style="font-weight:400;color:var(--hint)">(internal only — not on export)</span></label>
+      <textarea id="eo-notes" rows="3" placeholder="e.g. Price adjusted per rep request, split shipment, custom packaging...">${o.notes||''}</textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveOrderEdits(${id})">Save</button>
+    </div>
+  `);
+}
+
+function saveOrderEdits(id){
+  const o=getO(id);
+  if(!o)return;
+  const newRetailerId=parseInt($('eo-retailer').value);
+  // If retailer changed, update order lists on both retailers
+  if(newRetailerId!==o.retailerId){
+    const oldR=getR(o.retailerId);
+    if(oldR)oldR.orders=(oldR.orders||[]).filter(x=>x!==id);
+    const newR=getR(newRetailerId);
+    if(newR){newR.orders=newR.orders||[];if(!newR.orders.includes(id))newR.orders.push(id);}
+  }
+  o.orderId=$('eo-id').value.trim();
+  o.retailerId=newRetailerId;
+  o.date=$('eo-date').value;
+  o.shipDate=$('eo-ship').value;
+  o.season=$('eo-season').value;
+  o.commRate=parseFloat($('eo-comm').value)||10;
+  o.status=$('eo-status').value;
+  o.terms=$('eo-terms').value||null;
+  o.notes=$('eo-notes').value;
+  persist('Order updated');closeModal();render();
+}
+
+function updateLinePrice(orderId,lineIdx,val){
+  const o=getO(orderId);if(!o)return;
+  const price=parseMoney(val);
+  o.lines[lineIdx].wholesale=price;
+  const totalEl=document.getElementById(`line-total-${orderId}-${lineIdx}`);
+  if(totalEl)totalEl.textContent=fmt(o.lines[lineIdx].qty*price);
+  persist();
+}
+
+function updateLineQty(orderId,lineIdx,val){
+  const o=getO(orderId);if(!o)return;
+  const qty=parseInt(val)||0;
+  o.lines[lineIdx].qty=qty;
+  const totalEl=document.getElementById(`line-total-${orderId}-${lineIdx}`);
+  if(totalEl)totalEl.textContent=fmt(qty*o.lines[lineIdx].wholesale);
+  persist();
+}
+
+function updateLineField(orderId,lineIdx,field,val){
+  const o=getO(orderId);if(!o)return;
+  o.lines[lineIdx][field]=val;
+  persist();
+}
+
+function deleteOrderLine(orderId,lineIdx){
+  const o=getO(orderId);if(!o)return;
+  o.lines.splice(lineIdx,1);
+  persist();render();
+}
+
+function resyncOrderFromCatalog(id){
+  const o=getO(id);if(!o)return;
+  let filled=0;
+  o.lines.forEach(l=>{
+    const p=S.products.find(x=>x.sku===l.sku);
+    if(!p)return;
+    // Only fill in fields that are blank — never overwrite intentional edits
+    let changed=false;
+    if(!l.name&&p.name){l.name=p.name;changed=true;}
+    if(!l.color&&p.color){l.color=p.color;changed=true;}
+    if(!l.size&&p.size){l.size=p.size;changed=true;}
+    if(!l.upc&&p.upc){l.upc=p.upc;changed=true;}
+    if(!l.wholesale&&p.wholesale){l.wholesale=p.wholesale;changed=true;}
+    if(changed)filled++;
+  });
+  if(filled>0){persist();render();toast(`Re-synced ${filled} line${filled!==1?'s':''} from catalog`);}
+  else toast('Nothing to update — all lines already have catalog data');
+}
+
+function showAddLineModal(orderId){
+  const o=getO(orderId);if(!o)return;
+  // Build SKU options from product catalog
+  const skuOpts=S.products.length
+    ? S.products.map(p=>`<option value="${p.sku}">${p.sku} — ${p.name} ${p.color} ${p.size}</option>`).join('')
+    : '<option value="">No products in catalog yet</option>';
+  showModal(`
+    <div class="modal-title">Add line item</div>
+    <div class="modal-sub">Pick a SKU from your catalog or enter one manually. Catalog fields will auto-fill.</div>
+    <div class="form-row">
+      <label>Select from catalog</label>
+      <select id="al-sku-select" onchange="prefillLineFromCatalog(this.value)">
+        <option value="">— Choose a SKU —</option>
+        ${skuOpts}
+      </select>
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--hint);margin:-4px 0 10px">or enter manually below</div>
+    <div class="two-col">
+      <div class="form-row"><label>SKU</label><input id="al-sku" type="text"></div>
+      <div class="form-row"><label>UPC</label><input id="al-upc" type="text"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Product name</label><input id="al-name" type="text"></div>
+      <div class="form-row"><label>Category</label><input id="al-cat" type="text"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Color</label><input id="al-color" type="text"></div>
+      <div class="form-row"><label>Size</label><input id="al-size" type="text"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Qty</label><input id="al-qty" type="number" min="1" step="1" value="1"></div>
+      <div class="form-row"><label>WS $</label><input id="al-ws" type="number" min="0" step="0.01"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveLineItem(${orderId})">Add to order</button>
+    </div>
+  `);
+}
+
+function prefillLineFromCatalog(sku){
+  if(!sku)return;
+  const p=S.products.find(x=>x.sku===sku);
+  if(!p)return;
+  $('al-sku').value=p.sku;
+  $('al-name').value=p.name||'';
+  $('al-color').value=p.color||'';
+  $('al-size').value=p.size||'';
+  $('al-upc').value=p.upc||'';
+  $('al-ws').value=p.wholesale?p.wholesale.toFixed(2):'';
+}
+
+function saveLineItem(orderId){
+  const o=getO(orderId);if(!o)return;
+  const sku=($('al-sku').value||'').trim();
+  if(!sku){toast('SKU is required','warn');return;}
+  const qty=parseInt($('al-qty').value)||0;
+  if(qty<1){toast('Qty must be at least 1','warn');return;}
+  o.lines.push({
+    sku,
+    name:$('al-name').value||'',
+    color:$('al-color').value||'',
+    size:$('al-size').value||'',
+    upc:$('al-upc').value||'',
+    qty,
+    wholesale:parseMoney($('al-ws').value)||0,
+  });
+  persist('Line item added');closeModal();render();
+}
+
+function confirmDeleteOrder(id){
+  const o=getO(id);const r=getR(o.retailerId);
+  showModal(`
+    <div class="modal-title">Delete order</div>
+    <div class="modal-sub">Are you sure you want to delete <strong>${o.orderId||o.id}</strong>${r?' for '+r.name:''}? This cannot be undone.</div>
+    <div style="background:var(--red-bg);color:var(--red-tx);border-radius:var(--rm);padding:10px 14px;font-size:13px;margin-bottom:4px">
+      <i class="ti ti-alert-triangle"></i> This order and all its line items will be permanently removed.
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn" style="background:var(--red-tx);color:#fff;border-color:var(--red-tx)" onclick="deleteOrder(${id})"><i class="ti ti-trash"></i> Delete order</button>
+    </div>
+  `);
+}
+
+function deleteOrder(id){
+  // Remove from retailer's order list
+  const o=getO(id);
+  if(o){const r=getR(o.retailerId);if(r)r.orders=(r.orders||[]).filter(x=>x!==id);}
+  // Remove order
+  const idx=S.orders.findIndex(x=>x.id===id);
+  if(idx>-1)S.orders.splice(idx,1);
+  persist('Order deleted');closeModal();
+  S.view='list';S.sel=null;render();
+}
+
+/* ─── Products ─── */
+function renderProducts(){
+  const cats=[...new Set(S.products.map(p=>p.category))].sort();
+  const q=S.searchQ.toLowerCase();
+  const list=S.products.filter(p=>
+    (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.color.toLowerCase().includes(q))
+    &&(S.filterStatus==='all'||p.category===S.filterStatus));
+  return`
+  <div class="section-header">
+    <span class="section-title">Product catalog <span style="font-weight:400;color:var(--muted)">(${S.products.length} SKUs)</span></span>
+    <div style="display:flex;gap:8px">
+      <button class="btn sm" onclick="exportCatalogCSV()"><i class="ti ti-download"></i> Export catalog</button>
+      <button class="btn sm primary" onclick="showAddProductModal()"><i class="ti ti-plus"></i> Add product</button>
+    </div>
+  </div>
+  <div class="search-row">
+    <input type="text" placeholder="Search by name, SKU, or color..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
+    <select onchange="S.filterStatus=this.value;render()">
+      <option value="all">All categories</option>
+      ${cats.map(c=>`<option value="${c}" ${S.filterStatus===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>SKU</th><th>Product name</th><th>Category</th><th>Color</th><th>Size</th><th>UPC</th><th>WS $</th><th>MSRP $</th><th>Landed cost</th><th>Margin</th></tr></thead>
+    <tbody>${list.length?list.map(p=>{
+      const margin=p.wholesale>0?((p.wholesale-p.landed)/p.wholesale*100):0;
+      return`<tr>
+        <td style="font-family:var(--mono);font-size:11px">${p.sku}</td>
+        <td style="font-weight:500">${p.name}</td>
+        <td><span class="badge bg-gray">${p.category}</span></td>
+        <td>${p.color}</td><td>${p.size}</td><td>${p.season||'—'}</td>
+        <td style="font-family:var(--mono);font-size:11px">${p.upc||'—'}</td>
+        <td>${fmt(p.wholesale)}</td>
+        <td>${fmt(p.msrp)}</td>
+        <td style="color:var(--muted)">${p.landed?fmt(p.landed):'—'}</td>
+        <td style="color:var(--teal-tx);font-weight:500">${p.landed?Math.round(margin)+'%':'—'}</td>
+      </tr>`;}).join(''):'<tr><td colspan="10" class="empty-td">No products — import your catalog CSV</td></tr>'}
+    </tbody>
+  </table></div>`;
+}
+
+/* ─── Sales Reps ─── */
+function renderReps(){
+  const list=S.reps.filter(r=>(S.filterStatus==='all'||r.status===S.filterStatus));
+  return`
+  <div class="section-header"><span class="section-title">Sales reps</span></div>
+  <div class="search-row">
+    <select onchange="S.filterStatus=this.value;render()">
+      <option value="all">All statuses</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Rep name</th><th>Territory</th><th>Email</th><th>Phone</th><th>Retailers</th><th>Orders</th><th>Revenue</th><th>Commission owed</th><th>Default rate</th><th>Status</th><th></th></tr></thead>
+    <tbody>${list.length?list.map(rep=>{
+      const repRetailers=S.retailers.filter(r=>r.repId===rep.id);
+      const repRetailerIds=repRetailers.map(r=>r.id);
+      const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+      const rev=repOrders.reduce((a,o)=>a+orderRevenue(o),0);
+      const comm=repOrders.reduce((a,o)=>a+orderCommission(o),0);
+      return`<tr class="clickable" onclick="openRep(${rep.id})">
+        <td style="font-weight:500">${rep.name}</td>
+        <td>${rep.territory||'—'}</td>
+        <td>${rep.email||'—'}</td>
+        <td>${rep.phone||'—'}</td>
+        <td>${repRetailers.length}</td>
+        <td>${repOrders.length}</td>
+        <td>${fmt(rev)}</td>
+        <td style="color:var(--purple-tx);font-weight:500">${fmt(comm)}</td>
+        <td><span class="commission-badge">${rep.rate}%</span></td>
+        <td>${statusBadge(rep.status)}</td>
+        <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+      </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No reps yet — click Add New to create one</td></tr>'}
+    </tbody>
+  </table></div>`;
+}
+
+function openRep(id){S.sel=id;S.view='detail';render()}
+
+function renderRepDetail(){
+  const rep=getRep(S.sel);if(!rep)return'';
+  const repRetailers=S.retailers.filter(r=>r.repId===rep.id);
+  const repRetailerIds=repRetailers.map(r=>r.id);
+  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+  const rev=repOrders.reduce((a,o)=>a+orderRevenue(o),0);
+  const comm=repOrders.reduce((a,o)=>a+orderCommission(o),0);
+  const units=repOrders.reduce((a,o)=>a+o.lines.reduce((b,l)=>b+l.qty,0),0);
+
+  // Group orders by status for commission summary
+  const confirmedOrders=repOrders.filter(o=>o.status==='confirmed'||o.status==='shipped');
+  const confirmedComm=confirmedOrders.reduce((a,o)=>a+orderCommission(o),0);
+
+  return`
+  <button class="back-btn" onclick="S.view='list';render()"><i class="ti ti-arrow-left"></i> All reps</button>
+  <div class="card">
+    <div class="card-header">
+      <div><div class="card-title">${rep.name}</div>
+      <div class="card-sub">${rep.territory||'No territory set'} &middot; Default rate: ${rep.rate}%</div></div>
+      <div class="card-actions">${statusBadge(rep.status)}<button class="btn sm" onclick="showEditRepModal(${rep.id})"><i class="ti ti-edit"></i> Edit</button></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item"><label>Email</label><span>${rep.email||'—'}</span></div>
+      <div class="info-item"><label>Phone</label><span>${rep.phone||'—'}</span></div>
+      <div class="info-item"><label>Territory</label><span>${rep.territory||'—'}</span></div>
+    </div>
+    <div class="metric-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:22px">
+      <div class="metric"><div class="metric-label">Retailers</div><div class="metric-value">${repRetailers.length}</div></div>
+      <div class="metric"><div class="metric-label">Orders</div><div class="metric-value">${repOrders.length}</div></div>
+      <div class="metric"><div class="metric-label">Units</div><div class="metric-value">${units}</div></div>
+      <div class="metric"><div class="metric-label">Total revenue</div><div class="metric-value">$${Math.round(rev).toLocaleString()}</div></div>
+      <div class="metric" style="background:var(--purple-bg);border-color:var(--purple-tx)">
+        <div class="metric-label" style="color:var(--purple-tx)">Commission owed</div>
+        <div class="metric-value" style="color:var(--purple-tx)">$${Math.round(confirmedComm).toLocaleString()}</div>
+        <div class="metric-sub" style="color:var(--purple-tx)">confirmed + shipped orders</div>
+      </div>
+    </div>
+
+    <div class="section-header"><span class="sub-title">Commission breakdown by order</span>
+      <button class="btn sm" onclick="exportRepCommCSV(${rep.id})"><i class="ti ti-download"></i> Export commission report</button>
+    </div>
+    <div class="table-wrap" style="margin-bottom:20px"><table>
+      <thead><tr><th>Order ID</th><th>Retailer</th><th>Date</th><th>Season</th><th>Revenue</th><th>Rate</th><th>Commission</th><th>Status</th></tr></thead>
+      <tbody>${repOrders.length?repOrders.map(o=>{const r=getR(o.retailerId);return`
+        <tr class="clickable" onclick="goToOrder(${o.id})">
+          <td style="font-weight:500">${o.orderId||o.id}</td>
+          <td>${r?r.name:'—'}</td>
+          <td>${o.date}</td><td>${o.season}</td>
+          <td>${fmt(orderRevenue(o))}</td>
+          <td><span class="commission-badge">${o.commRate}%</span></td>
+          <td style="color:var(--purple-tx);font-weight:500">${fmt(orderCommission(o))}</td>
+          <td>${statusBadge(o.status)}</td>
+        </tr>`;}).join(''):'<tr><td colspan="8" class="empty-td">No orders yet</td></tr>'}
+        ${repOrders.length?`<tr style="background:var(--bg2)">
+          <td colspan="4" style="font-weight:500;padding:10px 14px">Total</td>
+          <td style="font-weight:500">${fmt(rev)}</td>
+          <td>—</td>
+          <td style="color:var(--purple-tx);font-weight:500">${fmt(comm)}</td>
+          <td></td>
+        </tr>`:''}
+      </tbody>
+    </table></div>
+
+    <div class="section-header"><span class="sub-title">Assigned retailers</span></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Retailer</th><th>Location</th><th>Orders</th><th>Revenue</th><th>Status</th></tr></thead>
+      <tbody>${repRetailers.length?repRetailers.map(r=>{
+        const rOrds=S.orders.filter(o=>(r.orders||[]).includes(o.id));
+        const rv=rOrds.reduce((a,o)=>a+orderRevenue(o),0);
+        return`<tr class="clickable" onclick="openRetailer(${r.id});document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===0));S.tab='retailers'">
+          <td style="font-weight:500">${r.name}</td>
+          <td>${[r.city,r.state].filter(Boolean).join(', ')||'—'}</td>
+          <td>${rOrds.length}</td><td>${fmt(rv)}</td>
+          <td>${statusBadge(r.status)}</td>
+        </tr>`;}).join(''):'<tr><td colspan="5" class="empty-td">No retailers assigned</td></tr>'}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+/* ─── CSV Exports ─── */
+function exportOrderCSV(id){
+  const o=getO(id),r=getR(o.retailerId);
+  const rev=orderRevenue(o),units=o.lines.reduce((a,l)=>a+l.qty,0);
+  // Note: landed cost intentionally omitted from customer-facing export
+  let csv='SKHOOP\n';
+  const orderTerms=o.terms||(r?r.terms:'Net 30');
+  csv+=`Retailer,${r?r.name:''}\nOrder ID,${o.orderId||o.id}\nSeason,${o.season}\nOrder Date,${o.date}\nShip Date,${o.shipDate||'TBD'}\nPayment Terms,${orderTerms}\n`;
+  if(r&&r.address)csv+=`Ship To,"${r.address}, ${[r.city,r.state,r.zip].filter(Boolean).join(', ')}"\n`;
+  csv+='\nSKU,Product Name,Color,Size,UPC,Qty Ordered,WS $,MSRP $,Line Total\n';
+  o.lines.forEach(l=>{
+    const p=S.products.find(x=>x.sku===l.sku);
+    csv+=`${l.sku},"${l.name}",${l.color},${l.size},${l.upc||''},${l.qty},${fmtN(l.wholesale)},${p?fmtN(p.msrp):''},${fmtN(l.qty*l.wholesale)}\n`;
+  });
+  csv+=`\nTotal Units,,,,,${units},,\nOrder Total,,,,,,,,${fmtN(rev)}\n`;
+  dlCSV(csv,`SKHOOP_${(r?r.name:'Order').replace(/\s+/g,'-')}_${o.orderId||o.id}.csv`);
+  toast('Order sheet exported (landed cost excluded)');
+}
+
+function exportCatalogCSV(){
+  let csv='SKU,Product Name,Category,Color,Size,UPC,Wholesale ($),MSRP ($),Landed Cost ($)\n';
+  S.products.forEach(p=>{csv+=`${p.sku},"${p.name}",${p.category},${p.color},${p.size},${p.upc||''},${fmtN(p.wholesale)},${fmtN(p.msrp)},${p.landed?fmtN(p.landed):''}\n`;});
+  dlCSV(csv,'SKHOOP-product-catalog.csv');toast('Catalog exported');
+}
+
+function exportRepCommCSV(id){
+  const rep=getRep(id);
+  const repRetailerIds=S.retailers.filter(r=>r.repId===id).map(r=>r.id);
+  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+  let csv=`SKHOOP USA - Commission Report\nRep,${rep.name}\nExported,${new Date().toLocaleDateString()}\n\n`;
+  csv+='Order ID,Retailer,Date,Season,Revenue,Commission Rate,Commission Owed,Status\n';
+  repOrders.forEach(o=>{
+    const r=getR(o.retailerId);
+    csv+=`${o.orderId||o.id},${r?r.name:''},${o.date},${o.season},${fmtN(orderRevenue(o))},${o.commRate}%,${fmtN(orderCommission(o))},${o.status}\n`;
+  });
+  const total=repOrders.reduce((a,o)=>a+orderCommission(o),0);
+  csv+=`\nTotal,,,,,,$${fmtN(total)},\n`;
+  dlCSV(csv,`SKHOOP_CommissionReport_${rep.name.replace(/\s+/g,'-')}.csv`);
+  toast('Commission report exported');
+}
+
+function dlCSV(csv,filename){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=filename;a.click();URL.revokeObjectURL(a.href);
+}
+
+/* ─── Backup / Restore ─── */
+function backupData(){
+  const data={version:3,exported:new Date().toISOString(),retailers:S.retailers,orders:S.orders,products:S.products,reps:S.reps};
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download=`SKHOOP-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();URL.revokeObjectURL(a.href);
+  toast('Backup downloaded — save this file somewhere safe');
+}
+
+function showRestoreModal(){
+  showModal(`
+    <div class="modal-title">Restore from backup</div>
+    <div class="modal-sub">Upload a backup JSON file previously exported from this dashboard. This will replace all current data — back up first if needed.</div>
+    <div class="drop-zone" onclick="$('restore-input').click()">
+      <i class="ti ti-database-import"></i>
+      <div style="font-weight:500;margin-bottom:4px">Click to select your backup .json file</div>
+      <div style="font-size:12px">Only files exported from this dashboard will work</div>
+    </div>
+    <input type="file" id="restore-input" accept=".json" style="display:none" onchange="handleRestore(this)">
+    <div class="modal-footer"><button class="btn" onclick="closeModal()">Cancel</button></div>
+  `);
+}
+
+function showResetModal(){
+  showModal(`
+    <div class="modal-title">Reset all data</div>
+    <div class="modal-sub">This will permanently delete all retailers, orders, products, and sales reps. It cannot be undone. Back up first if you want to keep anything.</div>
+    <div style="background:var(--red-bg);color:var(--red-tx);border-radius:var(--rm);padding:12px 14px;font-size:13px;margin-bottom:4px">
+      <i class="ti ti-alert-triangle"></i> All data will be wiped. The dashboard will reload empty and ready for your real data.
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel — keep my data</button>
+      <button class="btn" style="background:var(--red-tx);color:#fff;border-color:var(--red-tx)" onclick="resetAllData()"><i class="ti ti-trash"></i> Yes, delete everything</button>
+    </div>
+  `);
+}
+
+function resetAllData(){
+  try{ localStorage.removeItem('skhoop_wholesale_v1'); }catch(e){}
+  S.retailers=[]; S.orders=[]; S.products=[]; S.reps=[];
+  closeModal(); showTab('retailers');
+  toast('All data cleared — ready for your real data');
+}
+
+function handleRestore(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.retailers||!data.orders||!data.products){toast('Invalid backup file','warn');return}
+      S.retailers=data.retailers;S.orders=data.orders;S.products=data.products;S.reps=data.reps||[];
+      S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10});
+      persist();closeModal();showTab('retailers');
+      toast('Data restored successfully');
+    }catch(e){toast('Could not read backup file','warn')}
+  };reader.readAsText(file);
+}
+
+/* ─── Import ─── */
+let pendingImport=null,importType='orders';
+
+function showImportModal(){
+  showModal(`
+    <div class="modal-title">Import CSV</div>
+    <div class="modal-sub">Pre-mapped to your order format: Order ID, Customer, Season/Linelist, Shipping Address, Shipping City, Shipping Province/State, Shipping Phone, SKU, Description, QTY Ordered, WS $. Each row is one SKU line — rows sharing the same Order ID become one order automatically.</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn" id="itype-orders" style="font-weight:500" onclick="setIType('orders',this)"><i class="ti ti-file-text"></i> Orders</button>
+      <button class="btn" id="itype-products" onclick="setIType('products',this)"><i class="ti ti-shirt"></i> Products</button>
+      <button class="btn" id="itype-landedcosts" onclick="setIType('landedcosts',this)"><i class="ti ti-transfer"></i> Update Landed Costs</button>
+      <button class="btn" id="itype-customers" onclick="setIType('customers',this)"><i class="ti ti-building-store"></i> Customers</button>
+    </div>
+    <div class="col-hint" id="col-hint">Orders: Order ID · Customer · Season/Linelist · SKU · Description · QTY Ordered · WS $</div>
+    <div class="drop-zone" onclick="$('csv-input').click()">
+      <i class="ti ti-upload"></i>
+      <div style="font-weight:500;margin-bottom:4px">Drop CSV here or click to browse</div>
+      <div id="dz-hint" style="font-size:12px">Rows with the same Order ID are grouped as one order — each SKU row = one line item</div>
+    </div>
+    <input type="file" id="csv-input" accept=".csv" style="display:none" onchange="handleCSV(this)">
+    <div id="import-preview"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="import-btn" style="display:none" onclick="confirmImport()"><i class="ti ti-circle-check"></i> Import</button>
+    </div>
+  `);
+}
+
+function setIType(t,btn){
+  importType=t;
+  document.querySelectorAll('#modal-body .btn').forEach(b=>b.style.fontWeight='');
+  btn.style.fontWeight='500';
+  const hints={
+    orders:'Orders: Order ID · Customer · Season/Linelist · SKU · Description · QTY Ordered · WS $',
+    products:'Products: SKU · Name/Description · Category · Color · Size · UPC · WS $ · MSRP $ · Landed Cost $',
+    landedcosts:'Columns: Season · Style Name · Color · Landed Cost Per Unit',
+    customers:'Customers: Company Name · Contact Name · Email · Phone · Address · City · State · Zip Code · Payment Terms · Sales Rep Name'
+  };
+  const dzHints={
+    orders:'Rows with the same Order ID are grouped as one order — each SKU row = one line item',
+    products:'One row per SKU. UPCs and landed costs will auto-populate on matching orders.',
+    landedcosts:'Export from the Landed Cost Tracker (Export for Wholesale button). Matches on Style Name + Color.',
+    customers:'One row per retailer. Existing retailers (matched by name) will be updated, not duplicated.'
+  };
+  $('col-hint').innerHTML=hints[t]||hints.orders;
+  if($('dz-hint'))$('dz-hint').textContent=dzHints[t]||dzHints.orders;
+  $('import-preview').innerHTML='';
+  if($('import-btn'))$('import-btn').style.display='none';
+  pendingImport=null;
+}
+
+function parseCSVLine(line){
+  const out=[];let cur='',inQ=false;
+  for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){out.push(cur.trim());cur='';}else cur+=c;}
+  out.push(cur.trim());return out;
+}
+function stripBOM(str){
+  // Strip UTF-8 BOM that Excel adds to CSV exports
+  return str.charCodeAt(0)===0xFEFF?str.slice(1):str;
+}
+function parseMoney(v){
+  // Handles values like " $69.50 ", "$69.50", "69.50", " 69.50 "
+  if(!v&&v!==0)return 0;
+  const n=parseFloat(String(v).replace(/[$,\s]/g,''));
+  return isNaN(n)?0:n;
+}
+
+function mapHeader(h){
+  const n=h.toLowerCase().replace(/[\s\/\-_()\#]+/g,'').replace(/[^a-z0-9]/g,'');
+  const map={
+    orderid:'orderId',order:'orderId',
+    customer:'customer',retailer:'customer',accountname:'customer',companyname:'name',company:'name',
+    contactname:'contact',contact:'contact',firstname:'contact',
+    paymentterms:'terms',terms:'terms',
+    salesrep:'rep',repname:'rep',rep:'rep',
+    zip:'zip',zipcode:'zip',postalcode:'zip',postal:'zip',
+    seasonlinelist:'season',season:'season',linelist:'season',
+    shippingaddress:'address',shipaddress:'address',address:'address',
+    shippingcity:'city',shipcity:'city',city:'city',
+    shippingprovincestate:'state',shippingstate:'state',province:'state',state:'state',
+    shippingphone:'phone',phone:'phone',
+    sku:'sku',itemno:'sku',itemnumber:'sku',style:'sku',
+    description:'name',productname:'name',name:'name',itemname:'name',namedescription:'name',descriptionname:'name',
+    qtyordered:'qty',qty:'qty',quantity:'qty',units:'qty',
+    ws:'wholesale',wsdollar:'wholesale',wholesale:'wholesale',wholesaleprice:'wholesale',unitprice:'wholesale',
+    'ws$':'wholesale','wsdollar$':'wholesale',
+    msrp:'msrp',msrpdollar:'msrp',retailprice:'msrp',suggestedretail:'msrp','msrp$':'msrp',
+    landedcost:'landed','landedcost$':'landed',landed:'landed',cogs:'landed',cost:'landed',
+    upc:'upc',upccode:'upc',barcode:'upc',
+    color:'color',colour:'color',colorway:'color',
+    size:'size',
+    category:'category',dept:'category',department:'category',
+    landedcost:'landed',landed:'landed',cogs:'landed',cost:'landed',
+    shipdate:'shipDate',shippingdate:'shipDate',requestedshipdate:'shipDate',
+  };
+  return map[n]||n;
+}
+
+function handleCSV(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const lines=stripBOM(e.target.result).split(/\r?\n/).filter(l=>l.trim());
+    if(lines.length<2)return;
+    const rawHeaders=parseCSVLine(lines[0]);
+    const headers=rawHeaders.map(mapHeader);
+    const rows=lines.slice(1).map(l=>{
+      const vals=parseCSVLine(l);const obj={};
+      headers.forEach((h,i)=>obj[h]=vals[i]||'');return obj;
+    }).filter(r=>r.sku||r.orderId||r.customer||r.name);
+    pendingImport={rows,headers,rawHeaders};
+    const prev=rows.slice(0,5);
+    $('import-preview').innerHTML=`
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${rows.length} rows detected — preview (first 5):</div>
+      <div class="preview-wrap"><table class="preview-table">
+        <thead><tr>${headers.map((h,i)=>`<th title="${rawHeaders[i]}">${h}</th>`).join('')}</tr></thead>
+        <tbody>${prev.map(r=>`<tr>${headers.map(h=>`<td>${r[h]||''}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table></div>`;
+    $('import-btn').style.display='inline-flex';
+  };reader.readAsText(file);
+}
+
+function confirmImport(){
+  if(!pendingImport)return;
+  const{rows}=pendingImport;
+  let newRetailers=0,newOrders=0,skipped=0;
+
+  if(importType==='products'){
+    let added=0;
+    rows.forEach(r=>{
+      if(!r.sku)return;
+      if(!S.products.find(p=>p.sku===r.sku)){
+        S.products.push({sku:r.sku,name:r.name||r.description||'',color:r.color||'',size:r.size||'',upc:r.upc||'',wholesale:parseMoney(r.wholesale),msrp:parseMoney(r.msrp),landed:parseMoney(r.landed),category:r.category||'Other',season:r.season||''});
+        added++;
+      }
+    });
+    persist();closeModal();toast(`Imported ${added} new products`);showTab('products');return;
+  }
+
+  if(importType==='customers'){
+    // Map customer CSV headers
+    const termMap={'net30':'Net 30','net60':'Net 60','prepay':'Prepay','prepaid':'Prepay','termspending':'Terms pending','pending':'Terms pending','345net60':'3%45 Net 60','3%45net60':'3%45 Net 60'};
+    let added=0,updated=0;
+    rows.forEach(r=>{
+      const name=(r.name||r.company||r.customer||r.retailer||'').trim();
+      if(!name)return;
+      // Match terms value loosely
+      const rawTerms=(r.terms||r.paymentterms||'').trim();
+      const termsKey=rawTerms.toLowerCase().replace(/[\s%\/\-]+/g,'');
+      const terms=termMap[termsKey]||rawTerms||'Terms pending';
+      // Find rep by name if provided
+      const repName=(r.rep||r.salesrep||r.repname||'').trim().toLowerCase();
+      const rep=repName?S.reps.find(x=>x.name.toLowerCase().includes(repName)):null;
+      const existing=S.retailers.find(x=>x.name.toLowerCase()===name.toLowerCase());
+      if(existing){
+        // Update fields if CSV has data and existing field is blank
+        if(r.contact&&!existing.contact)existing.contact=r.contact;
+        if(r.email&&!existing.email)existing.email=r.email;
+        if(r.phone&&!existing.phone)existing.phone=r.phone;
+        if(r.address&&!existing.address)existing.address=r.address;
+        if(r.city&&!existing.city)existing.city=r.city;
+        if(r.state&&!existing.state)existing.state=r.state;
+        if(r.zip&&!existing.zip)existing.zip=r.zip;
+        if(rawTerms)existing.terms=terms;
+        if(rep&&!existing.repId)existing.repId=rep.id;
+        updated++;
+      }else{
+        const newId=S.retailers.length?Math.max(...S.retailers.map(x=>x.id))+1:1;
+        S.retailers.push({id:newId,name,contact:r.contact||'',email:r.email||'',phone:r.phone||'',address:r.address||'',city:r.city||'',state:r.state||'',zip:r.zip||'',terms,status:'active',repId:rep?rep.id:null,orders:[]});
+        added++;
+      }
+    });
+    persist();closeModal();
+    let msg=`Imported ${added} new retailer${added!==1?'s':''}`;
+    if(updated)msg+=`, updated ${updated} existing`;
+    toast(msg);showTab('retailers');return;
+  }
+
+  const orderMap={};
+  rows.forEach(r=>{
+    const key=(r.orderId||'').trim()||(r.customer||'').trim();
+    if(!key)return;
+    if(!orderMap[key])orderMap[key]={rows:[],customer:(r.customer||'').trim(),orderId:(r.orderId||'').trim(),season:r.season||'',address:r.address||'',city:r.city||'',state:r.state||'',phone:r.phone||'',shipDate:r.shipDate||''};
+    orderMap[key].rows.push(r);
+  });
+
+  Object.values(orderMap).forEach(group=>{
+    const custName=group.customer;if(!custName)return;
+    let retailer=S.retailers.find(r=>r.name.toLowerCase()===custName.toLowerCase());
+    if(!retailer){
+      const newId=S.retailers.length?Math.max(...S.retailers.map(r=>r.id))+1:1;
+      retailer={id:newId,name:custName,contact:'',email:'',phone:group.phone,city:group.city,state:group.state,zip:group.zip||'',address:group.address,terms:'Terms pending',status:'active',repId:null,orders:[]};
+      S.retailers.push(retailer);newRetailers++;
+    }else{
+      if(group.address&&!retailer.address)retailer.address=group.address;
+      if(group.city&&!retailer.city)retailer.city=group.city;
+      if(group.state&&!retailer.state)retailer.state=group.state;
+      if(group.phone&&!retailer.phone)retailer.phone=group.phone;
+    }
+    const orderIdStr=group.orderId;
+    if(orderIdStr&&S.orders.find(o=>o.orderId===orderIdStr&&o.retailerId===retailer.id)){skipped++;return;}
+    const lines=group.rows.map(r=>{
+      const p=S.products.find(x=>x.sku===(r.sku||'').trim());
+      return{sku:(r.sku||'').trim(),name:r.name||r.description||(p?p.name:''),color:r.color||(p?p.color:''),size:r.size||(p?p.size:''),qty:parseInt(r.qty)||0,wholesale:parseFloat(r.wholesale)||(p?p.wholesale:0),upc:r.upc||(p?p.upc:'')};
+    }).filter(l=>l.qty>0);
+    const newId=S.orders.length?Math.max(...S.orders.map(o=>o.id))+1:1;
+    S.orders.push({id:newId,retailerId:retailer.id,orderId:orderIdStr||`IMP-${newId}`,date:new Date().toISOString().split('T')[0],shipDate:group.shipDate,season:group.season,status:'pending',commRate:10,lines});
+    retailer.orders=retailer.orders||[];retailer.orders.push(newId);newOrders++;
+  });
+
+  persist();closeModal();
+  let msg=`Imported ${newOrders} order${newOrders!==1?'s':''}`;
+  if(newRetailers)msg+=`, created ${newRetailers} new retailer${newRetailers!==1?'s':''}`;
+  if(skipped)msg+=` (${skipped} duplicate${skipped!==1?'s':''} skipped)`;
+  toast(msg);showTab('orders');
+}
+
+/* ─── Modals ─── */
+function showModal(html){
+  const ov=document.createElement('div');ov.className='overlay';ov.id='modal-overlay';
+  ov.innerHTML=`<div class="modal" id="modal-body">${html}</div>`;
+  document.body.appendChild(ov);
+  ov.addEventListener('click',e=>{if(e.target===ov)closeModal()});
+}
+function closeModal(){const m=document.getElementById('modal-overlay');if(m)m.remove();pendingImport=null}
+
+function showAddModal(){
+  if(S.tab==='retailers')showAddRetailerModal();
+  else if(S.tab==='products')showAddProductModal();
+  else if(S.tab==='reps')showAddRepModal();
+  else showAddOrderModal(null);
+}
+
+/* Retailer modals */
+function showAddRetailerModal(pf){
+  const reps=[{id:null,name:'Unassigned'},...S.reps.filter(r=>r.status==='active')];
+  showModal(`
+    <div class="modal-title">${pf?'Edit':'Add'} retailer</div>
+    <div class="two-col">
+      <div class="form-row"><label>Company name</label><input id="f-name" type="text" value="${pf?pf.name:''}"></div>
+      <div class="form-row"><label>Contact name</label><input id="f-contact" type="text" value="${pf?pf.contact:''}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Email</label><input id="f-email" type="email" value="${pf?pf.email:''}"></div>
+      <div class="form-row"><label>Phone</label><input id="f-phone" type="text" value="${pf?pf.phone:''}"></div>
+    </div>
+    <div class="form-row"><label>Shipping address</label><input id="f-address" type="text" value="${pf?pf.address:''}"></div>
+    <div class="three-col">
+      <div class="form-row"><label>City</label><input id="f-city" type="text" value="${pf?pf.city:''}"></div>
+      <div class="form-row"><label>State</label><input id="f-state" type="text" value="${pf?pf.state:''}"></div>
+      <div class="form-row"><label>Zip code</label><input id="f-zip" type="text" value="${pf?pf.zip||'':''}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Payment terms</label>
+        <select id="f-terms">${['Terms pending','Prepay','Net 30','Net 60','3%45 Net 60'].map(t=>`<option ${pf&&pf.terms===t?'selected':''}>${t}</option>`).join('')}</select>
+      </div>
+      <div class="form-row"><label>Sales rep</label>
+        <select id="f-rep">${reps.map(r=>`<option value="${r.id||''}" ${pf&&pf.repId===r.id?'selected':''}>${r.name}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="form-row"><label>Status</label>
+      <select id="f-status">
+        <option value="active" ${!pf||pf.status==='active'?'selected':''}>Active</option>
+        <option value="inactive" ${pf&&pf.status==='inactive'?'selected':''}>Inactive</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Notes</label><textarea id="f-notes" rows="3" placeholder="Anything worth remembering about this retailer...">${pf&&pf.notes?pf.notes:''}</textarea></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveRetailer(${pf?pf.id:'null'})">Save</button>
+    </div>
+  `);
+}
+function showEditRetailerModal(id){showAddRetailerModal(getR(id))}
+function saveRetailer(id){
+  const name=$('f-name').value.trim();if(!name)return;
+  const repVal=$('f-rep').value;const repId=repVal?parseInt(repVal):null;
+  const data={name,contact:$('f-contact').value,email:$('f-email').value,phone:$('f-phone').value,address:$('f-address').value,city:$('f-city').value,state:$('f-state').value,zip:$('f-zip').value,terms:$('f-terms').value,status:$('f-status').value,repId,notes:$('f-notes').value};
+  if(id&&id!=='null'){Object.assign(getR(parseInt(id)),data);}
+  else{const newId=S.retailers.length?Math.max(...S.retailers.map(r=>r.id))+1:1;S.retailers.push({id:newId,...data,orders:[]});}
+  persist('Retailer saved');closeModal();render();
+}
+
+/* Rep modals */
+function showAddRepModal(pf){
+  showModal(`
+    <div class="modal-title">${pf?'Edit':'Add'} sales rep</div>
+    <div class="two-col">
+      <div class="form-row"><label>Full name</label><input id="r-name" type="text" value="${pf?pf.name:''}"></div>
+      <div class="form-row"><label>Territory</label><input id="r-territory" type="text" value="${pf?pf.territory:''}" placeholder="e.g. Mountain West"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Email</label><input id="r-email" type="email" value="${pf?pf.email:''}"></div>
+      <div class="form-row"><label>Phone</label><input id="r-phone" type="text" value="${pf?pf.phone:''}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Default commission rate (%)</label><input id="r-rate" type="number" step="0.5" min="0" max="100" value="${pf?pf.rate:10}"></div>
+      <div class="form-row"><label>Status</label>
+        <select id="r-status">
+          <option value="active" ${!pf||pf.status==='active'?'selected':''}>Active</option>
+          <option value="inactive" ${pf&&pf.status==='inactive'?'selected':''}>Inactive</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveRep(${pf?pf.id:'null'})">Save</button>
+    </div>
+  `);
+}
+function showEditRepModal(id){showAddRepModal(getRep(id))}
+function saveRep(id){
+  const name=$('r-name').value.trim();if(!name)return;
+  const data={name,territory:$('r-territory').value,email:$('r-email').value,phone:$('r-phone').value,rate:parseFloat($('r-rate').value)||10,status:$('r-status').value};
+  if(id&&id!=='null'){Object.assign(getRep(parseInt(id)),data);}
+  else{const newId=S.reps.length?Math.max(...S.reps.map(r=>r.id))+1:1;S.reps.push({id:newId,...data,retailers:[]});}
+  persist('Rep saved');closeModal();render();
+}
+
+/* Product modal */
+function showAddProductModal(){
+  showModal(`
+    <div class="modal-title">Add product</div>
+    <div class="two-col">
+      <div class="form-row"><label>Product name</label><input id="p-name" type="text"></div>
+      <div class="form-row"><label>Category</label><input id="p-cat" type="text" placeholder="Jackets, Vests, Bottoms..."></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Color</label><input id="p-color" type="text"></div>
+      <div class="form-row"><label>Size</label><input id="p-size" type="text"></div>
+    </div>
+    <div class="form-row"><label>SKU</label><input id="p-sku" type="text"></div>
+    <div class="form-row"><label>UPC</label><input id="p-upc" type="text"></div>
+    <div class="three-col">
+      <div class="form-row"><label>Wholesale ($)</label><input id="p-ws" type="number" step="0.01"></div>
+      <div class="form-row"><label>MSRP ($)</label><input id="p-msrp" type="number" step="0.01"></div>
+      <div class="form-row"><label>Landed cost ($)</label><input id="p-lc" type="number" step="0.01" placeholder="Internal only"></div>
+      <div class="form-row"><label>Season</label><input id="p-season" type="text" placeholder="e.g. FW26"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveProduct()">Save</button>
+    </div>
+  `);
+}
+function saveProduct(){
+  const name=$('p-name').value.trim();if(!name)return;
+  S.products.push({name,category:$('p-cat').value,color:$('p-color').value,size:$('p-size').value,sku:$('p-sku').value,upc:$('p-upc').value,wholesale:parseFloat($('p-ws').value)||0,msrp:parseFloat($('p-msrp').value)||0,landed:parseFloat($('p-lc').value)||0,season:$('p-season').value.trim()});
+  persist('Product saved');closeModal();render();
+}
+
+/* Order modal */
+function showAddOrderModal(prefillRetailerId){
+  const rOpts=S.retailers.filter(r=>r.status==='active').map(r=>`<option value="${r.id}" ${r.id===prefillRetailerId?'selected':''}>${r.name}</option>`).join('');
+  showModal(`
+    <div class="modal-title">New order</div>
+    <div class="form-row"><label>Retailer</label><select id="o-retailer">${rOpts}</select></div>
+    <div class="two-col">
+      <div class="form-row"><label>Order ID</label><input id="o-id" type="text" placeholder="ORD-0000"></div>
+      <div class="form-row"><label>Order date</label><input id="o-date" type="date" value="${new Date().toISOString().split('T')[0]}"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>Ship date</label><input id="o-ship" type="date"></div>
+      <div class="form-row"><label>Season</label><input id="o-season" type="text" placeholder="Fall 2025"></div>
+    </div>
+    <div class="form-row"><label>Commission rate (%)</label><input id="o-comm" type="number" step="0.5" min="0" value="10"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="saveOrder()">Create order</button>
+    </div>
+  `);
+}
+function saveOrder(){
+  const rId=parseInt($('o-retailer').value),orderId=$('o-id').value.trim();if(!orderId)return;
+  const newId=S.orders.length?Math.max(...S.orders.map(o=>o.id))+1:1;
+  S.orders.push({id:newId,retailerId:rId,orderId,date:$('o-date').value,shipDate:$('o-ship').value,season:$('o-season').value,status:'pending',commRate:parseFloat($('o-comm').value)||10,lines:[]});
+  const r=getR(rId);if(r){r.orders=r.orders||[];r.orders.push(newId);}
+  persist('Order created');closeModal();
+  S.tab='orders';S.sel=newId;S.view='detail';
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===1));
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
