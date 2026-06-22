@@ -1582,6 +1582,38 @@ function exportCSV() {
   }
 }
 
+function exportForWholesale() {
+  if (currentTab === 'master') {
+    alert('Switch to a season tab to export landed costs for that season.');
+    return;
+  }
+  var season = getSeason(currentTab);
+  if (!season) return;
+  var headers = ['Season', 'Style Name', 'Color', 'Landed Cost Per Unit'];
+  var rows = [];
+  for (var si = 0; si < season.styles.length; si++) {
+    var ss = season.styles[si];
+    var ms = getMasterStyle(ss.masterStyleId);
+    if (!ms) continue;
+    for (var ci = 0; ci < (ss.colorways || []).length; ci++) {
+      var cw = ss.colorways[ci];
+      var mc = null;
+      for (var mi = 0; mi < (ms.colorways || []).length; mi++) {
+        if (ms.colorways[mi].id === cw.masterColorwayId) { mc = ms.colorways[mi]; break; }
+      }
+      if (!mc) continue;
+      var lc = colorwayLC(cw, ss, ms, currentTab);
+      if (isNaN(lc) || !isFinite(lc)) continue;
+      rows.push([currentTab, ms.name, mc.color, lc.toFixed(4)]);
+    }
+  }
+  if (!rows.length) {
+    alert('No landed cost data to export for ' + currentTab + '. Make sure styles have supplier prices and quantities entered.');
+    return;
+  }
+  downloadCSV('skhoop-wholesale-landedcost-' + currentTab, headers, rows);
+}
+
 function downloadCSV(filename, headers, rows) {
   var all = [headers].concat(rows);
   var csv = '';
