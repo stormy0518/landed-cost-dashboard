@@ -600,12 +600,11 @@ function renderSeasonView(seasonCode) {
   }
   if (suppliersInSeason.length > 1) {
     var activeFilter = supplierFilter[seasonCode] || 'all';
-    html += '<div class="filter-bar"><span class="filter-bar-label">Filter by supplier:</span>'
-      + '<button class="pill' + (activeFilter === 'all' ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'all\')">All</button>';
-    for (var i = 0; i < suppliersInSeason.length; i++) {
-      var sup = suppliersInSeason[i];
-      var escapedSup = sup.replace(/'/g, "\\'");
-      html += '<button class="pill' + (activeFilter === sup ? ' on' : '') + '" onclick="setSupplierFilter(\'' + seasonCode + '\',\'' + escapedSup + '\'">' + esc(sup) + '</button>';
+    html += '<div class="filter-bar"><span class="filter-bar-label">Filter by supplier:</span>';
+    html += '<button class="pill' + (activeFilter === 'all' ? ' on' : '') + '" data-season="' + esc(seasonCode) + '" data-sup="all" onclick="handleSupplierPill(this)">All</button>';
+    for (var fi = 0; fi < suppliersInSeason.length; fi++) {
+      var fsup = suppliersInSeason[fi];
+      html += '<button class="pill' + (activeFilter === fsup ? ' on' : '') + '" data-season="' + esc(seasonCode) + '" data-sup="' + esc(fsup) + '" onclick="handleSupplierPill(this)">' + esc(fsup) + '</button>';
     }
     html += '</div>';
   }
