@@ -180,7 +180,7 @@ const seed={
 
 const saved=loadState();
 const S={
-  tab:'retailers',view:'list',sel:null,searchQ:'',filterStatus:'all',
+  tab:'retailers',view:'list',sel:null,searchQ:'',filterStatus:'all',filterSeason:'all',
   reps:saved?saved.reps:seed.reps,
   retailers:saved?saved.retailers:seed.retailers,
   orders:saved?saved.orders:seed.orders,
@@ -219,7 +219,7 @@ function toast(msg,type){
 
 /* ─── Routing ─── */
 function showTab(t){
-  S.tab=t;S.view='list';S.sel=null;S.searchQ='';S.filterStatus='all';
+  S.tab=t;S.view='list';S.sel=null;S.searchQ='';S.filterStatus='all';S.filterSeason='all';
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['retailers','orders','products','reps'][i]===t));
   render();
 }
@@ -350,7 +350,8 @@ function renderOrders(){
   const list=S.orders.filter(o=>{
     const r=getR(o.retailerId);
     return(!q||(o.orderId||'').toLowerCase().includes(q)||(r&&r.name.toLowerCase().includes(q))||(o.season||'').toLowerCase().includes(q))
-      &&(S.filterStatus==='all'||o.status===S.filterStatus);
+      &&(S.filterStatus==='all'||o.status===S.filterStatus)
+      &&(S.filterSeason==='all'||(o.season||'')===S.filterSeason);
   });
   return`
   <div class="section-header"><span class="section-title">All orders</span></div>
@@ -362,6 +363,10 @@ function renderOrders(){
       <option value="confirmed" ${S.filterStatus==='confirmed'?'selected':''}>Confirmed</option>
       <option value="shipped" ${S.filterStatus==='shipped'?'selected':''}>Shipped</option>
       <option value="cancelled" ${S.filterStatus==='cancelled'?'selected':''}>Cancelled</option>
+    </select>
+    <select onchange="S.filterSeason=this.value;render()">
+      <option value="all">All seasons</option>
+      ${[...new Set(S.orders.map(o=>o.season||'').filter(Boolean))].sort().map(s=>`<option value="${s}" ${S.filterSeason===s?'selected':''}>${s}</option>`).join('')}
     </select>
   </div>
   <div class="table-wrap"><table>
@@ -663,7 +668,8 @@ function renderProducts(){
   const q=S.searchQ.toLowerCase();
   const list=S.products.filter(p=>
     (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.color.toLowerCase().includes(q))
-    &&(S.filterStatus==='all'||p.category===S.filterStatus));
+    &&(S.filterStatus==='all'||p.category===S.filterStatus)
+    &&(S.filterSeason==='all'||(p.season||'')===S.filterSeason));
   return`
   <div class="section-header">
     <span class="section-title">Product catalog <span style="font-weight:400;color:var(--muted)">(${S.products.length} SKUs)</span></span>
@@ -677,6 +683,10 @@ function renderProducts(){
     <select onchange="S.filterStatus=this.value;render()">
       <option value="all">All categories</option>
       ${cats.map(c=>`<option value="${c}" ${S.filterStatus===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <select onchange="S.filterSeason=this.value;render()">
+      <option value="all">All seasons</option>
+      ${[...new Set(S.products.map(p=>p.season||'').filter(Boolean))].sort().map(s=>`<option value="${s}" ${S.filterSeason===s?'selected':''}>${s}</option>`).join('')}
     </select>
   </div>
   <div class="table-wrap"><table>
@@ -709,13 +719,17 @@ function renderReps(){
       <option value="active">Active</option>
       <option value="inactive">Inactive</option>
     </select>
+    <select onchange="S.filterSeason=this.value;render()">
+      <option value="all">All seasons</option>
+      ${[...new Set(S.orders.map(o=>o.season||'').filter(Boolean))].sort().map(s=>`<option value="${s}" ${S.filterSeason===s?'selected':''}>${s}</option>`).join('')}
+    </select>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Rep name</th><th>Territory</th><th>Email</th><th>Phone</th><th>Retailers</th><th>Orders</th><th>Revenue</th><th>Commission owed</th><th>Default rate</th><th>Status</th><th></th></tr></thead>
     <tbody>${list.length?list.map(rep=>{
       const repRetailers=S.retailers.filter(r=>r.repId===rep.id);
       const repRetailerIds=repRetailers.map(r=>r.id);
-      const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+      const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId)&&(S.filterSeason==='all'||(o.season||'')===S.filterSeason));
       const rev=repOrders.reduce((a,o)=>a+orderRevenue(o),0);
       const comm=repOrders.reduce((a,o)=>a+orderCommission(o),0);
       return`<tr class="clickable" onclick="openRep(${rep.id})">
@@ -741,7 +755,7 @@ function renderRepDetail(){
   const rep=getRep(S.sel);if(!rep)return'';
   const repRetailers=S.retailers.filter(r=>r.repId===rep.id);
   const repRetailerIds=repRetailers.map(r=>r.id);
-  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId)&&(S.filterSeason==='all'||(o.season||'')===S.filterSeason));
   const rev=repOrders.reduce((a,o)=>a+orderRevenue(o),0);
   const comm=repOrders.reduce((a,o)=>a+orderCommission(o),0);
   const units=repOrders.reduce((a,o)=>a+o.lines.reduce((b,l)=>b+l.qty,0),0);
@@ -845,7 +859,7 @@ function exportCatalogCSV(){
 function exportRepCommCSV(id){
   const rep=getRep(id);
   const repRetailerIds=S.retailers.filter(r=>r.repId===id).map(r=>r.id);
-  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId));
+  const repOrders=S.orders.filter(o=>repRetailerIds.includes(o.retailerId)&&(S.filterSeason==='all'||(o.season||'')===S.filterSeason));
   let csv=`SKHOOP USA - Commission Report\nRep,${rep.name}\nExported,${new Date().toLocaleDateString()}\n\n`;
   csv+='Order ID,Retailer,Date,Season,Revenue,Commission Rate,Commission Owed,Status\n';
   repOrders.forEach(o=>{
