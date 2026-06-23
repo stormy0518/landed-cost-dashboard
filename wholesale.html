@@ -68,6 +68,8 @@ tr.clickable:hover td{background:var(--bg2)}
 .bg-red{background:var(--red-bg);color:var(--red-tx)}
 .bg-purple{background:var(--purple-bg);color:var(--purple-tx)}
 .back-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:5px;font-family:var(--font);padding:0;margin-bottom:14px}
+.prepay-row td{background:var(--amber-bg)!important;}
+.prepay-row:hover td{background:#f5e0b0!important;}
 .back-btn:hover{color:var(--text)}
 .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:24px;margin-bottom:20px}
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:18px;border-bottom:0.5px solid var(--border)}
@@ -180,7 +182,7 @@ const seed={
 
 const saved=loadState();
 const S={
-  tab:'retailers',view:'list',sel:null,searchQ:'',filterStatus:'all',filterSeason:'all',
+  tab:'retailers',view:'list',sel:null,searchQ:'',filterStatus:'all',filterSeason:'all',sortShipDate:'none',
   reps:saved?saved.reps:seed.reps,
   retailers:saved?saved.retailers:seed.retailers,
   orders:saved?saved.orders:seed.orders,
@@ -188,7 +190,8 @@ const S={
 };
 
 // Ensure commRate exists on old orders
-S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10});
+S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10;if(o.shippingCost===undefined)o.shippingCost='';if(o.shippingMarkup===undefined)o.shippingMarkup=10;if(o.shippingMethod===undefined)o.shippingMethod=null;if(o.collectNotes===undefined)o.collectNotes='';});
+S.retailers.forEach(r=>{if(!r.shippingMethod)r.shippingMethod='Rate Shop';if(r.collectNotes===undefined)r.collectNotes='';if(r.billingSameAsShipping===undefined)r.billingSameAsShipping=true;if(!r.billingContact)r.billingContact='';if(!r.billingAddress)r.billingAddress='';if(!r.billingCity)r.billingCity='';if(!r.billingState)r.billingState='';if(!r.billingZip)r.billingZip='';if(!r.billingPhone)r.billingPhone='';if(!r.billingEmail)r.billingEmail='';});
 
 const $=id=>document.getElementById(id);
 const fmt=n=>'$'+Number(n).toFixed(2);
@@ -219,47 +222,46 @@ function toast(msg,type){
 
 /* ─── Routing ─── */
 function showTab(t){
-  S.tab=t;S.view='list';S.sel=null;S.searchQ='';S.filterStatus='all';S.filterSeason='all';
+  S.tab=t;S.view='list';S.sel=null;S.searchQ='';S.filterStatus='all';S.filterSeason='all';S.sortShipDate='none';
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['retailers','orders','products','reps'][i]===t));
   render();
 }
 function handleSearch(val){
   S.searchQ=val;
-  // Only re-render the table body, not the whole page (preserves input focus)
   const tbody=document.getElementById('main-tbody');
   if(tbody){
     if(S.tab==='orders') tbody.innerHTML=renderOrderRows();
     else if(S.tab==='products') tbody.innerHTML=renderProductRows();
     else if(S.tab==='retailers') tbody.innerHTML=renderRetailerRows();
     else render();
-  } else {
-    render();
-  }
+  } else render();
 }
+
 function renderOrderRows(){
   const q=S.searchQ.toLowerCase();
-  const list=S.orders.filter(o=>{
+  let list=S.orders.filter(o=>{
     const r=getR(o.retailerId);
     return(!q||(o.orderId||'').toLowerCase().includes(q)||(r&&r.name.toLowerCase().includes(q))||(o.season||'').toLowerCase().includes(q))
       &&(S.filterStatus==='all'||o.status===S.filterStatus)
       &&(S.filterSeason==='all'||(o.season||'')===S.filterSeason);
   });
+  if(S.sortShipDate==='asc') list=list.slice().sort((a,b)=>(a.shipDate||'').localeCompare(b.shipDate||''));
+  else if(S.sortShipDate==='desc') list=list.slice().sort((a,b)=>(b.shipDate||'').localeCompare(a.shipDate||''));
   return list.length?list.map(o=>{const r=getR(o.retailerId);return`
-      <tr class="clickable" onclick="S.sel=${o.id};S.view='detail';render()">
-        <td style="font-weight:500">${o.orderId||o.id}</td>
-        <td>${r?r.name:'—'}</td>
-        <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
-        <td>${o.lines.reduce((a,l)=>a+l.qty,0)}</td>
-        <td>${fmt(orderRevenue(o))}</td>
-        <td><span class="commission-badge">${o.commRate}%</span></td>
-        <td style="color:var(--teal-tx);font-weight:500">${fmt(orderProfit(o))}</td>
-        <td>${statusBadge(o.status)}</td>
-        <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
-      </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No orders match your search</td></tr>';
+    <tr class="clickable${(()=>{const ot=o.terms||(getR(o.retailerId)?getR(o.retailerId).terms:'');return ot==='Prepay'?' prepay-row':'';})()}" onclick="S.sel=${o.id};S.view='detail';render()">
+      <td style="font-weight:500">${o.orderId||o.id}</td>
+      <td>${r?r.name:'—'}</td>
+      <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
+      <td>${o.lines.reduce((a,l)=>a+l.qty,0)}</td>
+      <td>${fmt(orderRevenue(o))}</td>
+      <td><span class="commission-badge">${o.commRate}%</span></td>
+      <td style="color:var(--teal-tx);font-weight:500">${fmt(orderProfit(o))}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
+    </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No orders match</td></tr>';
 }
 
 function renderProductRows(){
-  const cats=[...new Set(S.products.map(p=>p.category))].sort();
   const q=S.searchQ.toLowerCase();
   const list=S.products.filter(p=>
     (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.color.toLowerCase().includes(q))
@@ -273,11 +275,10 @@ function renderProductRows(){
       <td><span class="badge bg-gray">${p.category}</span></td>
       <td>${p.color}</td><td>${p.size}</td><td>${p.season||'—'}</td>
       <td style="font-family:var(--mono);font-size:11px">${p.upc||'—'}</td>
-      <td>${fmt(p.wholesale)}</td>
-      <td>${fmt(p.msrp)}</td>
+      <td>${fmt(p.wholesale)}</td><td>${fmt(p.msrp)}</td>
       <td style="color:var(--muted)">${p.landed?fmt(p.landed):'—'}</td>
       <td style="color:var(--teal-tx);font-weight:500">${p.landed?Math.round(margin)+'%':'—'}</td>
-    </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No products match your search</td></tr>';
+    </tr>`;}).join(''):'<tr><td colspan="11" class="empty-td">No products match</td></tr>';
 }
 
 function renderRetailerRows(){
@@ -287,12 +288,10 @@ function renderRetailerRows(){
     <tr class="clickable" onclick="S.sel=${r.id};S.view='detail';render()">
       <td style="font-weight:500">${r.name}</td>
       <td>${r.city||'—'}, ${r.state||'—'}</td>
-      <td>${r.contact||'—'}</td>
-      <td>${r.email||'—'}</td>
-      <td>${r.phone||'—'}</td>
+      <td>${r.contact||'—'}</td><td>${r.email||'—'}</td><td>${r.phone||'—'}</td>
       <td>${S.orders.filter(o=>(r.orders||[]).includes(o.id)).length}</td>
       <td style="color:var(--hint)"><i class="ti ti-chevron-right"></i></td>
-    </tr>`).join(''):'<tr><td colspan="7" class="empty-td">No retailers match your search</td></tr>';
+    </tr>`).join(''):'<tr><td colspan="7" class="empty-td">No retailers match</td></tr>';
 }
 
 function render(){
@@ -331,7 +330,7 @@ function renderRetailers(){
   </div>
   <div class="section-header"><span class="section-title">Retailers</span></div>
   <div class="search-row">
-    <input type="text" id="search-input" placeholder="Search by name or city..." value="${S.searchQ}" oninput="handleSearch(this.value)">
+    <input type="text" placeholder="Search by name or city..." value="${S.searchQ}" oninput="S.searchQ=this.value;render()">
     <select onchange="S.filterStatus=this.value;render()">
       <option value="all">All statuses</option>
       <option value="active" ${S.filterStatus==='active'?'selected':''}>Active</option>
@@ -384,8 +383,12 @@ function renderRetailerDetail(){
       <div class="info-item"><label>Shipping address</label><span>${r.address||'—'}</span></div>
       <div class="info-item"><label>City / State / Zip</label><span>${[r.city,r.state,r.zip].filter(Boolean).join(', ')||'—'}</span></div>
       <div class="info-item"><label>Sales rep</label><span>${rep?rep.name:'<span style="color:var(--hint)">Unassigned</span>'}</span></div>
+      <div class="info-item"><label>Shipping method</label><span>${r.shippingMethod||'Rate Shop'}</span></div>
+      <div class="info-item"><label>Billing</label><span>${r.billingSameAsShipping===false?'Separate billing address':'Same as shipping'}</span></div>
     </div>
-    ${r.notes?`<div style="background:var(--amber-bg);border-radius:var(--rm);padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--amber-tx)"><span style="font-weight:500;margin-right:8px"><i class="ti ti-notes"></i> Notes</span>${r.notes.replace(/\n/g,'<br>')}</div>`:''}
+    ${r.billingSameAsShipping===false?('<div style="background:var(--bg2);border-radius:var(--rm);padding:12px 16px;margin-bottom:12px;font-size:13px"><strong>Billing:</strong> '+(r.billingContact||r.contact)+' &nbsp;&middot;&nbsp; '+(r.billingAddress||'')+', '+(r.billingCity||'')+' '+(r.billingState||'')+' '+(r.billingZip||'')+(r.billingEmail?' &nbsp;&middot;&nbsp; '+r.billingEmail:'')+'</div>'):''}
+    ${r.collectNotes?('<div style="background:var(--blue-bg);border-radius:var(--rm);padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--blue-tx)"><strong>Collect account info:</strong> '+r.collectNotes+'</div>'):''} 
+    ${r.notes?('<div style="background:var(--amber-bg);border-radius:var(--rm);padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--amber-tx)"><span style="font-weight:500;margin-right:8px"><i class="ti ti-notes"></i> Notes</span>'+r.notes+'</div>'):''} 
     <div class="metric-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:22px">
       <div class="metric"><div class="metric-label">Orders</div><div class="metric-value">${rOrders.length}</div></div>
       <div class="metric"><div class="metric-label">Units</div><div class="metric-value">${units}</div></div>
@@ -419,14 +422,16 @@ function goToOrder(id){S.tab='orders';S.sel=id;S.view='detail';document.querySel
 /* ─── Orders ─── */
 function renderOrders(){
   const q=S.searchQ.toLowerCase();
-  const list=S.orders.filter(o=>{
+  let list=S.orders.filter(o=>{
     const r=getR(o.retailerId);
     return(!q||(o.orderId||'').toLowerCase().includes(q)||(r&&r.name.toLowerCase().includes(q))||(o.season||'').toLowerCase().includes(q))
       &&(S.filterStatus==='all'||o.status===S.filterStatus)
       &&(S.filterSeason==='all'||(o.season||'')===S.filterSeason);
   });
+  if(S.sortShipDate==='asc') list=list.slice().sort((a,b)=>(a.shipDate||'').localeCompare(b.shipDate||''));
+  else if(S.sortShipDate==='desc') list=list.slice().sort((a,b)=>(b.shipDate||'').localeCompare(a.shipDate||''));
   return`
-  <div class="section-header"><span class="section-title">All orders</span></div>
+  <div class="section-header"><span class="section-title">All orders</span><div style="display:flex;gap:8px"><button class="btn sm" onclick="exportShipStation(null)"><i class="ti ti-package"></i> ShipStation export</button><button class="btn sm" onclick="exportQuickBooks(null)"><i class="ti ti-receipt"></i> QuickBooks export</button></div></div>
   <div class="search-row">
     <input type="text" id="search-input" placeholder="Search by retailer, order ID, or season..." value="${S.searchQ}" oninput="handleSearch(this.value)">
     <select onchange="S.filterStatus=this.value;render()">
@@ -440,11 +445,16 @@ function renderOrders(){
       <option value="all">All seasons</option>
       ${[...new Set(S.orders.map(o=>o.season||'').filter(Boolean))].sort().map(s=>`<option value="${s}" ${S.filterSeason===s?'selected':''}>${s}</option>`).join('')}
     </select>
+    <select onchange="S.sortShipDate=this.value;render()">
+      <option value="none" ${S.sortShipDate==='none'?'selected':''}>Sort by ship date</option>
+      <option value="asc" ${S.sortShipDate==='asc'?'selected':''}>Ship date: earliest first</option>
+      <option value="desc" ${S.sortShipDate==='desc'?'selected':''}>Ship date: latest first</option>
+    </select>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Order ID</th><th>Retailer</th><th>Date</th><th>Ship date</th><th>Season</th><th>Units</th><th>Revenue</th><th>Commission</th><th>Net profit</th><th>Status</th><th></th></tr></thead>
     <tbody id="main-tbody">${list.length?list.map(o=>{const r=getR(o.retailerId);return`
-      <tr class="clickable" onclick="S.sel=${o.id};S.view='detail';render()">
+      <tr class="clickable${(()=>{const ot=o.terms||(getR(o.retailerId)?getR(o.retailerId).terms:'');return ot==='Prepay'?' prepay-row':'';})()}" onclick="S.sel=${o.id};S.view='detail';render()">
         <td style="font-weight:500">${o.orderId||o.id}</td>
         <td>${r?r.name:'—'}</td>
         <td>${o.date}</td><td>${o.shipDate||'—'}</td><td>${o.season}</td>
@@ -470,7 +480,7 @@ function renderOrderDetail(){
   <div class="card">
     <div class="card-header">
       <div><div class="card-title">${o.orderId||o.id}</div>
-      <div class="card-sub">${r?r.name:'—'} &middot; ${o.season} &middot; Ship: ${o.shipDate||'TBD'}${rep?' &middot; Rep: '+rep.name:''}</div></div>
+      <div class="card-sub">${r?r.name:'—'} &middot; ${o.season} &middot; Ship: ${o.shipDate||'TBD'}${rep?' &middot; Rep: '+rep.name:''} &middot; Shipping: ${orderEffectiveShipping(o,r)}</div></div>
       <div class="card-actions">
         ${statusBadge(o.status)}
         <select class="status-select" onchange="updateStatus(${o.id},this.value)">
@@ -483,6 +493,8 @@ function renderOrderDetail(){
         <button class="btn sm" onclick="resyncOrderFromCatalog(${o.id})"><i class="ti ti-refresh"></i> Re-sync from catalog</button>
         <button class="btn sm" onclick="confirmDeleteOrder(${o.id})" style="color:var(--red-tx);border-color:var(--red-tx)"><i class="ti ti-trash"></i> Delete</button>
         <button class="btn sm primary" onclick="exportOrderCSV(${o.id})"><i class="ti ti-download"></i> Export order sheet</button>
+        <button class="btn sm" onclick="exportShipStation(${o.id})"><i class="ti ti-package"></i> ShipStation</button>
+        <button class="btn sm" onclick="exportQuickBooks(${o.id})"><i class="ti ti-receipt"></i> QuickBooks</button>
       </div>
     </div>
     <div class="table-wrap" style="margin-bottom:0"><table>
@@ -508,6 +520,7 @@ function renderOrderDetail(){
     <div style="display:flex;justify-content:flex-end;padding-top:16px;gap:24px;align-items:flex-end">
       <div style="text-align:right">
         <div class="totals-line">${units} units &nbsp;&middot;&nbsp; Terms: ${o.terms||(r?r.terms:'Net 30')}</div>
+        ${(function(){var sc=parseFloat(o.shippingCost)||0;var sm=parseFloat(o.shippingMarkup!==undefined?o.shippingMarkup:10);var charged=sc>0?sc*(1+sm/100):0;return sc>0?'<div class="totals-line">Shipping cost: '+fmt(sc)+' &nbsp;&middot;&nbsp; Markup: '+sm+'% &nbsp;&middot;&nbsp; <strong>Customer shipping: '+fmt(charged)+'</strong></div>':'<div class="totals-line" style="color:var(--hint)">No shipping charges entered yet</div>';}())}
         <div class="totals-amount">Revenue: ${fmt(rev)}</div>
       </div>
     </div>
@@ -556,6 +569,22 @@ function showEditOrderModal(id){
         </select>
       </div>
     </div>
+    <div class="two-col">
+      <div class="form-row"><label>Shipping method <span style="font-weight:400;color:var(--hint)">(overrides retailer)</span></label>
+        <select id="eo-shipping" onchange="document.getElementById('eo-collect-wrap').style.display=this.value==='Collect'?'block':'none'">
+          <option value="">Use retailer default</option>
+          <option value="Rate Shop" ${o.shippingMethod==='Rate Shop'?'selected':''}>Rate Shop</option>
+          <option value="Collect" ${o.shippingMethod==='Collect'?'selected':''}>Collect</option>
+        </select>
+      </div>
+    </div>
+    <div id="eo-collect-wrap" style="display:${o.shippingMethod==='Collect'?'block':'none'}">
+      <div class="form-row"><label>Collect account info</label><textarea id="eo-collect-notes" rows="2">${o.collectNotes||''}</textarea></div>
+    </div>
+    <div class="two-col">
+      <div class="form-row"><label>My shipping cost (USD)</label><input id="eo-ship-cost" type="number" min="0" step="0.01" value="${o.shippingCost||''}" placeholder="0.00"></div>
+      <div class="form-row"><label>Shipping markup (%)</label><input id="eo-ship-markup" type="number" min="0" step="1" value="${o.shippingMarkup!==undefined?o.shippingMarkup:10}"></div>
+    </div>
     <div class="form-row"><label>Notes <span style="font-weight:400;color:var(--hint)">(internal only — not on export)</span></label>
       <textarea id="eo-notes" rows="3" placeholder="e.g. Price adjusted per rep request, split shipment, custom packaging...">${o.notes||''}</textarea>
     </div>
@@ -586,6 +615,10 @@ function saveOrderEdits(id){
   o.status=$('eo-status').value;
   o.terms=$('eo-terms').value||null;
   o.notes=$('eo-notes').value;
+  o.shippingMethod=$('eo-shipping').value||null;
+  o.collectNotes=$('eo-collect-notes')?$('eo-collect-notes').value:'';
+  o.shippingCost=$('eo-ship-cost')?$('eo-ship-cost').value:'';
+  o.shippingMarkup=$('eo-ship-markup')?parseFloat($('eo-ship-markup').value)||10:10;
   persist('Order updated');closeModal();render();
 }
 
@@ -762,14 +795,14 @@ function renderProducts(){
     </select>
   </div>
   <div class="table-wrap"><table>
-    <thead><tr><th>SKU</th><th>Product name</th><th>Category</th><th>Color</th><th>Size</th><th>UPC</th><th>WS $</th><th>MSRP $</th><th>Landed cost</th><th>Margin</th></tr></thead>
+    <thead><tr><th>SKU</th><th>Product name</th><th>Category</th><th>Color</th><th>Size</th><th>Season</th><th>UPC</th><th>WS $</th><th>MSRP $</th><th>Landed cost</th><th>Margin</th></tr></thead>
     <tbody id="main-tbody">${list.length?list.map(p=>{
       const margin=p.wholesale>0?((p.wholesale-p.landed)/p.wholesale*100):0;
       return`<tr>
         <td style="font-family:var(--mono);font-size:11px">${p.sku}</td>
         <td style="font-weight:500">${p.name}</td>
         <td><span class="badge bg-gray">${p.category}</span></td>
-        <td>${p.color}</td><td>${p.size}</td><td>${p.season||'—'}</td>
+        <td>${p.color}</td><td>${p.size}</td>
         <td style="font-family:var(--mono);font-size:11px">${p.upc||'—'}</td>
         <td>${fmt(p.wholesale)}</td>
         <td>${fmt(p.msrp)}</td>
@@ -794,6 +827,11 @@ function renderReps(){
     <select onchange="S.filterSeason=this.value;render()">
       <option value="all">All seasons</option>
       ${[...new Set(S.orders.map(o=>o.season||'').filter(Boolean))].sort().map(s=>`<option value="${s}" ${S.filterSeason===s?'selected':''}>${s}</option>`).join('')}
+    </select>
+    <select onchange="S.sortShipDate=this.value;render()">
+      <option value="none" ${S.sortShipDate==='none'?'selected':''}>Sort by ship date</option>
+      <option value="asc" ${S.sortShipDate==='asc'?'selected':''}>Ship date: earliest first</option>
+      <option value="desc" ${S.sortShipDate==='desc'?'selected':''}>Ship date: latest first</option>
     </select>
   </div>
   <div class="table-wrap"><table>
@@ -903,6 +941,133 @@ function renderRepDetail(){
   </div>`;
 }
 
+/* ─── Helper functions ─── */
+function orderShippingCharged(o){
+  var sc=parseFloat(o.shippingCost)||0;
+  var sm=parseFloat(o.shippingMarkup!==undefined?o.shippingMarkup:10);
+  return sc>0?parseFloat((sc*(1+sm/100)).toFixed(2)):0;
+}
+function getBillingInfo(r){
+  if(!r)return{name:'',address:'',city:'',state:'',zip:'',email:'',phone:''};
+  if(r.billingSameAsShipping!==false){
+    return{name:r.contact||'',address:r.address||'',city:r.city||'',state:r.state||'',zip:r.zip||'',email:r.email||'',phone:r.phone||''};
+  }
+  return{name:r.billingContact||r.contact||'',address:r.billingAddress||r.address||'',city:r.billingCity||r.city||'',state:r.billingState||r.state||'',zip:r.billingZip||r.zip||'',email:r.billingEmail||r.email||'',phone:r.billingPhone||r.phone||''};
+}
+function orderEffectiveShipping(o,r){
+  return o.shippingMethod||(r&&r.shippingMethod)||'Rate Shop';
+}
+
+/* ─── ShipStation Export ─── */
+function exportShipStation(orderId){
+  var orders=orderId?[getO(orderId)]:S.orders.filter(function(o){return S.filterSeason==='all'||(o.season||'')===S.filterSeason;});
+  var rows=[];
+  var headers=['Order #','Order Date','Date Paid','Order Total','Amount Paid','Tax','Shipping Paid','Shipping Service','Height(in)','Length(in)','Width(in)','Weight(oz)','Custom Field 1','Custom Field 2','Custom Field 3','Order Source','Notes to the Buyer','Notes from the Buyer','Internal Notes','Gift Message','Gift Flag','Buyer Full Name','Buyer First Name','Buyer Last Name','Buyer Email','Buyer Phone','Buyer Username','Recipient Full Name','Recipient First Name','Recipient Last Name','Recipient Phone','Recipient Company','Address Line 1','Address Line 2','Address Line 3','City','State','Postal Code','Country Code','Item SKU','Item Name / Title','Item Quantity','Item Unit Price','Item Weight (oz)','Item Options','Item Warehouse Location','Item Marketplace ID'];
+  orders.forEach(function(o){
+    if(!o)return;
+    var r=getR(o.retailerId);
+    var shipping=orderEffectiveShipping(o,r);
+    var rev=orderRevenue(o);
+    o.lines.forEach(function(l){
+      rows.push([
+        o.orderId||o.id,
+        o.date,
+        '',
+        fmtN(rev),
+        '',
+        '',
+        '',
+        shipping,
+        '','','','',
+        '','','',
+        'SKHOOP Wholesale',
+        '',
+        o.notes||'',
+        '',
+        '',
+        'false',
+        r?r.contact||r.name:'',
+        '','',
+        r?r.email||'':'',
+        r?r.phone||'':'',
+        '',
+        r?r.contact||r.name:'',
+        '','',
+        r?r.phone||'':'',
+        r?r.name:'',
+        r?r.address||'':'',
+        '','',
+        r?r.city||'':'',
+        r?r.state||'':'',
+        r?r.zip||'':'',
+        'US',
+        l.sku||'',
+        l.name||'',
+        l.qty,
+        fmtN(l.wholesale),
+        '',
+        (l.color&&l.size)?l.color+', '+l.size:(l.color||l.size||''),
+        '',
+        ''
+      ]);
+    });
+  });
+  var csv=headers.map(function(h){return'"'+h+'"';}).join(',')+'\n';
+  rows.forEach(function(row){csv+=row.map(function(v){return'"'+(v||'').toString().replace(/"/g,'""')+'"';}).join(',')+'\n';});
+  var fn=orderId?('SKHOOP_ShipStation_'+(getO(orderId).orderId||orderId)+'.csv'):('SKHOOP_ShipStation_'+(S.filterSeason!=='all'?S.filterSeason:'All')+'_'+new Date().toISOString().slice(0,10)+'.csv');
+  dlCSV(csv,fn);toast('ShipStation export ready');
+}
+
+/* ─── QuickBooks Export ─── */
+function calcDueDate(shipDate,terms){
+  if(!shipDate)return '';
+  var d=new Date(shipDate);
+  if(!terms||terms==='Prepay'||terms==='Terms pending'||terms==='Due on receipt')return shipDate;
+  var match=terms.match(/Net\s*(\d+)/i);
+  var days=match?parseInt(match[1]):30;
+  d.setDate(d.getDate()+days);
+  return d.toISOString().split('T')[0];
+}
+
+function exportQuickBooks(orderId){
+  var orders=orderId?[getO(orderId)]:S.orders.filter(function(o){return o.status==='shipped'&&(S.filterSeason==='all'||(o.season||'')===S.filterSeason);});
+  if(!orderId&&!orders.length){toast('No shipped orders to export for this season','warn');return;}
+  var headers=['*InvoiceNo','*Customer','*InvoiceDate','*DueDate','Terms','Location','Memo','Item(Product/Service)','ItemDescription','ItemQuantity','ItemRate','*ItemAmount','Service Date'];
+  var rows=[];
+  orders.forEach(function(o){
+    if(!o)return;
+    var r=getR(o.retailerId);
+    var terms=o.terms||(r?r.terms:'Net 30');
+    var dueDate=calcDueDate(o.shipDate,terms);
+    var shipCharged=orderShippingCharged(o);
+    o.lines.forEach(function(l,li){
+      rows.push([
+        o.orderId||o.id,
+        li===0?(r?r.name:''):'',
+        li===0?o.date:'',
+        li===0?dueDate:'',
+        li===0?terms:'',
+        '',
+        '',
+        l.sku||'',
+        l.name||'',
+        l.qty,
+        fmtN(l.wholesale),
+        fmtN(l.qty*l.wholesale),
+        o.shipDate||''
+      ]);
+    });
+    if(shipCharged>0){
+      rows.push([o.orderId||o.id,'','','','','','','Shipping','Shipping charges',1,fmtN(shipCharged),fmtN(shipCharged),o.shipDate||'']);
+    }
+  });
+  var csv=headers.map(function(h){return'"'+h+'"';}).join(',')+'\n';
+  rows.forEach(function(row){csv+=row.map(function(v){return'"'+(v||'').toString().replace(/"/g,'""')+'"';}).join(',')+'\n';});
+  var fn=orderId?('SKHOOP_QuickBooks_'+(getO(orderId).orderId||orderId)+'.csv'):('SKHOOP_QuickBooks_'+(S.filterSeason!=='all'?S.filterSeason:'All')+'_'+new Date().toISOString().slice(0,10)+'.csv');
+  dlCSV(csv,fn);toast(orderId?'QuickBooks export ready':'QuickBooks export ready (shipped orders only)');
+}
+
+
 /* ─── CSV Exports ─── */
 function exportOrderCSV(id){
   const o=getO(id),r=getR(o.retailerId);
@@ -1003,7 +1168,8 @@ function handleRestore(input){
       const data=JSON.parse(e.target.result);
       if(!data.retailers||!data.orders||!data.products){toast('Invalid backup file','warn');return}
       S.retailers=data.retailers;S.orders=data.orders;S.products=data.products;S.reps=data.reps||[];
-      S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10});
+      S.orders.forEach(o=>{if(o.commRate===undefined)o.commRate=10;if(o.shippingCost===undefined)o.shippingCost='';if(o.shippingMarkup===undefined)o.shippingMarkup=10;if(o.shippingMethod===undefined)o.shippingMethod=null;if(o.collectNotes===undefined)o.collectNotes='';});
+S.retailers.forEach(r=>{if(!r.shippingMethod)r.shippingMethod='Rate Shop';if(r.collectNotes===undefined)r.collectNotes='';if(r.billingSameAsShipping===undefined)r.billingSameAsShipping=true;if(!r.billingContact)r.billingContact='';if(!r.billingAddress)r.billingAddress='';if(!r.billingCity)r.billingCity='';if(!r.billingState)r.billingState='';if(!r.billingZip)r.billingZip='';if(!r.billingPhone)r.billingPhone='';if(!r.billingEmail)r.billingEmail='';});
       persist();closeModal();showTab('retailers');
       toast('Data restored successfully');
     }catch(e){toast('Could not read backup file','warn')}
@@ -1051,7 +1217,7 @@ function setIType(t,btn){
   const dzHints={
     orders:'Rows with the same Order ID are grouped as one order — each SKU row = one line item',
     products:'One row per SKU. UPCs and landed costs will auto-populate on matching orders.',
-    landedcosts:'Export from the Landed Cost Tracker (Export for Wholesale button). Matches on Style Name + Color.',
+    landedcosts:'Export from the Landed Cost Tracker using the Export for Wholesale button. Matches on Style Name + Color.',
     customers:'One row per retailer. Existing retailers (matched by name) will be updated, not duplicated.'
   };
   $('col-hint').innerHTML=hints[t]||hints.orders;
@@ -1276,7 +1442,40 @@ function showAddRetailerModal(pf){
         <option value="inactive" ${pf&&pf.status==='inactive'?'selected':''}>Inactive</option>
       </select>
     </div>
+    <div class="two-col">
+      <div class="form-row"><label>Shipping method</label>
+        <select id="f-shipping" onchange="document.getElementById('f-collect-wrap').style.display=this.value==='Collect'?'block':'none'">
+          <option value="Rate Shop" ${!pf||pf.shippingMethod!=='Collect'?'selected':''}>Rate Shop</option>
+          <option value="Collect" ${pf&&pf.shippingMethod==='Collect'?'selected':''}>Collect</option>
+        </select>
+      </div>
+    </div>
+    <div id="f-collect-wrap" style="display:${pf&&pf.shippingMethod==='Collect'?'block':'none'}">
+      <div class="form-row"><label>Collect account info</label><textarea id="f-collect-notes" rows="2" placeholder="Carrier, account number, zip code...">${pf&&pf.collectNotes?pf.collectNotes:''}</textarea></div>
+    </div>
     <div class="form-row"><label>Notes</label><textarea id="f-notes" rows="3" placeholder="Anything worth remembering about this retailer...">${pf&&pf.notes?pf.notes:''}</textarea></div>
+    <div class="section-label" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)">Billing address</div>
+    <div class="form-row">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400;color:var(--text);text-transform:none;letter-spacing:0">
+        <input type="checkbox" id="f-bill-same" ${!pf||pf.billingSameAsShipping!==false?'checked':''} onchange="document.getElementById('f-billing-wrap').style.display=this.checked?'none':'block'">
+        Billing address same as shipping
+      </label>
+    </div>
+    <div id="f-billing-wrap" style="display:${pf&&pf.billingSameAsShipping===false?'block':'none'}">
+      <div class="two-col">
+        <div class="form-row"><label>Billing contact name</label><input id="f-bill-contact" type="text" value="${pf&&pf.billingContact?pf.billingContact:''}"></div>
+        <div class="form-row"><label>Billing email</label><input id="f-bill-email" type="email" value="${pf&&pf.billingEmail?pf.billingEmail:''}"></div>
+      </div>
+      <div class="two-col">
+        <div class="form-row"><label>Billing phone</label><input id="f-bill-phone" type="text" value="${pf&&pf.billingPhone?pf.billingPhone:''}"></div>
+      </div>
+      <div class="form-row"><label>Billing address</label><input id="f-bill-address" type="text" value="${pf&&pf.billingAddress?pf.billingAddress:''}"></div>
+      <div class="three-col">
+        <div class="form-row"><label>City</label><input id="f-bill-city" type="text" value="${pf&&pf.billingCity?pf.billingCity:''}"></div>
+        <div class="form-row"><label>State</label><input id="f-bill-state" type="text" value="${pf&&pf.billingState?pf.billingState:''}"></div>
+        <div class="form-row"><label>Zip</label><input id="f-bill-zip" type="text" value="${pf&&pf.billingZip?pf.billingZip:''}"></div>
+      </div>
+    </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal()">Cancel</button>
       <button class="btn primary" onclick="saveRetailer(${pf?pf.id:'null'})">Save</button>
@@ -1287,7 +1486,10 @@ function showEditRetailerModal(id){showAddRetailerModal(getR(id))}
 function saveRetailer(id){
   const name=$('f-name').value.trim();if(!name)return;
   const repVal=$('f-rep').value;const repId=repVal?parseInt(repVal):null;
-  const data={name,contact:$('f-contact').value,email:$('f-email').value,phone:$('f-phone').value,address:$('f-address').value,city:$('f-city').value,state:$('f-state').value,zip:$('f-zip').value,terms:$('f-terms').value,status:$('f-status').value,repId,notes:$('f-notes').value};
+  const shipMeth=$('f-shipping')?$('f-shipping').value:'Rate Shop';
+  const collectNts=$('f-collect-notes')?$('f-collect-notes').value:'';
+  const billSame=$('f-bill-same')?$('f-bill-same').checked:true;
+  const data={name,contact:$('f-contact').value,email:$('f-email').value,phone:$('f-phone').value,address:$('f-address').value,city:$('f-city').value,state:$('f-state').value,zip:$('f-zip').value,terms:$('f-terms').value,status:$('f-status').value,repId,notes:$('f-notes').value,shippingMethod:shipMeth,collectNotes:collectNts,billingSameAsShipping:billSame,billingContact:billSame?'':($('f-bill-contact')?$('f-bill-contact').value:''),billingEmail:billSame?'':($('f-bill-email')?$('f-bill-email').value:''),billingPhone:billSame?'':($('f-bill-phone')?$('f-bill-phone').value:''),billingAddress:billSame?'':($('f-bill-address')?$('f-bill-address').value:''),billingCity:billSame?'':($('f-bill-city')?$('f-bill-city').value:''),billingState:billSame?'':($('f-bill-state')?$('f-bill-state').value:''),billingZip:billSame?'':($('f-bill-zip')?$('f-bill-zip').value:'')};
   if(id&&id!=='null'){Object.assign(getR(parseInt(id)),data);}
   else{const newId=S.retailers.length?Math.max(...S.retailers.map(r=>r.id))+1:1;S.retailers.push({id:newId,...data,orders:[]});}
   persist('Retailer saved');closeModal();render();
@@ -1357,7 +1559,7 @@ function showAddProductModal(){
 }
 function saveProduct(){
   const name=$('p-name').value.trim();if(!name)return;
-  S.products.push({name,category:$('p-cat').value,color:$('p-color').value,size:$('p-size').value,sku:$('p-sku').value,upc:$('p-upc').value,wholesale:parseFloat($('p-ws').value)||0,msrp:parseFloat($('p-msrp').value)||0,landed:parseFloat($('p-lc').value)||0,season:$('p-season').value.trim()});
+  S.products.push({name,category:$('p-cat').value,color:$('p-color').value,size:$('p-size').value,sku:$('p-sku').value,upc:$('p-upc').value,wholesale:parseFloat($('p-ws').value)||0,msrp:parseFloat($('p-msrp').value)||0,landed:parseFloat($('p-lc').value)||0,season:$('p-season')?$('p-season').value:''});
   persist('Product saved');closeModal();render();
 }
 
@@ -1385,7 +1587,8 @@ function showAddOrderModal(prefillRetailerId){
 function saveOrder(){
   const rId=parseInt($('o-retailer').value),orderId=$('o-id').value.trim();if(!orderId)return;
   const newId=S.orders.length?Math.max(...S.orders.map(o=>o.id))+1:1;
-  S.orders.push({id:newId,retailerId:rId,orderId,date:$('o-date').value,shipDate:$('o-ship').value,season:$('o-season').value,status:'pending',commRate:parseFloat($('o-comm').value)||10,lines:[]});
+  const newOrderR=getR(rId);
+  S.orders.push({id:newId,retailerId:rId,orderId,date:$('o-date').value,shipDate:$('o-ship').value,season:$('o-season').value,status:'pending',commRate:parseFloat($('o-comm').value)||10,lines:[],shippingCost:'',shippingMarkup:10,shippingMethod:null,collectNotes:newOrderR?newOrderR.collectNotes||'':''});
   const r=getR(rId);if(r){r.orders=r.orders||[];r.orders.push(newId);}
   persist('Order created');closeModal();
   S.tab='orders';S.sel=newId;S.view='detail';
