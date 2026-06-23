@@ -123,6 +123,18 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
 .freight-table th { background: var(--surface2); color: var(--text-3); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; text-align: left; }
 .freight-table td { padding: 8px 12px; border-top: 1px solid var(--border); }
 .freight-table input { width: 130px; font-size: 13px; font-family: 'DM Mono', monospace; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 5px 8px; outline: none; }
+.note-btn { background: none; border: none; cursor: pointer; padding: 2px 4px; border-radius: 4px; font-size: 14px; color: var(--text-3); display: inline-flex; align-items: center; vertical-align: middle; transition: color 0.15s; position: relative; }
+.note-btn.has-note { color: var(--accent); }
+.note-btn:hover { color: var(--accent); background: var(--surface2); }
+.note-tooltip { display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--text); color: var(--accent-fg); font-size: 12px; padding: 7px 10px; border-radius: var(--radius); white-space: pre-wrap; max-width: 260px; min-width: 120px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); pointer-events: none; line-height: 1.4; font-weight: 400; }
+.note-btn:hover .note-tooltip { display: block; }
+.note-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 300; align-items: center; justify-content: center; }
+.note-modal-bg.open { display: flex; }
+.note-modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.25rem; width: 360px; max-width: 95vw; }
+.note-modal h4 { font-size: 14px; font-weight: 500; margin-bottom: 10px; }
+.note-modal textarea { width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border-md); border-radius: var(--radius); padding: 8px 10px; outline: none; resize: vertical; min-height: 80px; color: var(--text); }
+.note-modal textarea:focus { border-color: var(--accent); }
+.note-modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -344,6 +356,17 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
     <div class="modal-actions">
       <button class="btn" onclick="closeRestoreModal()"><i class="ti ti-x"></i> Cancel</button>
       <button class="btn danger" id="restore-confirm-btn" onclick="confirmRestore()" disabled style="opacity:0.4"><i class="ti ti-refresh"></i> Restore data</button>
+    </div>
+  </div>
+</div>
+
+<div class="note-modal-bg" id="noteModalBg" onclick="if(event.target===this)closeNoteModal()">
+  <div class="note-modal">
+    <h4 id="note-modal-title">Style note</h4>
+    <textarea id="note-modal-text" placeholder="Add a note for this style in this season..."></textarea>
+    <div class="note-modal-actions">
+      <button class="btn" onclick="closeNoteModal()"><i class="ti ti-x"></i> Cancel</button>
+      <button class="btn primary" onclick="saveNote()"><i class="ti ti-check"></i> Save note</button>
     </div>
   </div>
 </div>
