@@ -571,7 +571,7 @@ function renderSeasonView(seasonCode) {
   // Stats from filtered styles
   var totalUnits = 0, totalLV = 0, allWLC = [];
   var wsNum = 0, wsDen = 0, msrpNum = 0, msrpDen = 0;
-  var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0;
+  var totalFreight = 0, totalRoyalty = 0, totalTariffs = 0, totalSurcharge = 0;
   for (var i = 0; i < filtered.length; i++) {
     var ss = filtered[i].ss, ms = filtered[i].ms;
     if (!ms) continue;
