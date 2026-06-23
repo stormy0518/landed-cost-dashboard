@@ -703,6 +703,7 @@ function renderSeasonView(seasonCode) {
         + tariffCols
         + '<td class="summary-num">' + fmt(avgSP*0.15) + '</td>'
         + '<td class="summary-num">' + fmt(freight) + '</td>'
+        + '<td class="muted">--</td>'
         + '<td class="summary-lc">' + fmt(wlc) + '</td>'
         + '<td class="summary-num"><input type="number" min="0" step="0.01" value="' + (ss.ws||'') + '" placeholder="--" onchange="updateStyleField(\'' + seasonCode + '\',' + si + ',\'ws\',this.value)" style="min-width:65px;font-family:\'DM Mono\',monospace;font-size:12px"></td>'
         + '<td class="' + (!isNaN(wsMargin)?'summary-lc':'muted') + '" id="wsm-' + seasonCode + '-' + si + '">' + fmtPct(wsMargin) + '</td>'
