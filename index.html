@@ -693,7 +693,9 @@ function renderSeasonView(seasonCode) {
 
       html += '<tr class="style-row">'
         + '<td><button class="style-toggle' + (isOpen?' open':'') + '" onclick="toggleExpand(\'' + seasonCode + '\',' + si + ')"><i class="ti ti-chevron-right"></i></button>'
-        + esc(ms.name) + '<br><span style="font-size:11px;color:var(--text-3);font-weight:400">' + esc(ms.supplier || '') + '</span></td>'
+        + esc(ms.name) + '<br><span style="font-size:11px;color:var(--text-3);font-weight:400">' + esc(ms.supplier || '') + '</span>'
+        + '<button class="note-btn' + (ss.note?' has-note':'') + '" onclick="openNoteModal(\'' + seasonCode + '\',' + si + ')" title="' + (ss.note?'Edit note':'Add note') + '"><i class="ti ti-notes"></i>' + (ss.note?'<span class="note-tooltip">' + esc(ss.note) + '</span>':'') + '</button>'
+        + '</td>'
         + '<td class="muted">' + esc(ms.fabricType) + '</td>'
         + '<td class="muted">' + esc(ms.kw) + '</td>'
         + '<td class="summary-num">' + totalU.toLocaleString() + '</td>'
