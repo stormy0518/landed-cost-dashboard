@@ -234,6 +234,7 @@ td.roy { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3
           <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">PO Qty</th>
           <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Supplier price</th>
           <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Royalty</th>
+          <th style="padding:8px 10px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3)">Surcharge / unit</th>
         </tr></thead>
         <tbody id="sse-cw-body"></tbody>
       </table>
@@ -444,11 +445,12 @@ function colorwayLC(cw, ss, ms, seasonCode) {
   var bt = (parseFloat(ms.baseTariff) || 0) / 100;
   var roy = 0.15;
   var freight = parseFloat(ss.freight) || 0;
+  var surcharge = parseFloat(cw.surcharge) || 0;
   var addT = 0;
   for (var i = 0; i < data.tariffs.length; i++) {
     if (isTariffActive(ss, data.tariffs[i].id)) addT += getSeasonTariffRate(seasonCode, data.tariffs[i].id) / 100;
   }
-  return sp * (1 + bt + addT + roy) + freight;
+  return sp * (1 + bt + addT + roy) + freight + surcharge;
 }
 
 function styleWeightedLC(ss, ms, seasonCode) {
@@ -590,9 +592,10 @@ function renderSeasonView(seasonCode) {
     for (var ci = 0; ci < (ss.colorways || []).length; ci++) {
       var cw = ss.colorways[ci];
       var sp = parseFloat(cw.supplierPrice) || 0, qty = parseFloat(cw.qty) || 0;
-      totalFreight += freight2 * qty;
-      totalRoyalty += sp * 0.15 * qty;
-      totalTariffs += sp * (bt2 + addT2) * qty;
+      totalFreight   += freight2 * qty;
+      totalRoyalty   += sp * 0.15 * qty;
+      totalTariffs   += sp * (bt2 + addT2) * qty;
+      totalSurcharge += (parseFloat(cw.surcharge) || 0) * qty;
     }
   }
   var avgLC = allWLC.length ? allWLC.reduce(function(a,n){return a+n;},0)/allWLC.length : NaN;
@@ -607,6 +610,7 @@ function renderSeasonView(seasonCode) {
     + stat('Wtd avg WS margin', fmtPct(wtdWSMargin), !isNaN(wtdWSMargin))
     + stat('Wtd avg MSRP margin', fmtPct(wtdMSRPMargin), !isNaN(wtdMSRPMargin))
     + stat('Total freight', fmtBig(totalFreight))
+    + (totalSurcharge > 0 ? stat('Total surcharges', fmtBig(totalSurcharge)) : '')
     + stat('Total royalties', fmtBig(totalRoyalty))
     + stat('Total tariffs', fmtBig(totalTariffs))
     + '</div>';
@@ -651,7 +655,7 @@ function renderSeasonView(seasonCode) {
     + '<th>Style / Color</th><th>Fabric type</th><th>Knit/Woven</th><th>Qty</th>'
     + '<th>Supplier price</th><th>HTSUS</th><th>Base tariff %</th>'
     + tariffTH
-    + '<th>Royalty / unit</th><th>Freight / unit</th><th>Landed cost / unit</th>'
+    + '<th>Royalty / unit</th><th>Freight / unit</th><th>Surcharge / unit</th><th>Landed cost / unit</th>'
     + '<th>WS$</th><th>WS margin</th><th>MSRP</th><th>MSRP margin</th><th></th>'
     + '</tr></thead><tbody>';
 
@@ -731,8 +735,9 @@ function renderSeasonView(seasonCode) {
           + tariffCwCols
           + '<td class="roy">' + fmt(roy) + '</td>'
           + '<td class="mono">' + fmt(freight) + '</td>'
+          + '<td class="mono">' + (cw.surcharge ? fmt(parseFloat(cw.surcharge)) : '—') + '</td>'
           + '<td class="lc">' + fmt(lc) + '</td>'
-          + '<td class="muted">--</td><td class="muted">--</td><td class="muted">--</td><td class="muted">--</td>'
+          + '<td class="muted">--</td><td class="muted">--</td><td class="muted">--</td><td class="muted">--</td><td class="muted">--</td>'
           + '<td></td></tr>';
       }
     }
@@ -942,6 +947,7 @@ function openSeasonStyleEdit(seasonCode, si) {
       + '<td style="padding:8px 10px"><input type="number" min="0" id="sse-qty-' + ci + '" value="' + (cw.qty||'') + '" placeholder="0" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
       + '<td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sp-' + ci + '" value="' + (cw.supplierPrice||'') + '" placeholder="0.00" oninput="updateSseRoy(' + ci + ')" style="width:90px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
       + '<td style="padding:8px 10px;font-size:12px;color:var(--text-3);font-family:\'DM Mono\',monospace" id="sse-roy-' + ci + '">' + roy + '</td>'
+      + '<td style="padding:8px 10px"><input type="number" min="0" step="0.01" id="sse-sur-' + ci + '" value="' + (cw.surcharge||'') + '" placeholder="0.00" style="width:80px;font-size:13px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 8px;font-family:\'DM Mono\',monospace;outline:none"></td>'
       + '</tr>';
   }
   document.getElementById('sse-cw-body').innerHTML = cwHtml || '<tr><td colspan="5" style="padding:12px;color:var(--text-3);font-size:13px">No colorways.</td></tr>';
@@ -1576,7 +1582,7 @@ function exportCSV() {
     var headers = ['Season','Style','Color','Fabric Type','Knit/Woven','Qty','Supplier Price','HTSUS','Base Tariff %','Base Tariff/unit'];
     for (var i = 0; i < data.tariffs.length; i++) headers.push(data.tariffs[i].name + ' %');
     for (var i = 0; i < data.tariffs.length; i++) headers.push(data.tariffs[i].name + '/unit');
-    headers = headers.concat(['Royalty/unit','Freight/unit','Landed Cost/unit','Total Landed Value','WS$','WS Margin %','MSRP','MSRP Margin %']);
+    headers = headers.concat(['Royalty/unit','Freight/unit','Surcharge/unit','Landed Cost/unit','Total Landed Value','WS$','WS Margin %','MSRP','MSRP Margin %']);
     var rows = [];
     for (var si = 0; si < season.styles.length; si++) {
       var ss = season.styles[si];
