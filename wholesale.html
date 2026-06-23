@@ -503,8 +503,8 @@ function renderOrderDetail(){
         <tr>
           <td style="font-family:var(--mono);font-size:11px">${l.sku}</td>
           <td><input type="text" value="${l.name||''}" style="width:120px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'name',this.value)"></td>
-          <td><input type="text" value="${l.color||''}" style="width:70px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'color',this.value)"></td>
-          <td><input type="text" value="${l.size||''}" style="width:44px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineField(${o.id},${li},'size',this.value)"></td>
+          <td style="font-size:12px">${l.color||'—'}</td>
+          <td style="font-size:12px">${l.size||'—'}</td>
           <td><input type="text" value="${l.upc||''}" style="width:110px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font);font-family:var(--mono)" onchange="updateLineField(${o.id},${li},'upc',this.value)"></td>
           <td><input type="number" value="${l.qty}" min="0" step="1" style="width:52px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLineQty(${o.id},${li},this.value)"></td>
           <td><input type="number" value="${l.wholesale.toFixed(2)}" min="0" step="0.01" style="width:68px;padding:3px 6px;border-radius:var(--rm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;font-family:var(--font)" onchange="updateLinePrice(${o.id},${li},this.value)"></td>
