@@ -976,6 +976,8 @@ function saveSeasonStyleEdit() {
     var qEl = document.getElementById('sse-qty-'+ci), spEl = document.getElementById('sse-sp-'+ci);
     if (qEl)  ss.colorways[ci].qty           = qEl.value;
     if (spEl) ss.colorways[ci].supplierPrice = spEl.value;
+    var surEl = document.getElementById('sse-sur-'+ci);
+    if (surEl) ss.colorways[ci].surcharge = surEl.value;
   }
   saveData(); closeSeasonStyleEdit(); renderSeasonView(ctx.seasonCode);
 }
