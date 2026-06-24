@@ -1671,6 +1671,32 @@ for (var mi = 0; mi < modalIds.length; mi++) {
 }
 
 // RENDER
+var _noteCtx = null;
+function openNoteModal(seasonCode, si) {
+  _noteCtx = { seasonCode: seasonCode, si: si };
+  var season = getSeason(seasonCode);
+  var ss = season.styles[si];
+  var ms = getMasterStyle(ss.masterStyleId);
+  document.getElementById('note-modal-title').textContent = (ms ? ms.name : 'Style') + ' — ' + seasonCode;
+  document.getElementById('note-modal-text').value = ss.note || '';
+  document.getElementById('noteModalBg').classList.add('open');
+  setTimeout(function(){ document.getElementById('note-modal-text').focus(); }, 50);
+}
+function closeNoteModal() {
+  document.getElementById('noteModalBg').classList.remove('open');
+  _noteCtx = null;
+}
+function saveNote() {
+  if (!_noteCtx) return;
+  var season = getSeason(_noteCtx.seasonCode);
+  var ss = season.styles[_noteCtx.si];
+  var val = document.getElementById('note-modal-text').value.trim();
+  ss.note = val || undefined;
+  saveData();
+  closeNoteModal();
+  renderSeasonView(_noteCtx.seasonCode);
+}
+
 function renderAll() {
   renderTabs();
   renderHeaderBtn();
